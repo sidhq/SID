@@ -1,2 +1,2 @@
-# SID
-All of SID.ai public resources, such as example applications, documentation, etc.
+# SID Resource Hub
+Welcome to SID's comprehensive resource hub! Here, we provide an array of resources aimed at facilitating a seamless integration of SID into your app.
