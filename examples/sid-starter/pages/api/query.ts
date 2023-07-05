@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios, { AxiosError } from 'axios';
-import {getContext, getEnvVar} from "@/utils/"; // Import axios and AxiosError
+import {getEnvVar} from "@/utils/"; // Import axios and AxiosError
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -54,7 +54,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Extract the data from the API response
         const results = response.data;
         console.log("Results: " + JSON.stringify(results));
-        const contextualizedResult = await getContext(results, query);
         // Send the response
         res.status(200).json(results);
     } catch (error) {
