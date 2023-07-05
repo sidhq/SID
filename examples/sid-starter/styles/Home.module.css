@@ -1,0 +1,9 @@
+.mainWrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    text-align:center;
+    font-family: 'Montserrat', sans-serif;
+}
