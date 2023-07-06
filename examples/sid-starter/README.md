@@ -1,6 +1,7 @@
 # SID Starter App - Documentation
 
 Deploy it now on Vercel: 
+
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsidhq%2FSID%2Ftree%2Fmain%2Fexamples%2Fsid-starter&env=SID_CALLBACK_URL,SID_CLIENT_ID,SID_CLIENT_SECRET,SID_REDIRECT_URL,SID_AUTH_ENDPOINT,SID_API_ENDPOINT,OPENAI_API_KEY&envDescription=We%20walk%20you%20through%20integrating%20SID%20in%20your%20LLM%20app%2C%20apply%20on%20our%20waitlist%20here%3A%20https%3A%2F%2Fjoin.sid.ai%2F&envLink=https%3A%2F%2Fgithub.com%2Fsidhq%2FSID%2Fblob%2Fmain%2Fexamples%2Fsid-starter%2FREADME.md&project-name=sid-starter&repository-name=sid-starter&demo-title=SID%20Starter%20App&demo-description=A%20simple%20app%20to%20showcase%20how%20SID%20works.&demo-url=https%3A%2F%2Fsid-starter.demo.sid.ai%2F)
 
 The SID Starter App is a starter project that illustrates how to integrate SID into your AI application. This application uses the OAuth 2.0 Authorization Code Flow to authenticate users, obtain access tokens, and make authenticated requests to the SID API endpoint which lets you retrieve personalized context for your LLM app.
