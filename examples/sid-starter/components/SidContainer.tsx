@@ -3,12 +3,12 @@ import axios from 'axios';
 import {APIResponse, getCookie} from "@/utils";
 
 // This is a dummy function, replace it with your actual API call
-const queryApi = async (text: string): Promise<any> => {
+const queryApi = async (text: string, limit: number): Promise<any> => {
 
     try {
         const params = {
             query: text,
-            limit: 3,
+            limit: limit,
             refreshToken: getCookie('refreshToken'),
         }
         console.log(params);
@@ -39,14 +39,19 @@ const queryContext = async (text: string, retrieved: APIResponse): Promise<any> 
 
 const SidContainer: React.FC = () => {
     const [inputText, setInputText] = useState<string>('');
+    const [limit, setLimitText] = useState<number>(3);
     const [outputText, setOutputText] = useState<string>('');
     const [contextualizedOutputText, setContextualizedOutputText] = useState<string>('');
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputText(e.target.value);
     };
 
+    const handleLimitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setLimitText(parseInt(e.target.value));
+    };
+
     const handleButtonClick = async () => {
-        const apiResponse = await queryApi(inputText);
+        const apiResponse = await queryApi(inputText, limit);
         setOutputText(apiResponse);
         const contextualizedApiResponse = await queryContext(inputText, JSON.parse(apiResponse));
         setContextualizedOutputText(contextualizedApiResponse);
@@ -54,32 +59,57 @@ const SidContainer: React.FC = () => {
 
     return (
         <div style={{display: 'flex', flexDirection: 'column', maxWidth: '600px', margin: '0 auto'}}>
-            <input
-                type='text'
-                value={inputText}
-                onChange={handleInputChange}
-                style={{
-                    marginBottom: '10px',
-                    padding: '10px',
-                    fontSize: '16px',
-                    border: '1px solid #ddd',
-                    borderRadius: '5px'
-                }}
-            />
-            <button
-                onClick={handleButtonClick}
-                style={{
-                    marginBottom: '10px',
-                    padding: '10px',
-                    fontSize: '16px',
-                    border: '1px solid #ddd',
-                    borderRadius: '5px',
-                    background: '#f0f0f0',
-                    cursor: 'pointer'
-                }}
-            >
-                Submit
-            </button>
+            <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+                gap: '20px',
+            }}>
+                <input
+                    type='text'
+                    value={inputText}
+                    placeholder={"Query"}
+                    onChange={handleInputChange}
+                    style={{
+                        marginBottom: '10px',
+                        padding: '10px',
+                        fontSize: '16px',
+                        border: '1px solid #ddd',
+                        borderRadius: '5px',
+                        flex: 9
+                    }}
+                />
+                <input
+                    type='number'
+                    placeholder={"Limit"}
+                    onChange={handleLimitChange}
+                    style={{
+                        marginBottom: '10px',
+                        padding: '10px 0 10px 0 10px',
+                        fontSize: '16px',
+                        textAlign: 'center',
+                        border: '1px solid #ddd',
+                        borderRadius: '5px',
+                        width:'20%',
+                        flex: 2
+                    }}
+                />
+                <button
+                    onClick={handleButtonClick}
+                    style={{
+                        marginBottom: '10px',
+                        padding: '10px',
+                        fontSize: '16px',
+                        border: '1px solid #ddd',
+                        borderRadius: '5px',
+                        background: '#f0f0f0',
+                        cursor: 'pointer',
+                        flex: 1
+                    }}
+                >
+                    Submit
+                </button>
+
+            </div>
             <div style={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -110,13 +140,13 @@ const SidContainer: React.FC = () => {
                         value={contextualizedOutputText}
                         readOnly
                         style={{
-                        height: '150px',
+                            height: '150px',
                             width: '100%',
                             padding: 0,
                             fontSize: '16px',
                             border: '1px solid #ddd',
                             borderRadius: '5px'
-                    }}
+                        }}
                     />
                 </div>
             </div>
