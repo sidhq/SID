@@ -1,6 +1,6 @@
 # SID Starter App - Documentation
 
-The SID Starter App is a starter project for integrating SID into your AI application. This application uses the OAuth 2.0 Authorization Code Flow to authenticate users, obtain access tokens, and make authenticated requests to the SID API endpoint for personalized data.
+The SID Starter App is a starter project for integrating SID into your AI application. This application uses the OAuth 2.0 Authorization Code Flow to authenticate users, obtain access tokens, and make authenticated requests to the SID API endpoint to retrieve personalized context for your LLM app.
 
 ## Important Components
 
@@ -10,19 +10,20 @@ The SID Starter App is a starter project for integrating SID into your AI applic
 
 ## API Routes
 
-- `api/callback.ts`: This is the callback endpoint for the SID API. Upon successful user login, SID sends an authorization code to this endpoint. The code is then exchanged for an access token and a refresh token. For a production environment, the refresh token should be stored securely in a database within this callback.
+- `api/callback.ts`: This is the callback endpoint for the authentication flow. Upon successful user login, SID sends an authorization code to this endpoint. The code is then exchanged for an access token and a refresh token. For a production environment, the refresh token should be securely stored in a database. The refresh token can be exchanged for an access token which in turn is needed to authenticate with the https://api.sid.ai/api/v1/users/me/data/query endpoint.
 
-- `api/query.ts`: This endpoint is used for making authenticated requests to the SID API. The access token retrieved from `api/callback.ts` is used here to authenticate each request.
+- `api/query.ts`: This endpoint is used for making authenticated requests to the SID API. In this example app, the refresh token is sent to this endpoint from the client, in a production environment, the refresh token would be directly retrieved from the database.
 
 ## Environment Variables
 
 The application uses several environment variables, stored in `.env.local`, to securely manage sensitive data:
 
-- `SID_CALLBACK_URL`: The URL where SID redirects users after successful authentication along with the authorization code.
-- `SID_CLIENT_ID` & `SID_CLIENT_SECRET`: These are your application's client ID and secret, obtained from SID.
-- `SID_REDIRECT_URL`: The URL where the application will redirect users after they have been authenticated and the access token has been obtained.
+- `SID_CLIENT_ID` & `SID_CLIENT_SECRET`: These are your application's client credentials. Please join our waitlist at sid.ai to obtain them.
+- `SID_CALLBACK_URL`: Your "Connect SID" button will link to this URL. This is the entrypoint for your users to go through SID's authentication flow. This URL will be provided to you by us.
+- `SID_REDIRECT_URL`: The URL where the application will redirect users after they have been authenticated and where the authorization code for refresh token exchange will take place. 
 - `SID_AUTH_ENDPOINT`: The endpoint where the application sends a POST request to obtain the access token.
-- `SID_API_ENDPOINT`: The endpoint where the authenticated request is sent to obtain personalized data based on user queries.
+- `SID_API_ENDPOINT`: The endpoint where the authenticated API request is sent to obtain personalized context for you LLM app.
+- `OPENAI_API_KEY`: This environment variable is optional. If provided, the starter app will also process the raw retrieved context with GPT-4.
 
 ## Technical Details
 
@@ -42,7 +43,7 @@ This short-lived token authenticates each request made to the SID API. It is obt
 
 ### SID API Endpoint
 
-The SID API endpoint is used to make authenticated requests for personalized data based on user-specific queries. This endpoint is defined in the `SID_API_ENDPOINT` environment variable. The current value is: `https://api.sid.ai/api/v1/users/me/data/query`.
+The SID API endpoint is used to make authenticated requests for personalized data based on user-specific queries. This endpoint is defined in the `SID_API_ENDPOINT` environment variable. You should use `https://api.sid.ai/api/v1/users/me/data/query` here.
 
 #### Making a Request
 
