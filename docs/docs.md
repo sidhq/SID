@@ -1,13 +1,17 @@
-Comment: This is just a knowledge dump for now.
-Here are important links:
-All demos are accessible at *.demo.sid.ai
-for example: simple-chat.demo.sid.ai
-or: personal-agent.demo.sid.ai
-each project maps to repos such as SID/examples/personal-agent or SID/examples/simple-chat
-this is supposed to be turned into a structured doc at some point. for now we just do docs/docs.md,
-but in the future we will actually use something like:
-docusaurus (algolia/react native/supabase, seems to be close to YC)
-mkdocs (no idea)
-readthedocs (lmql/langchain, used by AI/python projects)
-nextra.site (node.js, next.js, used by 'modern' looking web/frontend tools/js frameworks)
+Knowledge Base
+Last updated: July 6, 2023
 
+Welcome to our knowledge base. Here you can find important information and links to our demonstration projects. To get access to SID, please join [here](https://join.sid.ai/).
+
+Demonstration Projects
+You can access all our demonstration projects via the following pattern: *.demo.sid.ai.
+
+At the moment, we only have one project available:
+
+sid-starter
+'sid-starter' is our initial demonstration project, designed to give you a taste of what's to come. The corresponding source code can be found [here](https://github.com/sidhq/SID/tree/main/examples/sid-starter).
+
+Please keep an eye on this page for future updates and new demonstration projects. If you have any questions or require further assistance, feel free to reach out to us!
+
+Contact
+For questions, comments, or assistance, please email us at support@sid.ai.
