@@ -10,3 +10,4 @@ docusaurus (algolia/react native/supabase, seems to be close to YC)
 mkdocs (no idea)
 readthedocs (lmql/langchain, used by AI/python projects)
 nextra.site (node.js, next.js, used by 'modern' looking web/frontend tools/js frameworks)
+
