@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {getCookie} from "@/utils";
+import {APIResponse, getCookie} from "@/utils";
 
 // This is a dummy function, replace it with your actual API call
 const queryApi = async (text: string): Promise<any> => {
@@ -16,6 +16,23 @@ const queryApi = async (text: string): Promise<any> => {
         const response = await axios.post(endpoint, params);
         return JSON.stringify(response.data);
     } catch (error) {
+        console.log("Error fetching data from API: " + JSON.stringify(error))
+        return JSON.stringify({results: [("Error fetching data from API: " + JSON.stringify(error)), 'Result 1', 'Result 2', 'Result 3']});
+    }
+}
+
+
+const queryContext = async (text: string, retrieved: APIResponse): Promise<any> => {
+
+    try {
+        const endpoint = "api/contextualize";
+        const body = {
+            retrieved: retrieved,
+            initial_query: text,
+        }
+        const response = await axios.post(endpoint, body);
+        return JSON.stringify(response.data.response);
+    } catch (error) {
         return "Error fetching data from API: " + JSON.stringify(error);
     }
 }
@@ -23,7 +40,7 @@ const queryApi = async (text: string): Promise<any> => {
 const SidContainer: React.FC = () => {
     const [inputText, setInputText] = useState<string>('');
     const [outputText, setOutputText] = useState<string>('');
-
+    const [contextualizedOutputText, setContextualizedOutputText] = useState<string>('');
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputText(e.target.value);
     };
@@ -31,6 +48,8 @@ const SidContainer: React.FC = () => {
     const handleButtonClick = async () => {
         const apiResponse = await queryApi(inputText);
         setOutputText(apiResponse);
+        const contextualizedApiResponse = await queryContext(inputText, JSON.parse(apiResponse));
+        setContextualizedOutputText(contextualizedApiResponse);
     };
 
     return (
@@ -86,23 +105,23 @@ const SidContainer: React.FC = () => {
                 <div style={{
                     flex: 1,
                 }}>
-                    <h3>processed API Response</h3>
+                    <h3>GPT-4 processed API Response</h3>
                     <textarea
-                        value={outputText}
+                        value={contextualizedOutputText}
                         readOnly
                         style={{
-                            height: '150px',
+                        height: '150px',
                             width: '100%',
                             padding: 0,
                             fontSize: '16px',
                             border: '1px solid #ddd',
                             borderRadius: '5px'
-                        }}
+                    }}
                     />
                 </div>
             </div>
         </div>
-    );
+        );
 };
 
 export default SidContainer;

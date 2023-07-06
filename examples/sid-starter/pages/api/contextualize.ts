@@ -2,6 +2,11 @@ import {NextApiRequest, NextApiResponse} from 'next';
 import {getContext, APIResponse} from '@/utils';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    if (!process.env.OPENAI_API_KEY) {
+        res.status(200).json({response: 'This feature is disabled because OPENAI_API_KEY is not set.'});
+        return;
+    }
+
     if (req.method === 'POST') {
         const {retrieved, initial_query}: { retrieved: APIResponse, initial_query: string } = req.body;
         try {
