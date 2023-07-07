@@ -10,7 +10,7 @@ const ConnectSidButton: React.FC<ConnectSidButtonProps> = ({isConnected}) => {
     const [isHovered, setIsHovered] = useState(false);
     const theme = isConnected ? "light" : "dark";
     const url = isConnected ? urlWhenConnected : urlWhenNotConnected;
-    const url = isConnected ? "_self" : "_blank";
+    const target = isConnected ? "_self" : "_blank";
     const buttonText = isConnected ? "Open SID's Privacy Dashboard" : "Continue with SID";
 
     const styles = {
