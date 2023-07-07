@@ -80,6 +80,9 @@ const SidContainer: React.FC = () => {
                 />
                 <input
                     type='number'
+                    min={1}
+                    max={100}
+                    defaultValue={3}
                     placeholder={"Limit"}
                     onChange={handleLimitChange}
                     style={{
