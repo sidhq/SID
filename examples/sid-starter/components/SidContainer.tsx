@@ -70,14 +70,17 @@ const SidContainer: React.FC = () => {
                     placeholder={"Query"}
                     onChange={handleInputChange}
                     style={{
-                        marginBottom: '10px',
                         padding: '10px',
                         fontSize: '16px',
                         border: '1px solid #ddd',
                         borderRadius: '5px',
-                        flex: 9
+                        flex: 5
                     }}
                 />
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                }}><span>Retrieval limit:</span></div>
                 <input
                     type='number'
                     min={1}
@@ -86,20 +89,18 @@ const SidContainer: React.FC = () => {
                     placeholder={"Limit"}
                     onChange={handleLimitChange}
                     style={{
-                        marginBottom: '10px',
-                        padding: '10px 0 10px 0 10px',
+                        padding: '10px 0 10px',
                         fontSize: '16px',
                         textAlign: 'center',
                         border: '1px solid #ddd',
                         borderRadius: '5px',
-                        width:'20%',
-                        flex: 2
+                        width: '10%',
+                        flex: 1
                     }}
                 />
                 <button
                     onClick={handleButtonClick}
                     style={{
-                        marginBottom: '10px',
                         padding: '10px',
                         fontSize: '16px',
                         border: '1px solid #ddd',
@@ -154,7 +155,7 @@ const SidContainer: React.FC = () => {
                 </div>
             </div>
         </div>
-        );
+    );
 };
 
 export default SidContainer;
