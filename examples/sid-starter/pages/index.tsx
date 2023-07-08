@@ -1,19 +1,36 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from '@/styles/Home.module.css';
 import ConnectSIDButton from "@/components/ConnectSIDButton";
 import SidContainer from "@/components/SidContainer";
 import {GetServerSideProps} from 'next';
 
 type HomeProps = {
-    isConnected: boolean;
+    initialIsConnected: boolean;
+    sidURL: string;
 }
 
-const Home: React.FC<HomeProps> = ({isConnected}) => {
+const Home: React.FC<HomeProps> = ({initialIsConnected, sidURL}) => {
+    const [isConnected, setIsConnected] = useState(initialIsConnected);
+
+    const handleDisconnect = () => {
+        setIsConnected(false);
+    }
     return (
         <div className={styles.mainWrapper}>
             <section>
                 <h1>SID Starter App</h1>
-                <ConnectSIDButton isConnected={isConnected}/>
+                <div style={
+                    {
+                        display:"inline-block"
+                    }
+                }><ConnectSIDButton width={330}
+                                    height={50}
+                                    fontScale={1}
+                                    isConnected={isConnected}
+                                    onDisconnect={handleDisconnect}
+                                    href={sidURL}
+
+                /></div>
             </section>
 
             <section>
@@ -26,19 +43,20 @@ const Home: React.FC<HomeProps> = ({isConnected}) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const cookies = context.req.headers.cookie;
-    let isConnected = false;
+    let initialIsConnected = false;
 
     if (cookies) {
         const cookiesArray = cookies.split('; ');
         const refreshTokenCookie = cookiesArray.find(cookie => cookie.startsWith('refreshToken='));
         if (refreshTokenCookie) {
-            isConnected = true;
+            initialIsConnected = true;
         }
     }
 
     return {
         props: {
-            isConnected
+            initialIsConnected,
+            sidURL: process.env.SID_CALLBACK_URL || ""
         }
     }
 }
