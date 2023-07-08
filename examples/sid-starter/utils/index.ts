@@ -40,6 +40,18 @@ export const getEnvVar = (varName: string): string => {
     return value;
 }
 
+export const getTokenEndpoint = (): string => {
+    return new URL('/oauth/token', getEnvVar('SID_AUTH_ENDPOINT')).toString()
+}
+
+export const getRevokeEndpoint = (): string => {
+    return new URL('/oauth/revoke', getEnvVar('SID_AUTH_ENDPOINT')).toString()
+}
+
+export const getAPIEndpoint = (): string => {
+    return new URL('/api/v1/users/me/data/query', getEnvVar('SID_API_ENDPOINT')).toString()
+}
+
 export const getCookie = (cookieName: string): string | undefined => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${cookieName}=`);

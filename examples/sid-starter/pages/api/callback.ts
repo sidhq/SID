@@ -1,6 +1,6 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import axios, {AxiosError} from 'axios'
-import {getEnvVar} from "@/utils";
+import {getEnvVar, getTokenEndpoint} from "@/utils";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     try {
@@ -11,9 +11,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             code: req.query.code,
             redirect_uri: getEnvVar('SID_REDIRECT_URL')
         };
-        console.log('Endpoint: ' + process.env.SID_AUTH_ENDPOINT);
+        console.log('Endpoint: ' + getTokenEndpoint());
         console.log('Request Body:' + JSON.stringify(data));
-        const response = await axios.post(process.env.SID_AUTH_ENDPOINT || '', data);
+        const response = await axios.post(getTokenEndpoint(), data);
         const {access_token, refresh_token, scope, expires_in, token_type} = response.data;
         //CAUTION: DO NOT UNDER ANY CIRCUMSTANCES RETURN THE REFRESH TOKEN TO THE CLIENT APPLICATION
         //THIS IS A SECURITY RISK AND ONLY DONE HERE FOR DEMONSTRATION PURPOSES

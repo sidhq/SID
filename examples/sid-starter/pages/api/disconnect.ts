@@ -1,6 +1,6 @@
 // pages/api/disconnect.ts
 import { NextApiRequest, NextApiResponse } from 'next';
-import {getEnvVar} from "@/utils";
+import {getEnvVar, getRevokeEndpoint} from "@/utils";
 import axios from "axios";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -17,9 +17,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 client_secret: getEnvVar('SID_CLIENT_SECRET'),
                 token: refreshToken
             };
-            console.log('Endpoint: ' + process.env.SID_REVOKE_ENDPOINT);
+            console.log('Endpoint: ' + getRevokeEndpoint());
             console.log('Request Body:' + JSON.stringify(data));
-            const response = await axios.post(process.env.SID_REVOKE_ENDPOINT || '', data);
+            const response = await axios.post(getRevokeEndpoint(), data);
 
             if (response.status === 200) {
                 // Clear the cookie

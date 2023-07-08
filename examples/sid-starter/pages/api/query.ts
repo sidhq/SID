@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios, { AxiosError } from 'axios';
-import {getEnvVar} from "@/utils/"; // Import axios and AxiosError
+import {getAPIEndpoint, getEnvVar, getTokenEndpoint} from "@/utils/"; // Import axios and AxiosError
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -30,12 +30,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             redirect_uri: getEnvVar('SID_REDIRECT_URL'),
         };
         console.log("Token Data: " + JSON.stringify(tokenData));
-        const tokenResponse = await axios.post(getEnvVar('SID_AUTH_ENDPOINT') || '', tokenData);
+        const tokenResponse = await axios.post(getTokenEndpoint(), tokenData);
 
         const { access_token } = tokenResponse.data;
         console.log("Access Token: " + access_token);
 
-        const externalEndpoint = getEnvVar('SID_API_ENDPOINT');
+        const externalEndpoint = getAPIEndpoint();
         const axiosData ={
             query: query,
             limit: limit
