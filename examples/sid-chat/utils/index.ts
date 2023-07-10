@@ -10,6 +10,10 @@ type Message = {
     content: string;
 };
 
+export async function getChatCompletionRefreshTokenMissing(messageHistory: Message[], query: string) {
+    return 'Unfortunately I do not have access to SID yet. Please click on "Continue with SID" to connect your SID account first.';
+}
+
 export async function getChatCompletion(messageHistory: Message[], query: string) {
     const model = new ChatOpenAI({
         modelName: "gpt-3.5-turbo",

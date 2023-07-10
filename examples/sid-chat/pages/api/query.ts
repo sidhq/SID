@@ -1,6 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios, { AxiosError } from 'axios';
-import {getAPIEndpoint, getChatCompletion, getContext, getEnvVar, getTokenEndpoint} from "@/utils/"; // Import axios and AxiosError
+import {
+    getAPIEndpoint,
+    getChatCompletion,
+    getChatCompletionRefreshTokenMissing,
+    getContext,
+    getEnvVar,
+    getTokenEndpoint
+} from "@/utils/"; // Import axios and AxiosError
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -20,6 +27,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Send the response
         res.status(200).json({answer : results});
         return;
+    } else if(!refreshToken) {
+        const results = await getChatCompletionRefreshTokenMissing(messageHistory, query);
+        console.log("Results: " + JSON.stringify(results));
+        // Send the response
+        res.status(200).json({answer : results});
     }
 
     console.log("Messages: " + JSON.stringify(messageHistory));

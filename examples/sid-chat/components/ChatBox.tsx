@@ -35,19 +35,20 @@ const ChatBox: React.FC = () => {
             content: input,
         }]);
         try {
+            const refreshToken = getCookie('refreshToken');
             const promises = [
                 axios.post('api/query', {
                     messageHistory: messagesSID,
                     query: input,
                     limit: 5,
-                    refreshToken: getCookie('refreshToken'),
+                    refreshToken: refreshToken,
                     sidEnabled: true,
                 }),
                 axios.post('api/query', {
                     messageHistory: messagesNoSID,
                     query: input,
                     limit: 5,
-                    refreshToken: getCookie('refreshToken'),
+                    refreshToken: refreshToken,
                     sidEnabled: false,
                 })
             ];
