@@ -1,7 +1,8 @@
 @use "variables";
 
 .mainWrapper {
-  max-width: 1400px;
+  min-height:100vh;
+  max-width: 1200px;
   margin: 0 auto;
   background-color: rgba(variables.$secondary-color, 0.9);
   box-shadow: 0 4px 4px 0 variables.$black;
@@ -12,7 +13,7 @@
     padding: 40px 60px;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 30px;
 
     h1 {
       font-size: variables.$h1;
@@ -27,7 +28,14 @@
       font-style: normal;
       font-weight: 400;
       line-height: 2.5;
-      margin:0;
+      margin: 0;
+    }
+
+    .infoTop {
+      display: flex;
+      justify-content: space-between;
+      align-items: stretch;
+      gap: 20px;
     }
 
     a {

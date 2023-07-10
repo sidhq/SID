@@ -40,18 +40,20 @@ const Home: React.FC<HomeProps> = ({initialIsConnected, sidURL}) => {
         <div className={styles.mainWrapper}>
             <div className={styles.innerWrapper}>
                 <h1>SID Chat</h1>
-                <p>
-                    Want to see yourself what SID can do for you?<br/>
-                    Try this side-by-side of a SID-enabled chat assistant and regular ChatGPT!
-                </p>
-                <ConnectSIDButton width={330}
-                                  height={50}
-                                  fontScale={1}
-                                  isConnected={isConnected}
-                                  onDisconnect={handleDisconnect}
-                                  href={sidURL}
+                <div className={styles.infoTop}>
+                    <p>
+                        Want to see yourself what SID can do for you?<br/>
+                        Try this side-by-side of a SID-enabled chat assistant and regular ChatGPT!
+                    </p>
+                    <ConnectSIDButton width={330}
+                                      height={50}
+                                      fontScale={1}
+                                      isConnected={isConnected}
+                                      onDisconnect={handleDisconnect}
+                                      href={sidURL}
 
-                />
+                    />
+                </div>
                 <ChatBox/>
                 <p>
                     Pretty cool, huh? <br/>
