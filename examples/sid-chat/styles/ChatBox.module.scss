@@ -98,9 +98,12 @@
       box-shadow: variables.$default-inset-shadow;
       width: 100%;
       color: variables.$primary-color;
-
+      transition: all 0.2s ease-in-out;
       &:focus {
         outline: none;
+      }
+      &:hover {
+        background-color: rgba(variables.$primary-color, 0.25);
       }
     }
 

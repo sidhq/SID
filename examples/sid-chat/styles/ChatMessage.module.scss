@@ -10,8 +10,9 @@
   }
 
   .message {
+    width:80%;
     display: inline-block;
-    padding: 5px 15px 5px 15px;
+    padding: 10px 15px 10px 15px;
     border-radius: variables.$border-radius;
     box-shadow: variables.$default-shadow-25;
 

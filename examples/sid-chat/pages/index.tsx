@@ -56,8 +56,7 @@ const Home: React.FC<HomeProps> = ({initialIsConnected, sidURL}) => {
                 </div>
                 <ChatBox/>
                 <p>
-                    Pretty cool, huh? <br/>
-                    Are you a builder and would like to integrate SID into your own app? <br/>
+                    Are you a builder and would like to integrate SID into your own app?
                     Click <Link href={'https://join.sid.ai/'}>here</Link> to join our waitlist!
                 </p>
             </div>
