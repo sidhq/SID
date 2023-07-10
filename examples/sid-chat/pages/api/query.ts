@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios, { AxiosError } from 'axios';
-import {getAPIEndpoint, getEnvVar, getTokenEndpoint} from "@/utils/"; // Import axios and AxiosError
+import {getAPIEndpoint, getChatCompletion, getContext, getEnvVar, getTokenEndpoint} from "@/utils/"; // Import axios and AxiosError
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -12,8 +12,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // Extract the query and limit from the data
-    const { query, limit, refreshToken } = req.body;
+    const { messageHistory, query, limit, refreshToken, sidEnabled } = req.body;
 
+    if (!sidEnabled) {
+        const results = await getChatCompletion(messageHistory, query);
+        console.log("Results: " + JSON.stringify(results));
+        // Send the response
+        res.status(200).json({answer : results});
+        return;
+    }
+
+    console.log("Messages: " + JSON.stringify(messageHistory));
+    console.log("Query: " + query);
     // Check if query and limit are defined
     if (typeof query !== 'string' || typeof limit !== 'number') {
         res.status(400).end(); // Bad Request
@@ -52,10 +62,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const response = await axios.post(externalEndpoint, axiosData, axiosConfig);
 
         // Extract the data from the API response
-        const results = response.data;
+        const results = await getContext(response.data, messageHistory, query);
         console.log("Results: " + JSON.stringify(results));
         // Send the response
-        res.status(200).json(results);
+        res.status(200).json({answer : results});
     } catch (error) {
         // Handle error
         if (axios.isAxiosError(error)) {

@@ -5,23 +5,57 @@ export interface APIResponse {
     results: string[];
 }
 
-export async function getContext(retrieved: APIResponse, initial_query: string) {
+type Message = {
+    isAIMessage: boolean;
+    content: string;
+};
+
+export async function getChatCompletion(messageHistory: Message[], query: string) {
     const model = new ChatOpenAI({
-        modelName: "gpt-4-0613",
+        modelName: "gpt-3.5-turbo",
         temperature: 0,
     });
 
-    let stringified_context = '';
+    let openAIMessageHistory = [];
+    openAIMessageHistory.push(new SystemChatMessage('You are a helpful AI assistant that tries its best to help the user.'));
+    messageHistory.forEach((message) => {
+        if (message.isAIMessage) {
+            openAIMessageHistory.push(new AIChatMessage(message.content));
+        } else {
+            openAIMessageHistory.push(new HumanChatMessage(message.content));
+        }
+    });
+    openAIMessageHistory.push(new HumanChatMessage(query));
+    console.log(openAIMessageHistory);
+    const res: BaseChatMessage = await model.call(openAIMessageHistory);
+    console.log(res.text);
+    return res.text;
+}
+
+export async function getContext(retrieved: APIResponse, messageHistory: Message[], initialQuery: string) {
+    const model = new ChatOpenAI({
+        modelName: "gpt-3.5-turbo",
+        temperature: 0,
+    });
+
+    let stringifiedContext = '';
 
     for (let i = 0; i < retrieved.results.length; i++) {
-        stringified_context += `${i + 1}. ${retrieved.results[i]} \n`
+        stringifiedContext += `${i + 1}. ${retrieved.results[i]} \n`
     }
-    const systemMessage = new SystemChatMessage('You are a helpful AI assistant that can access documents that contain context about a user. Your answers are concise, informative and use the context provided by the document search.')
-    const humanMessage = new HumanChatMessage(`${initial_query} \n Document Search:\n ${stringified_context}`)
-    const res: BaseChatMessage = await model.call(
-        [systemMessage, humanMessage]);
-    console.log(systemMessage);
-    console.log(humanMessage);
+    let openAIMessageHistory = [];
+    openAIMessageHistory.push(new SystemChatMessage('You are a helpful AI assistant that has access to a highly advanced search engine that helps you find files that contain information about the user. Your answers are concise, informative and use the context provided by the file search. If you are unable to find the answer, answer the user that you did not find any information about the query in the files that are accessible to you. But do always share anything that you find and might be relevant to the user query.'));
+    messageHistory.forEach((message) => {
+        if (message.isAIMessage) {
+            openAIMessageHistory.push(new AIChatMessage(message.content));
+        } else {
+            openAIMessageHistory.push(new HumanChatMessage(message.content));
+        }
+    });
+    openAIMessageHistory.push(new SystemChatMessage(`The following results might help you answer the next user query:\n ${stringifiedContext}`));
+    openAIMessageHistory.push(new HumanChatMessage(initialQuery));
+    console.log(openAIMessageHistory);
+    const res: BaseChatMessage = await model.call(openAIMessageHistory);
     console.log(res.text);
     return res.text;
 }

@@ -7,7 +7,7 @@ export interface APIResponse {
 
 export async function getContext(retrieved: APIResponse, initial_query: string) {
     const model = new ChatOpenAI({
-        modelName: "gpt-4-0613",
+        modelName: "gpt-4",
         temperature: 0,
     });
 
