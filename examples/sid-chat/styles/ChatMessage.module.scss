@@ -1,0 +1,57 @@
+@use 'variables';
+
+.messageWrapper {
+  &:has(.aiMessage) {
+    text-align: left;
+  }
+
+  &:has(.userMessage) {
+    text-align: right;
+  }
+
+  .message {
+    display: inline-block;
+    padding: 5px 15px 5px 15px;
+    border-radius: variables.$border-radius;
+    box-shadow: variables.$default-shadow-25;
+
+    > p {
+      display: inline;
+      font-weight: 500 !important;
+      line-height: normal;
+    }
+  }
+
+  &:first-child {
+    margin-top: 10px;
+  }
+
+  &:last-child {
+    margin-bottom: 10px;
+  }
+
+
+  .aiMessage {
+    background: linear-gradient(
+                    0deg,
+                    rgba(variables.$secondary-color, 0.80) 0%,
+                    rgba(variables.$secondary-color, 1) 50%,
+                    rgba(variables.$secondary-color, 0.80) 100%
+    );
+    border-top-left-radius: 0;
+    color: variables.$primary-color;
+    text-align: left;
+  }
+
+  .userMessage {
+    background: linear-gradient(
+                    0deg,
+                    rgba(variables.$primary-color, 0.90) 0%,
+                    rgba(variables.$primary-color, 1) 50%,
+                    rgba(variables.$primary-color, 0.90) 100%
+    );
+    border-top-right-radius: 0;
+    color: variables.$secondary-color;
+    text-align: left !important
+  }
+}
