@@ -7,11 +7,10 @@ interface TerminalMessageProps {
 }
 
 const TerminalMessage: React.FC<TerminalMessageProps> = ({isUserCommand, content}) => {
-    const formattedContent = isUserCommand ? content : JSON.stringify(JSON.parse(content), null, 2);
     return (
         <div className={styles.messageWrapper}>
             <div className={`${styles.message} ${isUserCommand ? styles.userMessage : styles.systemMessage}`}>
-                <pre>{formattedContent}</pre>
+                <pre>{content}</pre>
             </div>
         </div>
     );

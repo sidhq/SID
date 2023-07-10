@@ -99,7 +99,7 @@ const ChatBox: React.FC = () => {
                     isAIMessage: true,
                     content: responseSID.data.answer,
                 }]);
-                setRawDataSID(JSON.stringify(responseSID.data.rawData));
+                setRawDataSID(JSON.stringify(responseSID.data.rawData,null, 2));
             }
 
             if (responseNoSID.status === 200) {
