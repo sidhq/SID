@@ -32,7 +32,8 @@
   .chatBoxWrapper {
     display: flex;
     flex-direction: row;
-    height: 300px;
+    min-height: 100px;
+    height: 50vh;
     resize: vertical;
     overflow-x: hidden;
     border: 1px solid variables.$primary-color;
@@ -81,6 +82,61 @@
     }
   }
 
+  .rawDataWrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
+    height: 200px;
+    border: 1px solid variables.$primary-color;
+    border-radius: variables.$border-radius;
+    overflow: hidden;
+    resize: vertical;
+
+    &::-webkit-resizer {
+      display: none;
+    }
+
+    .terminal {
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+      cursor: text;
+
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: rgba(variables.$primary-color, 0.1);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        //gradient from left to right
+        background: linear-gradient(
+                        90deg,
+                        rgba(variables.$primary-color, 0.80) 0%,
+                        rgba(variables.$primary-color, 1) 50%,
+                        rgba(variables.$primary-color, 0.80) 100%
+        );
+        border-radius: 10px;
+      }
+    }
+
+    h4 {
+      margin: 0;
+      user-select: none;
+      font-size: variables.$h4;
+      background: rgba(variables.$primary-color, 1);
+      color: rgba(variables.$secondary-color, 0.9);
+      padding: 0 0 0 5px;
+    }
+  }
+
   .chatBoxInputWrapper {
     display: flex;
     justify-content: space-between;
@@ -99,9 +155,11 @@
       width: 100%;
       color: variables.$primary-color;
       transition: all 0.2s ease-in-out;
+
       &:focus {
         outline: none;
       }
+
       &:hover {
         background-color: rgba(variables.$primary-color, 0.25);
       }

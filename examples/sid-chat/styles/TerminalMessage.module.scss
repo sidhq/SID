@@ -1,0 +1,69 @@
+@use 'variables';
+
+.messageWrapper {
+  padding: 0 10px 0 10px;
+  font-family: monospace;
+
+  .message {
+    display:flex;
+    flex-direction: row;
+    gap: 5px;
+    pre {
+      margin: 0;
+      display: inline-block;
+      line-height: normal;
+    }
+  }
+
+  .userMessage {
+    &::before {
+      content: '$ ';
+      font-weight: bold;
+    }
+  }
+
+  .systemMessage {
+
+  }
+
+  &:first-child {
+    margin-top: 10px;
+  }
+
+  &:last-child {
+    margin-bottom: 10px;
+  }
+
+
+  //cursor here
+  &:last-child {
+    .userMessage {
+      pre {
+        @keyframes blink {
+          0% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+
+        &::after {
+          /*
+          alternative cursor:
+          content: '';
+          display: inline-block;
+          margin-left: .2em;
+          width: 0.4em;
+          height: variables.$p;
+          background: variables.$primary-color;*/
+          content: '_';
+          animation: blink 1s steps(1, start) infinite;
+        }
+      }
+    }
+  }
+}

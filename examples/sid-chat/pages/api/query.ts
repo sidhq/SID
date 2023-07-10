@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const results = await getChatCompletionRefreshTokenMissing(messageHistory, query);
         console.log("Results: " + JSON.stringify(results));
         // Send the response
-        res.status(200).json({answer : results});
+        res.status(200).json({answer : results, rawData: {error: "Please click on the 'Continue with SID' button."}});
     }
 
     console.log("Messages: " + JSON.stringify(messageHistory));
@@ -77,7 +77,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const results = await getContext(response.data, messageHistory, query);
         console.log("Results: " + JSON.stringify(results));
         // Send the response
-        res.status(200).json({answer : results});
+        res.status(200).json({answer : results, rawData: response.data});
     } catch (error) {
         // Handle error
         if (axios.isAxiosError(error)) {
