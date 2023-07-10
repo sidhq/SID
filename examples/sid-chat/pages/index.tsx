@@ -42,7 +42,7 @@ const Home: React.FC<HomeProps> = ({initialIsConnected, sidURL}) => {
                 <h1>SID Chat</h1>
                 <p>
                     Want to see yourself what SID can do for you?<br/>
-                    Try this side-by-side of a SID-enabled chat assistant and regular ChatGPT.
+                    Try this side-by-side of a SID-enabled chat assistant and regular ChatGPT!
                 </p>
                 <ConnectSIDButton width={330}
                                   height={50}
