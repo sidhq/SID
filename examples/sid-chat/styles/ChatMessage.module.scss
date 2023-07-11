@@ -24,11 +24,11 @@
 
     @keyframes typing {
       0%, 100% {
-        font-weight: 500 !important;
+        font-weight: 400 !important;
         color: rgba(variables.$primary-color, 0.8);
       }
       20% {
-        font-weight: 700 !important;
+        font-weight: 8000 !important;
         color: rgba(variables.$primary-color, 1);
       }
     }
@@ -37,6 +37,8 @@
       span {
         animation: typing 1s infinite;
         animation-fill-mode: both;
+        font-size: variables.$p*2;
+        line-height: normal;
       }
 
       span:nth-child(2) {
