@@ -25,6 +25,10 @@ interface userInputTuple {
 
 const ChatBox: React.FC = () => {
 
+    const rightChatRef = React.createRef<HTMLDivElement>();
+    const leftChatRef = React.createRef<HTMLDivElement>();
+    const terminalRef = React.createRef<HTMLDivElement>();
+
     const [inputValue, setInputValue] = useState<string>('');  // State for input field
     const [messagesRightChat, setMessagesRightChat] = useState<IMessage[]>([]);  //State for right chat window, gpt+sid
     const [messagesLeftChat, setMessagesLeftChat] = useState<IMessage[]>([]);  //State for left chat window, gpt only
@@ -187,6 +191,25 @@ const ChatBox: React.FC = () => {
     }, [terminalUserInput, rawDataSID, terminalIsTyping]);
 
     useEffect(() => {
+        if (rightChatRef.current) {
+            rightChatRef.current.scrollTop = rightChatRef.current.scrollHeight;
+        }
+    }, [messagesRightChat]);
+
+    useEffect(() => {
+        if (leftChatRef.current) {
+            leftChatRef.current.scrollTop = leftChatRef.current.scrollHeight;
+        }
+    }, [messagesLeftChat]);
+
+    useEffect(() => {
+        if (terminalRef.current) {
+            terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+        }
+    }, [terminalMessages]);
+
+
+    useEffect(() => {
         setMessagesRightChat([{
             isAIMessage: true,
             content: 'Hi, I am ChatGPT! How can I help you today?',
@@ -220,12 +243,12 @@ const ChatBox: React.FC = () => {
                 <h3>ChatGPT + <SidSVG width={35} height={35} fill={'#F4E7D4'}/></h3>
             </div>
             <div className={styles.chatBoxWrapper}>
-                <div className={styles.chatBoxLeft}>
+                <div className={styles.chatBoxLeft} ref={leftChatRef}>
                     {messagesLeftChat.map((message, i) =>
                         <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content}/>
                     )}
                 </div>
-                <div className={styles.chatBoxRight}>
+                <div className={styles.chatBoxRight} ref={rightChatRef}>
                     {messagesRightChat.map((message, i) =>
                         <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content}/>
                     )}
@@ -233,7 +256,7 @@ const ChatBox: React.FC = () => {
             </div>
             <div className={styles.rawDataWrapper}>
                 <h4>SID Terminal</h4>
-                <div className={styles.terminal}>
+                <div className={styles.terminal} ref={terminalRef}>
                     {terminalMessages.map((message, i) =>
                         <TerminalMessage key={i} isUserCommand={message.isUserCommand} content={message.content}
                                          clipboardContent={message.copyableContent}/>
