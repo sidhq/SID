@@ -58,15 +58,35 @@ const ChatBox: React.FC = () => {
                 copyableContent: message.copyableContent,
             };
             const currentTerminalMessages = terminalMessages;
+            const numberOfCharacters = Math.max(message.content.length, 1);
+            let typingDuration = Math.ceil(delay / numberOfCharacters);
+            const typingDurationThreshold = 8;
+            let charMultiplier = 1;
+            if (typingDuration < typingDurationThreshold) {
+                charMultiplier = typingDurationThreshold / typingDuration;
+                typingDuration = typingDurationThreshold;
+            }
+            let intPart = Math.floor(charMultiplier);
+            let decimalPart = charMultiplier - intPart;
             const typingInterval = setInterval(() => {
-                typedMessage.content += message.content[i];
+                let addedString = '';
+                for (let j = 0; j < intPart; j++) {
+                    if (i < message.content.length) {
+                        addedString += message.content[i];
+                        i++;
+                    }
+                }
+                if (Math.random() < decimalPart && i < message.content.length) {
+                    addedString += message.content[i];
+                    i++;
+                }
+                typedMessage.content += addedString;
                 setTerminalMessages([...currentTerminalMessages, typedMessage]);
-                i++;
                 if (i > message.content.length - 1) {
                     clearInterval(typingInterval);
                     setTerminalIsTyping(false);
                 }
-            }, delay);
+            }, typingDuration);
         }
     };
 
@@ -98,7 +118,7 @@ const ChatBox: React.FC = () => {
     }
 
     const handleSend = async () => {
-        if(isLoading) return;
+        if (isLoading) return;
         setIsLoading(true);
         const query = inputValue;
         const limit = 5;
@@ -201,7 +221,7 @@ const ChatBox: React.FC = () => {
 
         //start typingEngine if it is not already running
         if (!terminalIsTyping) {
-            typeInTerminal(5);
+            typeInTerminal(2000);   //2000=delay per message
         }
     }, [terminalUserInput, rawDataSID, terminalIsTyping]);
 
