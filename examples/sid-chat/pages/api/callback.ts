@@ -11,6 +11,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             code: req.query.code,
             redirect_uri: getEnvVar('SID_REDIRECT_URL')
         };
+        if(!data.code) {
+            res.redirect('/');
+        }
         console.log('Endpoint: ' + getTokenEndpoint());
         console.log('Request Body:' + JSON.stringify(data));
         const response = await axios.post(getTokenEndpoint(), data);
