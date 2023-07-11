@@ -9,6 +9,12 @@ export default async function handler(
     // Extract refreshToken from request body
     const {refreshToken} = req.body;
 
+    if(!refreshToken) {
+        // return error response
+        res.status(401).json({error: 'Refresh token missing'});
+        return;
+    }
+
     const tokenData = {
         grant_type: 'refresh_token',
         client_id: getEnvVar('SID_CLIENT_ID'),
