@@ -3,47 +3,16 @@
 @media (max-width: 1000px) {
   .mainWrapper {
     border-radius: 0 !important;
-
+    padding: 10px !important;
     .chatBoxWrapper {
+      > div {
+        padding: 0 5px 0 5px !important;
+      }
     }
   }
 }
 
 @media (max-width: 768px) {
-  .headingWrapper {
-    display: none !important;
-  }
-  .chatBoxWrapper {
-    flex-direction: column !important;
-    height:750px !important;
-
-    > div {
-      min-height: 50% !important;
-      padding:0 !important;
-
-      &::before {
-        position: relative;
-        border-radius: variables.$border-radius variables.$border-radius 0 0;
-        width: 100%;
-        background: variables.$primary-color;
-        color: variables.$secondary-color;
-        font-weight: 700;
-      }
-    }
-  }
-
-  .chatBoxLeft {
-    &::before {
-      content: '\00a0\00a0 ChatGPT';
-    }
-  }
-
-  .chatBoxRight {
-    &::before {
-      content: '\00a0\00a0 ChatGPT + SID';
-      border-radius: 0 !important;
-    }
-  }
 }
 
 .mainWrapper {
