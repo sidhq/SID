@@ -76,6 +76,7 @@ const ChatBox: React.FC = () => {
                         i++;
                     }
                 }
+                //PURE MAGIC
                 if (Math.random() < decimalPart && i < message.content.length) {
                     addedString += message.content[i];
                     i++;
