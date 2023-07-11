@@ -22,13 +22,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { messageHistory, query, limit, refreshToken, sidEnabled } = req.body;
 
     if (!sidEnabled) {
-        const results = await getChatCompletion(messageHistory, query);
+        const results = await getChatCompletion(messageHistory);
         console.log("Results: " + JSON.stringify(results));
         // Send the response
         res.status(200).json({answer : results});
         return;
     } else if(!refreshToken) {
-        const results = await getChatCompletionRefreshTokenMissing(messageHistory, query);
+        const results = await getChatCompletionRefreshTokenMissing(messageHistory);
         console.log("Results: " + JSON.stringify(results));
         // Send the response
         res.status(200).json({answer : results, rawData: {error: "Please click on the 'Continue with SID' button."}});
@@ -74,7 +74,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const response = await axios.post(externalEndpoint, axiosData, axiosConfig);
 
         // Extract the data from the API response
-        const results = await getContext(response.data, messageHistory, query);
+        const results = await getContext(response.data, messageHistory);
         console.log("Results: " + JSON.stringify(results));
         // Send the response
         res.status(200).json({answer : results, rawData: response.data});

@@ -10,7 +10,7 @@
   }
 
   .message {
-    max-width:80%;
+    max-width: 80%;
     display: inline-block;
     padding: 10px 15px 10px 15px;
     border-radius: variables.$border-radius;
@@ -20,6 +20,32 @@
       display: inline;
       font-weight: 500 !important;
       line-height: normal !important;
+    }
+
+    @keyframes typing {
+      0%, 100% {
+        font-weight: 500 !important;
+        color: rgba(variables.$primary-color, 0.8);
+      }
+      20% {
+        font-weight: 700 !important;
+        color: rgba(variables.$primary-color, 1);
+      }
+    }
+    .isTyping {
+
+      span {
+        animation: typing 1s infinite;
+        animation-fill-mode: both;
+      }
+
+      span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
     }
   }
 

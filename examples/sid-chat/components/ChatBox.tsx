@@ -9,6 +9,7 @@ import TerminalMessage from "@/components/TerminalMessage";
 interface IMessage {
     isAIMessage: boolean;
     content: string;
+    isTypingIndicator?: boolean;
 }
 
 interface ITerminalMessages {
@@ -125,38 +126,47 @@ const ChatBox: React.FC = () => {
         const limit = 5;
         setInputValue('');
         setTerminalUserInput(getCURLString(accessToken, query, limit));
-        setMessagesRightChat(oldMessages => [...oldMessages, {
+        const oldMessagesRight: IMessage[] = [...messagesRightChat, {
             isAIMessage: false,
             content: query,
+        }];
+        const oldMessagesLeft: IMessage[] = [...messagesLeftChat, {
+            isAIMessage: false,
+            content: query,
+        }];
+        setMessagesRightChat([...oldMessagesRight, {
+            isAIMessage: true,
+            content: '',
+            isTypingIndicator: true,
         }]);
-        setMessagesLeftChat(oldMessages => [...oldMessages, {
-            isAIMessage: false,
-            content: query,
+        setMessagesLeftChat([...oldMessagesLeft, {
+            isAIMessage: true,
+            content: '',
+            isTypingIndicator: true,
         }]);
         try {
             const refreshToken = getCookie('refreshToken');
             const promises = [
                 axios.post('api/query', {
-                    messageHistory: messagesRightChat,
+                    messageHistory: oldMessagesRight,
                     query: query,
                     limit: limit,
                     refreshToken: refreshToken,
                     sidEnabled: true,
                 }),
                 axios.post('api/query', {
-                    messageHistory: messagesLeftChat,
+                    messageHistory: oldMessagesLeft,
                     query: query,
                     limit: limit,
                     refreshToken: refreshToken,
                     sidEnabled: false,
                 })
             ];
-
             const [responseSID, responseNoSID] = await Promise.all(promises);
 
             setIsLoading(false);
             if (responseSID.status === 200) {
-                setMessagesRightChat(oldMessages => [...oldMessages, {
+                setMessagesRightChat([...oldMessagesRight, {
                     isAIMessage: true,
                     content: responseSID.data.answer,
                 }]);
@@ -164,7 +174,7 @@ const ChatBox: React.FC = () => {
             }
 
             if (responseNoSID.status === 200) {
-                setMessagesLeftChat(oldMessages => [...oldMessages, {
+                setMessagesLeftChat([...oldMessagesLeft, {
                     isAIMessage: true,
                     content: responseNoSID.data.answer,
                 }]);
@@ -173,13 +183,13 @@ const ChatBox: React.FC = () => {
             console.error(err);
             setIsLoading(false);
             const userErrorMessage: string = 'Something went very wrong. Terribly sorry for that! Please refresh the page and try again.';
-            setMessagesRightChat(oldMessages => [...oldMessages, {
+            setMessagesRightChat([...messagesRightChat, {
                 isAIMessage: true,
                 content: userErrorMessage,
             }]);
             setRawDataSID(JSON.stringify(
                 {error: userErrorMessage}, null, 2));
-            setMessagesLeftChat(oldMessages => [...oldMessages, {
+            setMessagesLeftChat([...oldMessagesLeft, {
                 isAIMessage: true,
                 content: userErrorMessage,
             }]);
@@ -281,12 +291,12 @@ const ChatBox: React.FC = () => {
             <div className={styles.chatBoxWrapper}>
                 <div className={styles.chatBoxLeft} ref={leftChatRef}>
                     {messagesLeftChat.map((message, i) =>
-                        <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content}/>
+                        <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content} isTypingIndicator={message.isTypingIndicator}/>
                     )}
                 </div>
                 <div className={styles.chatBoxRight} ref={rightChatRef}>
                     {messagesRightChat.map((message, i) =>
-                        <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content}/>
+                        <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content} isTypingIndicator={message.isTypingIndicator}/>
                     )}
                 </div>
             </div>

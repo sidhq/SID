@@ -10,11 +10,11 @@ type Message = {
     content: string;
 };
 
-export async function getChatCompletionRefreshTokenMissing(messageHistory: Message[], query: string) {
+export async function getChatCompletionRefreshTokenMissing(messageHistory: Message[]) {
     return 'Unfortunately I do not have access to SID yet. Please click on "Continue with SID" to connect your SID account first.';
 }
 
-export async function getChatCompletion(messageHistory: Message[], query: string) {
+export async function getChatCompletion(messageHistory: Message[]) {
     const model = new ChatOpenAI({
         modelName: "gpt-3.5-turbo",
         temperature: 0,
@@ -29,14 +29,13 @@ export async function getChatCompletion(messageHistory: Message[], query: string
             openAIMessageHistory.push(new HumanChatMessage(message.content));
         }
     });
-    openAIMessageHistory.push(new HumanChatMessage(query));
     console.log(openAIMessageHistory);
     const res: BaseChatMessage = await model.call(openAIMessageHistory);
     console.log(res.text);
     return res.text;
 }
 
-export async function getContext(retrieved: APIResponse, messageHistory: Message[], initialQuery: string) {
+export async function getContext(retrieved: APIResponse, messageHistory: Message[]) {
     const model = new ChatOpenAI({
         modelName: "gpt-3.5-turbo",
         temperature: 0,
@@ -49,15 +48,16 @@ export async function getContext(retrieved: APIResponse, messageHistory: Message
     }
     let openAIMessageHistory = [];
     openAIMessageHistory.push(new SystemChatMessage('You are a helpful AI assistant that has access to a highly advanced search engine that helps you find files that contain information about the user. Your answers are concise, informative and use the context provided by the file search. If you are unable to find the answer, answer the user that you did not find any information about the query in the files that are accessible to you. But do always share anything that you find and might be relevant to the user query.'));
-    messageHistory.forEach((message) => {
-        if (message.isAIMessage) {
-            openAIMessageHistory.push(new AIChatMessage(message.content));
+
+    for (let i = 0; i < messageHistory.length-1; i++) {
+        if (messageHistory[i].isAIMessage) {
+            openAIMessageHistory.push(new AIChatMessage(messageHistory[i].content));
         } else {
-            openAIMessageHistory.push(new HumanChatMessage(message.content));
+            openAIMessageHistory.push(new HumanChatMessage(messageHistory[i].content));
         }
-    });
+    }
     openAIMessageHistory.push(new SystemChatMessage(`The following results might help you answer the next user query:\n ${stringifiedContext}`));
-    openAIMessageHistory.push(new HumanChatMessage(initialQuery));
+    openAIMessageHistory.push(new HumanChatMessage(messageHistory[messageHistory.length-1].content));
     console.log(openAIMessageHistory);
     const res: BaseChatMessage = await model.call(openAIMessageHistory);
     console.log(res.text);
