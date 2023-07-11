@@ -26,18 +26,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 res.setHeader('Set-Cookie', 'refreshToken=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax');
                 // Send success status
                 res.status(200).json({ message: 'Successfully disconnected.' });
+                return;
             } else {
                 // Send error status
                 res.status(500).json({ message: 'An error occurred while disconnecting.' });
+                return;
             }
         } catch (error) {
             console.error(error);
             // Send error status
             res.status(500).json({ message: 'An error occurred while disconnecting.' });
+            return;
         }
     } else {
         // If not a POST request, send 405 - Method Not Allowed
         res.status(405).json({ message: 'Request method not allowed; POST required.' });
+        return;
     }
 };
 

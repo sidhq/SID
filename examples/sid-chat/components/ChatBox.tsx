@@ -37,6 +37,7 @@ const ChatBox: React.FC = () => {
     const [messagesLeftChat, setMessagesLeftChat] = useState<IMessage[]>([]);  //State for left chat window, gpt only
     const [terminalMessages, setTerminalMessages] = useState<ITerminalMessages[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);  // State for loading indicator
+    const [isSIDConnected, setIsSIDConnected] = useState<boolean>(false);  // State for SID connection
     const [rawDataSID, setRawDataSID] = useState<string>('');  // State for raw data from SID
     const [terminalUserInput, setTerminalUserInput] = useState<userInputTuple | null>(null);  // State for user input in terminal
     const [terminalIsTyping, setTerminalIsTyping] = useState<boolean>(false);  // State for typing indicator in terminal

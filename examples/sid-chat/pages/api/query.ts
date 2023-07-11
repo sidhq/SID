@@ -32,6 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.log("Results: " + JSON.stringify(results));
         // Send the response
         res.status(200).json({answer : results, rawData: {error: "Please click on the 'Continue with SID' button."}});
+        return;
     }
 
     console.log("Messages: " + JSON.stringify(messageHistory));
@@ -78,18 +79,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.log("Results: " + JSON.stringify(results));
         // Send the response
         res.status(200).json({answer : results, rawData: response.data});
+        return;
     } catch (error) {
         // Handle error
         if (axios.isAxiosError(error)) {
             const serverError = error as AxiosError;
             if (serverError && serverError.response) {
                 res.status(500).json({error: serverError.response.data});
+                return;
             } else {
                 res.status(500).json({error: 'Something went wrong'});
+                return;
             }
         } else {
             // unknown error
             res.status(500).json({error: 'Something went wrong'});
+            return;
         }
     }
 }

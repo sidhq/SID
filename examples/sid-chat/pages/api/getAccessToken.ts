@@ -26,9 +26,10 @@ export default async function handler(
 
         // return response with access token
         res.status(200).json({accessToken: access_token});
-
+        return;
     } catch (error ) {
         // return error response
         res.status(500).json({error: 'Internal Server Error'});
+        return;
     }
 }
