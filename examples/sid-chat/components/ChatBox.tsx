@@ -25,6 +25,8 @@ interface userInputTuple {
 
 const ChatBox: React.FC = () => {
 
+
+    const inputRef = React.createRef<HTMLInputElement>();
     const rightChatRef = React.createRef<HTMLDivElement>();
     const leftChatRef = React.createRef<HTMLDivElement>();
     const terminalRef = React.createRef<HTMLDivElement>();
@@ -96,6 +98,7 @@ const ChatBox: React.FC = () => {
     }
 
     const handleSend = async () => {
+        if(isLoading) return;
         setIsLoading(true);
         const query = inputValue;
         const limit = 5;
@@ -146,8 +149,20 @@ const ChatBox: React.FC = () => {
                 }]);
             }
         } catch (err) {
-            setIsLoading(false);
             console.error(err);
+            setIsLoading(false);
+            const userErrorMessage: string = 'Something went very wrong. Terribly sorry for that! Please refresh the page and try again.';
+            setMessagesRightChat(oldMessages => [...oldMessages, {
+                isAIMessage: true,
+                content: userErrorMessage,
+            }]);
+            setRawDataSID(JSON.stringify(
+                {error: userErrorMessage}, null, 2));
+            setMessagesLeftChat(oldMessages => [...oldMessages, {
+                isAIMessage: true,
+                content: userErrorMessage,
+            }]);
+
         }
     };
 
@@ -270,7 +285,6 @@ const ChatBox: React.FC = () => {
                     value={inputValue}
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
-                    disabled={isLoading}
                 />
                 <button
                     className={styles.chatBoxSendButton}
