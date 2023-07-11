@@ -9,7 +9,7 @@ interface ChatMessageProps {
 
 const ChatMessage: React.FC<ChatMessageProps> = ({isAIMessage, content, isTypingIndicator}) => {
     return (
-        <div className={styles.messageWrapper}>
+        <div className={`${styles.messageWrapper} ${isAIMessage ? styles.aiMessageWrapper : styles.userMessageWrapper}`}>
             <div className={`${styles.message} ${isAIMessage ? styles.aiMessage : styles.userMessage}`}>
                 {isTypingIndicator ?
                     <p className={styles.isTyping}>

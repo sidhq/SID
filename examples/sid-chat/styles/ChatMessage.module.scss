@@ -1,13 +1,13 @@
 @use 'variables';
 
-.messageWrapper {
-  &:has(.aiMessage) {
-    text-align: left;
-  }
+.aiMessageWrapper {
+  text-align: left;
+}
+.userMessageWrapper{
+  text-align: right;
+}
 
-  &:has(.userMessage) {
-    text-align: right;
-  }
+.messageWrapper {
 
   .message {
     max-width: 80%;
