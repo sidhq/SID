@@ -14,6 +14,12 @@ interface IMessage {
 interface ITerminalMessages {
     isUserCommand: boolean;
     content: string;
+    copyableContent: string;
+}
+
+interface userInputTuple {
+    userInput: string;
+    userInputCopy: string
 }
 
 
@@ -25,9 +31,10 @@ const ChatBox: React.FC = () => {
     const [terminalMessages, setTerminalMessages] = useState<ITerminalMessages[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);  // State for loading indicator
     const [rawDataSID, setRawDataSID] = useState<string>('');  // State for raw data from SID
-    const [terminalUserInput, setTerminalUserInput] = useState<string>('');  // State for raw data from SID
-    const [terminalIsTyping, setTerminalIsTyping] = useState<boolean>(false);  // State for raw data from SID
-    const [terminalCursorQueue, setTerminalCursorQueue] = useState<ITerminalMessages[]>([]);  // State for raw data from SID
+    const [terminalUserInput, setTerminalUserInput] = useState<userInputTuple | null>(null);  // State for user input in terminal
+    const [terminalIsTyping, setTerminalIsTyping] = useState<boolean>(false);  // State for typing indicator in terminal
+    const [terminalCursorQueue, setTerminalCursorQueue] = useState<ITerminalMessages[]>([]);  // queue for messages in terminal
+    const [accessToken, setAccessToken] = useState<string>('');  // State for access tokens for the terminal
     const typeInTerminal = (delay: number) => {
         //while terminalMessages is not empty
         if (terminalCursorQueue.length > 0) {
@@ -37,14 +44,23 @@ const ChatBox: React.FC = () => {
             const message = terminalCursorQueue[0];
             //remove first message from terminalMessages
             setTerminalCursorQueue(prev => prev.slice(1));
-            if (message.isUserCommand) {
-                //message is user command
-                setTerminalMessages(prev => [...prev, message]);
-            } else {
-                setTerminalMessages(prev => [...prev, message]);
-                //message is system command
-            }
-            setTerminalIsTyping(false);
+
+            let i = 0;
+            const typedMessage: ITerminalMessages = {
+                isUserCommand: message.isUserCommand,
+                content: '',
+                copyableContent: message.copyableContent,
+            };
+            const currentTerminalMessages = terminalMessages;
+            const typingInterval = setInterval(() => {
+                typedMessage.content += message.content[i];
+                setTerminalMessages([...currentTerminalMessages, typedMessage]);
+                i++;
+                if (i > message.content.length - 1) {
+                    clearInterval(typingInterval);
+                    setTerminalIsTyping(false);
+                }
+            }, delay);
         }
     };
 
@@ -52,18 +68,35 @@ const ChatBox: React.FC = () => {
         setInputValue(e.target.value);
     };
 
+    function getCURLString(accessToken: string, query: string, limit: number): userInputTuple {
+        function truncated(accessToken: string) {
+            return accessToken.slice(0, 3) + '...' + accessToken.slice(-3);
+        }
+
+        const curlCommand =
+            'curl --request POST \\\n' +
+            `  --url 'https://api.sid.ai/api/v1/users/me/data/query' \\\n` +
+            `  --header 'Authorization: Bearer ${truncated(accessToken)}' \\\n` +
+            `  --header 'Content-Type: application/json' \\\n` +
+            `  --data '{"query" : "${query}", "limit" : ${limit} }'`
+
+        const curlCommandCopy =
+            'curl --request POST \\\n' +
+            `  --url 'https://api.sid.ai/api/v1/users/me/data/query' \\\n` +
+            `  --header 'Authorization: Bearer ${accessToken}' \\\n` +
+            `  --header 'Content-Type: application/json' \\\n` +
+            `  --data '{"query" : "${query}", "limit" : ${limit} }'`
+
+
+        return {userInput: curlCommand, userInputCopy: curlCommandCopy};
+    }
+
     const handleSend = async () => {
         setIsLoading(true);
         const query = inputValue;
         const limit = 5;
         setInputValue('');
-        setTerminalUserInput(
-            'curl --request POST \\\n' +
-            `  --url 'https://api.sid.ai/api/v1/users/me/data/query' \\\n` +
-            `  --header 'Authorization: Bearer <access_token>' \\\n` +
-            `  --header 'Content-Type: application/json' \\\n` +
-            `  --data '{"query" : "${query}", "limit" : ${limit} }'`
-        );
+        setTerminalUserInput(getCURLString(accessToken, query, limit));
         setMessagesRightChat(oldMessages => [...oldMessages, {
             isAIMessage: false,
             content: query,
@@ -99,7 +132,7 @@ const ChatBox: React.FC = () => {
                     isAIMessage: true,
                     content: responseSID.data.answer,
                 }]);
-                setRawDataSID(JSON.stringify(responseSID.data.rawData,null, 2));
+                setRawDataSID(JSON.stringify(responseSID.data.rawData, null, 2));
             }
 
             if (responseNoSID.status === 200) {
@@ -124,20 +157,22 @@ const ChatBox: React.FC = () => {
     useEffect(() => {
         //if new user input
         if (terminalUserInput) {
-            const newUserMessage = {
+            const newUserMessage: ITerminalMessages = {
                 isUserCommand: true,
-                content: terminalUserInput,
+                content: terminalUserInput.userInput,
+                copyableContent: terminalUserInput.userInputCopy,
             };
             //add user input to message queue
             setTerminalCursorQueue(prev => [...prev, newUserMessage]);
             //clear user input
-            setTerminalUserInput('');
+            setTerminalUserInput(null);
         }
 
         if (rawDataSID) {
-            const newSystemMessage = {
+            const newSystemMessage: ITerminalMessages = {
                 isUserCommand: false,
                 content: rawDataSID,
+                copyableContent: rawDataSID,
             };
             //add user input to message queue
             setTerminalCursorQueue(prev => [...prev, newSystemMessage]);
@@ -147,9 +182,9 @@ const ChatBox: React.FC = () => {
 
         //start typingEngine if it is not already running
         if (!terminalIsTyping) {
-            typeInTerminal(25);
+            typeInTerminal(5);
         }
-    }, [terminalUserInput, rawDataSID]);
+    }, [terminalUserInput, rawDataSID, terminalIsTyping]);
 
     useEffect(() => {
         setMessagesRightChat([{
@@ -163,6 +198,19 @@ const ChatBox: React.FC = () => {
             isAIMessage: true,
             content: 'Hi, I am ChatGPT! How can I help you today?',
         }]);
+    }, []);
+
+    useEffect(() => {
+        const refreshToken = getCookie('refreshToken');
+        //fetch to api/getAccessToken to get access token from refreshToken
+        axios.post('api/getAccessToken', {
+            refreshToken: refreshToken,
+        }).then((response) => {
+            //set access token
+            setAccessToken(response.data.accessToken);
+        }).catch((err) => {
+            setAccessToken('<access_token>');
+        });
     }, []);
 
     return (
@@ -187,7 +235,8 @@ const ChatBox: React.FC = () => {
                 <h4>SID Terminal</h4>
                 <div className={styles.terminal}>
                     {terminalMessages.map((message, i) =>
-                        <TerminalMessage key={i} isUserCommand={message.isUserCommand} content={message.content}/>
+                        <TerminalMessage key={i} isUserCommand={message.isUserCommand} content={message.content}
+                                         clipboardContent={message.copyableContent}/>
                     )}
                 </div>
             </div>
