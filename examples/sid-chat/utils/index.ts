@@ -29,9 +29,7 @@ export async function getChatCompletion(messageHistory: Message[]) {
             openAIMessageHistory.push(new HumanChatMessage(message.content));
         }
     });
-    console.log(openAIMessageHistory);
     const res: BaseChatMessage = await model.call(openAIMessageHistory);
-    console.log(res.text);
     return res.text;
 }
 
@@ -58,9 +56,7 @@ export async function getContext(retrieved: APIResponse, messageHistory: Message
     }
     openAIMessageHistory.push(new SystemChatMessage(`The following results might help you answer the next user query:\n ${stringifiedContext}`));
     openAIMessageHistory.push(new HumanChatMessage(messageHistory[messageHistory.length-1].content));
-    console.log(openAIMessageHistory);
     const res: BaseChatMessage = await model.call(openAIMessageHistory);
-    console.log(res.text);
     return res.text;
 }
 

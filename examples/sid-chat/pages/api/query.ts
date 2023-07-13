@@ -12,7 +12,6 @@ import {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     // Make sure this function only handles POST requests
-    console.log('BEGIN QUERY RESULTS');
     if (req.method !== 'POST') {
         res.status(405).end(); // Method Not Allowed
         return;
@@ -35,8 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return;
     }
 
-    console.log("Messages: " + JSON.stringify(messageHistory));
-    console.log("Query: " + query);
+    console.log("messageHistory=" + JSON.stringify(messageHistory));
+    console.log("query=" + query);
     // Check if query and limit are defined
     if (typeof query !== 'string' || typeof limit !== 'number') {
         res.status(400).end(); // Bad Request
@@ -52,11 +51,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             refresh_token: refreshToken,
             redirect_uri: getEnvVar('SID_REDIRECT_URL'),
         };
-        console.log("Token Data: " + JSON.stringify(tokenData));
         const tokenResponse = await axios.post(getTokenEndpoint(), tokenData);
 
         const { access_token } = tokenResponse.data;
-        console.log("Access Token: " + access_token);
 
         const externalEndpoint = getAPIEndpoint();
         const axiosData ={
@@ -72,8 +69,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.log("External Endpoint: " + externalEndpoint);
         console.log("Axios Data: " + JSON.stringify(axiosData));
         console.log("Axios Config: " + JSON.stringify(axiosConfig));
+        console.log("Making Axios Request...");
         const response = await axios.post(externalEndpoint, axiosData, axiosConfig);
-
+        console.log("Axios Response: " + JSON.stringify(response.data));
         // Extract the data from the API response
         const results = await getContext(response.data, messageHistory);
         console.log("Results: " + JSON.stringify(results));
@@ -82,6 +80,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return;
     } catch (error) {
         // Handle error
+        console.log("Error: " + JSON.stringify(error));
         if (axios.isAxiosError(error)) {
             const serverError = error as AxiosError;
             if (serverError && serverError.response) {
