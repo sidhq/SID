@@ -183,7 +183,7 @@ const ChatBox: React.FC = () => {
         } catch (err) {
             console.error(err);
             setIsLoading(false);
-            const userErrorMessage: string = 'Something went very wrong. Terribly sorry for that! Please refresh the page and try again.';
+            const userErrorMessage: string = 'Something went wrong. Sorry for that! Please refresh the page and try again.';
             setMessagesRightChat([...messagesRightChat, {
                 isAIMessage: true,
                 content: userErrorMessage,
