@@ -121,7 +121,7 @@ const ChatBox: React.FC = () => {
     }
 
     const handleSend = async () => {
-        if (isLoading) return;
+        if (isLoading || inputValue == '') return;
         setIsLoading(true);
         const query = inputValue;
         const limit = 5;
