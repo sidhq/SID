@@ -45,7 +45,15 @@ export async function getContext(retrieved: APIResponse, messageHistory: Message
         stringifiedContext += `${i + 1}. ${retrieved.results[i]} \n`
     }
     let openAIMessageHistory = [];
-    openAIMessageHistory.push(new SystemChatMessage('You are a helpful AI assistant that has access to a highly advanced search engine that helps you find files that contain information about the user. Your answers are concise, informative and use the context provided by the file search. If you are unable to find the answer, answer the user that you did not find any information about the query in the files that are accessible to you. But do always share anything that you find and might be relevant to the user query.'));
+    openAIMessageHistory.push(new SystemChatMessage('You are a helpful AI assistant that has access to a highly ' +
+        'advanced search engine that helps you find files that contain information about the user. ' +
+        'Your answers are concise, informative and use the context provided by the file search. ' +
+        'If you are unable to find the answer, answer the user that you did not find any information ' +
+        'about the query in the files that are accessible to you. ' +
+        'But do always share anything that you find and might be relevant to the user query.' +
+        'If the question does not concern content but instead refers to metadata, for example ' +
+        '"What is the last google drive file I viewed?"' +
+        'Answer to the user that you only have answer to contents, but not metadata.'));
 
     for (let i = 0; i < messageHistory.length-1; i++) {
         if (messageHistory[i].isAIMessage) {
