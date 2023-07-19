@@ -23,7 +23,7 @@ The SID Starter App is a starter project that illustrates how to integrate SID i
 The application uses several environment variables, found in `.env.local.template`, rename this file to .env.local and fill in your values accordingly :
 
 - `SID_CLIENT_ID` & `SID_CLIENT_SECRET`: These are your application's client credentials. Please join our waitlist at https://join.sid.ai/ to obtain them.
-- `SID_CALLBACK_URL`: Your "Connect SID" button will link to this URL. This is the entrypoint for your users to go through SID's authentication flow. This URL will be provided to you by us.
+- `SID_LOGIN_URL`: Your "Connect SID" button will link to this URL. This is the entrypoint for your users to go through SID's authentication flow. This URL will be provided to you by us.
 - `SID_REDIRECT_URL`: The URL where the application will redirect users after they have been authenticated and where the authorization code to refresh token & access token exchange will take place. 
 - `SID_AUTH_ENDPOINT`: The endpoint where the application sends a POST request to obtain the access token. Default value is `https://auth.sid.ai/oauth/token`
 - `SID_API_ENDPOINT`: The endpoint where the authenticated API request is sent to obtain personalized context for you LLM app. Default value is `https://api.sid.ai/api/v1/users/me/data/query`
