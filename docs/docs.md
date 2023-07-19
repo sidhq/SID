@@ -10,9 +10,9 @@ You can access all our demonstration projects via the following pattern: `*.demo
 
 At the moment, we only have one project available:
 
-### sid-starter
+### sid-chat
 
-_'sid-starter'_ is our initial demonstration project, designed to give you a taste of what's to come. The corresponding source code can be found [here](https://github.com/sidhq/SID/tree/main/examples/sid-starter).
+_'sid-chat'_ is our initial demonstration project, designed to give you a taste of what's to come. The corresponding source code can be found [here](https://github.com/sidhq/SID/tree/main/examples/sid-chat).
 
 Please keep an eye on this page for future updates and new demonstration projects. If you have any questions or require further assistance, feel free to reach out to us!
 
