@@ -59,6 +59,10 @@ const Home: React.FC<HomeProps> = ({initialIsConnected, sidURL}) => {
                     Are you a builder and would like to integrate SID into your own app?
                     Click <Link href={'https://join.sid.ai/'}>here</Link> to join our waitlist!
                 </p>
+                <p>
+                    By using this demo, you agree to our <Link href={'https://static.sid.ai/privacy.html'}>Privacy Policy</Link> and <Link href={'https://static.sid.ai/tos.html'}>Terms of Service</Link>.
+                <br/>Please also see <Link href={'https://sid.ai/disclosures'}>disclosures</Link>.
+                </p>
             </div>
         </div>
     )
