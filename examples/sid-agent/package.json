@@ -1,0 +1,24 @@
+{
+  "name": "sid-starter",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@types/node": "20.3.3",
+    "@types/react": "18.2.14",
+    "@types/react-dom": "18.2.6",
+    "axios": "^1.4.0",
+    "langchain": "^0.0.102",
+    "next": "13.4.8",
+    "posthog-js": "^1.70.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "sass": "^1.63.6",
+    "typescript": "5.1.6"
+  }
+}

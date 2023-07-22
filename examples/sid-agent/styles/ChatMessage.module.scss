@@ -1,0 +1,86 @@
+@use 'variables';
+
+.aiMessageWrapper {
+  text-align: left;
+}
+.userMessageWrapper{
+  text-align: right;
+}
+
+.messageWrapper {
+
+  .message {
+    max-width: 80%;
+    display: inline-block;
+    padding: 10px 15px 10px 15px;
+    border-radius: variables.$border-radius;
+    box-shadow: variables.$default-shadow-25;
+
+    > p {
+      display: inline;
+      font-weight: 500 !important;
+      line-height: normal !important;
+    }
+
+    @keyframes typing {
+      0%, 100% {
+        font-weight: 400 !important;
+        color: rgba(variables.$primary-color, 0.8);
+      }
+      20% {
+        font-weight: 800 !important;
+        color: rgba(variables.$primary-color, 1);
+      }
+    }
+    .isTyping {
+
+      span {
+        animation: typing 1s infinite;
+        animation-fill-mode: both;
+        font-size: variables.$p*2;
+        line-height: normal;
+      }
+
+      span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+    }
+  }
+
+  &:first-child {
+    margin-top: 10px;
+  }
+
+  &:last-child {
+    margin-bottom: 10px;
+  }
+
+
+  .aiMessage {
+    background: linear-gradient(
+                    0deg,
+                    rgba(variables.$secondary-color, 0.80) 0%,
+                    rgba(variables.$secondary-color, 1) 50%,
+                    rgba(variables.$secondary-color, 0.80) 100%
+    );
+    border-top-left-radius: 0;
+    color: variables.$primary-color;
+    text-align: left;
+  }
+
+  .userMessage {
+    background: linear-gradient(
+                    0deg,
+                    rgba(variables.$primary-color, 0.90) 0%,
+                    rgba(variables.$primary-color, 1) 50%,
+                    rgba(variables.$primary-color, 0.90) 100%
+    );
+    border-top-right-radius: 0;
+    color: variables.$secondary-color;
+    text-align: left !important
+  }
+}

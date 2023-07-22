@@ -1,0 +1,208 @@
+@use 'variables';
+
+@media (max-width: 1000px) {
+  .mainWrapper {
+    border-radius: 0 !important;
+    padding: 10px !important;
+    .chatBoxWrapper {
+      > div {
+        padding: 0 5px 0 5px !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+}
+
+.mainWrapper {
+  background-color: variables.$secondary-color;
+  box-shadow: variables.$default-shadow-25;
+  padding: 30px;
+  border-radius: variables.$border-radius;
+  flex-direction: column;
+  display: flex;
+  gap: 20px;
+
+  h3 {
+    margin: 0;
+    font-size: variables.$h3;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
+
+  .headingWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .chatBoxWrapper {
+    display: flex;
+    flex-direction: row;
+    min-height: 100px;
+    height: 400px;
+    resize: vertical;
+    overflow-x: hidden;
+    border: 1px solid variables.$primary-color;
+    border-radius: variables.$border-radius;
+
+    &::-webkit-resizer {
+      display: none;
+    }
+
+    > div {
+      background-color: rgba(variables.$primary-color, 0.2);
+      width: 100%;
+      min-height: 100%;
+      overflow: auto;
+      box-shadow: variables.$default-inset-shadow;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 0 20px 0 20px;
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: rgba(variables.$primary-color, 0.1);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        //gradient from left to right
+        background: linear-gradient(
+                        90deg,
+                        rgba(variables.$primary-color, 0.80) 0%,
+                        rgba(variables.$primary-color, 1) 50%,
+                        rgba(variables.$primary-color, 0.80) 100%
+        );
+        border-radius: 10px;
+      }
+    }
+
+    .chatBoxLeft {
+      border-right: 1px solid variables.$primary-color;
+    }
+
+    .chatBoxRight {
+    }
+  }
+
+  .rawDataWrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
+    height: 200px;
+    border: 1px solid variables.$primary-color;
+    border-radius: variables.$border-radius;
+    overflow: hidden;
+    resize: vertical;
+
+    &::-webkit-resizer {
+      display: none;
+    }
+
+    .terminal {
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+      cursor: text;
+
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: rgba(variables.$primary-color, 0.1);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        //gradient from left to right
+        background: linear-gradient(
+                        90deg,
+                        rgba(variables.$primary-color, 0.80) 0%,
+                        rgba(variables.$primary-color, 1) 50%,
+                        rgba(variables.$primary-color, 0.80) 100%
+        );
+        border-radius: 10px;
+      }
+    }
+
+    h4 {
+      margin: 0;
+      user-select: none;
+      font-size: variables.$h4;
+      background: rgba(variables.$primary-color, 1);
+      color: rgba(variables.$secondary-color, 0.9);
+      padding: 0 0 0 5px;
+    }
+  }
+
+  .chatBoxInputWrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+    .chatBoxInput {
+      border: none;
+      background-color: rgba(variables.$primary-color, 0.2);
+      border-radius: variables.$border-radius;
+      font-family: 'Montserrat', sans-serif;
+      font-size: variables.$p;
+      font-style: normal;
+      font-weight: 400;
+      padding: 10px;
+      box-shadow: variables.$default-inset-shadow;
+      width: 100%;
+      color: variables.$primary-color;
+      transition: all 0.2s ease-in-out;
+
+      &:focus {
+        outline: none;
+      }
+
+      &:hover {
+        background-color: rgba(variables.$primary-color, 0.25);
+      }
+    }
+
+    .chatBoxSendButton {
+      position: relative;
+      padding: 0 15px;
+      border-radius: variables.$border-radius;
+      background-color: variables.$primary-color;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+
+      /*&:before {
+        content: url("data:image/svg+xml,%3Csvg width='90' height='67' viewBox='0 0 90 67' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M63.0616 58.4896L40.5736 42.7336L80.8186 11.6686L63.0616 58.4896ZM33.5956 55.8406L41.5816 50.3056L37.1076 47.1706L33.5956 55.8406ZM34.1106 40.6146L57.8466 22.2946L26.5016 37.4826L28.4956 53.4576L33.2276 41.7856C33.4134 41.3239 33.7193 40.9203 34.1136 40.6166L34.1106 40.6146ZM73.0616 8.67164L5.64559 22.9156L23.5756 32.6486L73.0616 8.67164ZM86.6016 0.0606374L4.44859 17.4186C3.32592 17.6567 2.3032 18.2332 1.51825 19.0704C0.733297 19.9076 0.223844 20.9654 0.0585378 22.101C-0.106768 23.2367 0.0800175 24.3958 0.593725 25.422C1.10743 26.4483 1.92337 27.2924 2.93159 27.8406L20.8436 37.5646L24.1636 64.2136C24.2229 64.694 24.4052 65.1509 24.693 65.5401C24.9807 65.9293 25.3641 66.2376 25.806 66.435C26.248 66.6325 26.7334 66.7125 27.2153 66.6672C27.6972 66.6219 28.1592 66.4529 28.5566 66.1766L46.4896 53.7476L59.8436 63.1066C60.5437 63.5973 61.3466 63.9215 62.191 64.0546C63.0355 64.1877 63.8992 64.1262 64.7162 63.8747C65.5333 63.6233 66.2821 63.1885 66.9055 62.6035C67.529 62.0186 68.0106 61.299 68.3136 60.4996L89.8136 3.80964C89.9923 3.33736 90.0405 2.8257 89.9534 2.32834C89.8662 1.83097 89.6469 1.36622 89.3183 0.982814C88.9897 0.599411 88.564 0.311485 88.0858 0.149233C87.6077 -0.0130199 87.0957 -0.0436212 86.6016 0.0606374Z' fill='%230C0C0C'/%3E%3C/svg%3E%0A");
+        top: 50%;
+        left: 50%;
+        width: 50%;
+        height: 1px;
+        transform: translate(-50%, -50%);
+      }*/
+      &:hover {
+        box-shadow: 0 0 0 150px rgba(variables.$secondary-color, 0.2) inset;
+      }
+    }
+  }
+}
+
