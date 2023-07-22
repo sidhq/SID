@@ -1,7 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import styles from '@/styles/ChatBox.module.scss';
 import SidSVG from "@/components/SidSVG";
-import ChatMessage from "@/components/ChatMessage";
 import axios from "axios";
 import {getCookie} from "@/utils";
 import TerminalMessage from "@/components/TerminalMessage";
@@ -97,104 +96,48 @@ const ChatBox: React.FC = () => {
         setInputValue(e.target.value);
     };
 
-    function getCURLString(accessToken: string, query: string, limit: number): userInputTuple {
-        function truncated(accessToken: string) {
-            return accessToken.slice(0, 3) + '...' + accessToken.slice(-3);
-        }
 
-        const curlCommand =
-            'curl --request POST \\\n' +
-            `  --url 'https://api.sid.ai/api/v1/users/me/data/query' \\\n` +
-            `  --header 'Authorization: Bearer ${truncated(accessToken)}' \\\n` +
-            `  --header 'Content-Type: application/json' \\\n` +
-            `  --data '{"query" : "${query}", "limit" : ${limit} }'`
-
-        const curlCommandCopy =
-            'curl --request POST \\\n' +
-            `  --url 'https://api.sid.ai/api/v1/users/me/data/query' \\\n` +
-            `  --header 'Authorization: Bearer ${accessToken}' \\\n` +
-            `  --header 'Content-Type: application/json' \\\n` +
-            `  --data '{"query" : "${query}", "limit" : ${limit} }'`
-
-
-        return {userInput: curlCommand, userInputCopy: curlCommandCopy};
+    function strToTerminal(str: string): userInputTuple {
+        return {userInput: str, userInputCopy: str};
     }
 
     const handleSend = async () => {
         if (isLoading || inputValue == '') return;
         setIsLoading(true);
         const query = inputValue;
-        const limit = 5;
         setInputValue('');
-        setTerminalUserInput(getCURLString(accessToken, query, limit));
-        const oldMessagesRight: IMessage[] = [...messagesRightChat, {
-            isAIMessage: false,
-            content: query,
-        }];
-        const oldMessagesLeft: IMessage[] = [...messagesLeftChat, {
-            isAIMessage: false,
-            content: query,
-        }];
-        setMessagesRightChat([...oldMessagesRight, {
-            isAIMessage: true,
-            content: '',
-            isTypingIndicator: true,
-        }]);
-        setMessagesLeftChat([...oldMessagesLeft, {
-            isAIMessage: true,
-            content: '',
-            isTypingIndicator: true,
-        }]);
+        setTerminalUserInput(strToTerminal('Starting Auto-GPT...'));
+        setTimeout(() => {
+            setTerminalUserInput(strToTerminal('Goal is: ' + query));
+        }, 1000);
+
         try {
             const refreshToken = getCookie('refreshToken');
-            const promises = [
-                axios.post('api/query', {
-                    messageHistory: oldMessagesRight,
-                    query: query,
-                    limit: limit,
-                    refreshToken: refreshToken,
-                    sidEnabled: true,
-                }),
-                axios.post('api/query', {
-                    messageHistory: oldMessagesLeft,
-                    query: query,
-                    limit: limit,
-                    refreshToken: refreshToken,
-                    sidEnabled: false,
-                })
-            ];
-            const [responseSID, responseNoSID] = await Promise.all(promises);
+            const source = new EventSource(`api/query?query=${query}&refreshToken=${refreshToken}`);
 
-            setIsLoading(false);
-            if (responseSID.status === 200) {
-                setMessagesRightChat([...oldMessagesRight, {
-                    isAIMessage: true,
-                    content: responseSID.data.answer,
-                }]);
-                setRawDataSID(JSON.stringify(responseSID.data.rawData, null, 2));
-            }
+            // Handle incoming messages
+            source.onmessage = function(event) {
+                // Parse the JSON string back into an object
+                const data = JSON.parse(event.data);
+                console.log(data);  // Here's your data!
+                setRawDataSID(JSON.stringify(data, null, 2));
 
-            if (responseNoSID.status === 200) {
-                setMessagesLeftChat([...oldMessagesLeft, {
-                    isAIMessage: true,
-                    content: responseNoSID.data.answer,
-                }]);
-            }
+                // You can update the UI or do anything you want with the data here.
+                // This code block will be executed every time a new event comes from the server.
+            };
+
+            // Handle any errors
+            source.onerror = function(err) {
+                console.error("EventSource failed:", err);
+                const userErrorMessage: string = 'Something went wrong. Sorry for that! Please refresh the page and try again.';
+                setRawDataSID(JSON.stringify({error: err}, null, 2));
+            };
+
         } catch (err) {
             console.error(err);
             setIsLoading(false);
             const userErrorMessage: string = 'Something went wrong. Sorry for that! Please refresh the page and try again.';
-            setMessagesRightChat([...messagesRightChat, {
-                isAIMessage: true,
-                content: userErrorMessage,
-            }]);
-            setRawDataSID(JSON.stringify(
-                {error: userErrorMessage}, null, 2));
-            setMessagesLeftChat([...oldMessagesLeft, {
-                isAIMessage: true,
-                content: userErrorMessage,
-            }]);
-
+            setRawDataSID(JSON.stringify({error: userErrorMessage}, null, 2));
         }
     };
 
@@ -286,20 +229,7 @@ const ChatBox: React.FC = () => {
     return (
         <div className={styles.mainWrapper}>
             <div className={styles.headingWrapper}>
-                <h3>ChatGPT</h3>
-                <h3>ChatGPT + <SidSVG width={35} height={35} fill={'#F4E7D4'}/></h3>
-            </div>
-            <div className={styles.chatBoxWrapper}>
-                <div className={styles.chatBoxLeft} ref={leftChatRef}>
-                    {messagesLeftChat.map((message, i) =>
-                        <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content} isTypingIndicator={message.isTypingIndicator}/>
-                    )}
-                </div>
-                <div className={styles.chatBoxRight} ref={rightChatRef}>
-                    {messagesRightChat.map((message, i) =>
-                        <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content} isTypingIndicator={message.isTypingIndicator}/>
-                    )}
-                </div>
+                <h3>Auto-GPT + <SidSVG width={35} height={35} fill={'#F4E7D4'}/></h3>
             </div>
             <div className={styles.rawDataWrapper}>
                 <h4>SID Terminal</h4>
@@ -313,7 +243,7 @@ const ChatBox: React.FC = () => {
             <div className={styles.chatBoxInputWrapper}>
                 <input
                     className={styles.chatBoxInput}
-                    placeholder="Write a reply..."
+                    placeholder="Define a goal..."
                     value={inputValue}
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}

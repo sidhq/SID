@@ -16,7 +16,7 @@ export async function getChatCompletionRefreshTokenMissing(messageHistory: Messa
 
 export async function getChatCompletion(messageHistory: Message[]) {
     const model = new ChatOpenAI({
-        modelName: "gpt-4",
+        modelName: "gpt-3.5-turbo",
         temperature: 0,
     });
 
@@ -32,10 +32,11 @@ export async function getChatCompletion(messageHistory: Message[]) {
     const res: BaseChatMessage = await model.call(openAIMessageHistory);
     return res.text;
 }
+//make global variable called acces token:
 
 export async function getContext(retrieved: APIResponse, messageHistory: Message[]) {
     const model = new ChatOpenAI({
-        modelName: "gpt-4",
+        modelName: "gpt-3.5-turbo",
         temperature: 0,
     });
 
