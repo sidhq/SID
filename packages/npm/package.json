@@ -1,5 +1,5 @@
 {
-  "name": "sid",
+  "name": "@sid-hq/sid",
   "version": "1.0.0-alpha.1",
   "description": "Easily connect your LLM apps to your customers' data.",
   "main": "index.js",
@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/sidhq/SID/issues"
   },
-  "homepage": "https://sid.ai/"
+  "homepage": "https://sid.ai/",
+  "publishConfig": {
+    "access": "public"
+  }
 }
