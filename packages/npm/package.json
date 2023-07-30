@@ -1,0 +1,27 @@
+{
+  "name": "sid",
+  "version": "1.0.0-alpha.1",
+  "description": "Easily connect your LLM apps to your customers' data.",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sidhq/SID.git"
+  },
+  "keywords": [
+    "llm",
+    "ai",
+    "ml",
+    "gen-ai",
+    "machine-learning",
+    "artificial-intelligence"
+  ],
+  "author": "SID Tech Inc. <support@sid.ai> (https://sid.ai)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sidhq/SID/issues"
+  },
+  "homepage": "https://sid.ai/"
+}
