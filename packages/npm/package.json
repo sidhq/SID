@@ -2,7 +2,7 @@
   "name": "sid",
   "version": "1.0.0-alpha.1",
   "description": "Easily connect your LLM apps to your customers' data.",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
