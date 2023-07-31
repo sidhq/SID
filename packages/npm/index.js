@@ -1,5 +1,2 @@
-function helloWorld() {
-    return "hello world"
-}
-
-module.exports = helloWorld
+const SIDButton = require('./SIDButton');
+module.exports = SIDButton;
