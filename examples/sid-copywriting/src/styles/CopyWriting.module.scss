@@ -1,0 +1,234 @@
+@use 'variables' as v;
+
+.mainWrapperCopyWriting {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter', sans-serif;
+  color: v.$primary-color;
+  padding: 20px;
+  background-color: v.$black;
+
+
+  $border: 1px;
+  box-sizing: border-box;
+  background-clip: padding-box;
+  border: solid $border transparent;
+  border-radius: 15px;
+  position: relative;
+  gap: 30px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    margin: -$border;
+    border-radius: inherit;
+    background: linear-gradient(170deg, #27F06B, #C72CA5);
+  }
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    border: 0.5px solid rgba(v.$primary-color, 0.2);
+    border-radius: 8px;
+    padding: 17.5px;
+    gap: 20px;
+
+  }
+
+  .taskContainer {
+    .taskHeader {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      flex-direction: row;
+      gap: 5px;
+      font-size: 18px;
+
+      .taskText {
+      }
+
+      .taskTextBox {
+        font-size: inherit;
+        flex-grow: 1;
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+
+    .taskBody {
+      gap: 10px;
+
+      .taskTemplate {
+        text-align: center;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        border: 0.5px solid rgba(v.$primary-color, 0.25);
+        border-radius: 4px;
+        padding: 4px 8px;
+        transition: background-color 150ms ease-in-out;
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+
+        span {
+          &:first-child {
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            background-repeat: no-repeat;
+            background-size: contain;
+            display: inline-block;
+          }
+
+          &:last-child {
+          }
+        }
+
+        &:hover {
+          background-color: rgba(v.$primary-color, 0.15);
+        }
+      }
+    }
+  }
+
+  .textEditorContainer {
+    .textEditorHeader {
+      width: auto;
+      min-height: 15px;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+
+    .textEditorBody {
+      border-radius: 10px;
+      background-color: white;
+      $height: 300px;
+      height: $height;
+      resize: vertical;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 25px;
+      color: v.$black;
+      font-weight: 500;
+      font-size: 16px;
+
+      & > div {
+        h4 {
+          font-weight: inherit;
+          font-size: inherit;
+          margin: 10px 0;
+
+          span {
+            font-weight: 800;
+          }
+        }
+
+        p {
+          @keyframes blink {
+            0% {
+              opacity: 1;
+            }
+            50% {
+              opacity: 0;
+            }
+            100% {
+              opacity: 1;
+            }
+          }
+
+          .cursor {
+            position: relative;
+
+            &::before {
+              content: '';
+              display: inline-block;
+              width: 0.1em;
+              height: v.$p;
+              animation: blink 1s steps(1, start) infinite;
+            }
+
+            &::after {
+              color: white;
+              $font-size: 10px;
+              font-size: $font-size;
+              text-wrap: nowrap;
+              position: absolute;
+              padding: 1px 3px;
+              border-radius: 0 10px 10px 10px;
+              bottom: -$font-size - 1px;
+              left: 1px;
+            }
+          }
+        }
+      }
+
+      .textEditorWithSID {
+
+        .cursor {
+          &::before {
+            background: green;
+          }
+
+          &::after {
+            content: 'with SID';
+            background-color: green;
+          }
+        }
+      }
+
+      .textEditorWithoutSID {
+        flex-grow: 1;
+
+        .cursor {
+
+          &::before {
+            background: red;
+          }
+
+          &::after {
+            content: 'without SID';
+            background-color: red;
+          }
+        }
+      }
+    }
+  }
+
+  .sneakBehindTheCurtainContainer {
+    border: none;
+    font-size: 16px;
+    text-align: right;
+    display: inline-block;
+    padding: 0;
+
+    button {
+
+      opacity: 0.5;
+      cursor: pointer;
+      transition: opacity 150ms ease-in-out;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
