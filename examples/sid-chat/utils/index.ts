@@ -35,7 +35,7 @@ export async function getChatCompletion(messageHistory: Message[]) {
 
 export async function getContext(retrieved: APIResponse, messageHistory: Message[]) {
     const model = new ChatOpenAI({
-        modelName: "gpt-4",
+        modelName: "gpt-3.5-turbo",
         temperature: 0,
     });
 
@@ -55,7 +55,7 @@ export async function getContext(retrieved: APIResponse, messageHistory: Message
         '"What is the last google drive file I viewed?"' +
         'Answer to the user that you only have answer to contents, but not metadata.'));
 
-    for (let i = 0; i < messageHistory.length-1; i++) {
+    for (let i = 0; i < messageHistory.length - 1; i++) {
         if (messageHistory[i].isAIMessage) {
             openAIMessageHistory.push(new AIChatMessage(messageHistory[i].content));
         } else {
@@ -63,7 +63,7 @@ export async function getContext(retrieved: APIResponse, messageHistory: Message
         }
     }
     openAIMessageHistory.push(new SystemChatMessage(`The following results might help you answer the next user query:\n ${stringifiedContext}`));
-    openAIMessageHistory.push(new HumanChatMessage(messageHistory[messageHistory.length-1].content));
+    openAIMessageHistory.push(new HumanChatMessage(messageHistory[messageHistory.length - 1].content));
     const res: BaseChatMessage = await model.call(openAIMessageHistory);
     return res.text;
 }
