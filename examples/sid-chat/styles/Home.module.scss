@@ -61,6 +61,12 @@
       justify-content: space-between;
       align-items: stretch;
       gap: 20px;
+
+      .buttonWrapper{
+        display:flex;
+        flex-direction:column;
+        gap: 10px;
+      }
     }
 
     a {

@@ -5,6 +5,7 @@ import {GetServerSideProps} from 'next';
 import {getEnvVar} from "@/utils";
 import Link from "next/link";
 import ChatBox from "@/components/ChatBox";
+import AccessTokenContainer from "@/components/AccessTokenContainer";
 
 type HomeProps = {
     initialIsConnected: boolean;
@@ -45,14 +46,17 @@ const Home: React.FC<HomeProps> = ({initialIsConnected, sidURL}) => {
                         Want to see yourself what SID can do for you?<br/>
                         Try this side-by-side of a SID-enabled chat assistant and regular ChatGPT!
                     </p>
-                    <ConnectSIDButton width={330}
-                                      height={50}
-                                      fontScale={1}
-                                      isConnected={isConnected}
-                                      onDisconnect={handleDisconnect}
-                                      href={sidURL}
+                    <div className={styles.buttonWrapper}>
+                        <ConnectSIDButton width={330}
+                                          height={50}
+                                          fontScale={1}
+                                          isConnected={isConnected}
+                                          onDisconnect={handleDisconnect}
+                                          href={sidURL}
 
-                    />
+                        />
+                        {isConnected ? <AccessTokenContainer/> : null}
+                    </div>
                 </div>
                 <ChatBox/>
                 <p>
@@ -60,8 +64,9 @@ const Home: React.FC<HomeProps> = ({initialIsConnected, sidURL}) => {
                     Click <Link href={'https://join.sid.ai/'}>here</Link> to join our waitlist!
                 </p>
                 <p>
-                    By using this demo, you agree to our <Link href={'https://static.sid.ai/privacy.html'}>Privacy Policy</Link> and <Link href={'https://static.sid.ai/tos.html'}>Terms of Service</Link>.
-                <br/>Please also see <Link href={'https://sid.ai/disclosures'}>disclosures</Link>.
+                    By using this demo, you agree to our <Link href={'https://static.sid.ai/privacy.html'}>Privacy
+                    Policy</Link> and <Link href={'https://static.sid.ai/tos.html'}>Terms of Service</Link>.
+                    <br/>Please also see <Link href={'https://sid.ai/disclosures'}>disclosures</Link>.
                 </p>
             </div>
         </div>
