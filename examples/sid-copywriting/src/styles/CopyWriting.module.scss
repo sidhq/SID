@@ -3,7 +3,7 @@
 .mainWrapperCopyWriting {
   display: flex;
   flex-direction: column;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   color: v.$primary-color;
   padding: 20px;
   background-color: v.$black;
@@ -44,7 +44,7 @@
     .taskHeader {
       display: flex;
       align-items: center;
-      font-weight: 600;
+      font-weight: v.$bold;
       flex-direction: row;
       gap: 5px;
       font-size: 18px;
@@ -55,7 +55,6 @@
       .taskTextBox {
         font-size: inherit;
         flex-grow: 1;
-
         &:focus {
           outline: none;
         }
@@ -118,7 +117,7 @@
       gap: 5px;
       padding: 25px;
       color: v.$black;
-      font-weight: 500;
+      font-weight: v.$thin;
       font-size: 16px;
 
       & > div {
@@ -128,7 +127,7 @@
           margin: 10px 0;
 
           span {
-            font-weight: 800;
+            font-weight: v.$bold;
           }
         }
 
