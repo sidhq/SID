@@ -44,52 +44,18 @@ const ChatBox: React.FC = () => {
     const [terminalCursorQueue, setTerminalCursorQueue] = useState<ITerminalMessages[]>([]);  // queue for messages in terminal
     const [accessToken, setAccessToken] = useState<string>('');  // State for access tokens for the terminal
     const typeInTerminal = (delay: number) => {
-        //while terminalMessages is not empty
         if (terminalCursorQueue.length > 0) {
             setTerminalIsTyping(true);
-            //set terminalIsTyping to true
-            //get first message from terminalMessages
             const message = terminalCursorQueue[0];
-            //remove first message from terminalMessages
             setTerminalCursorQueue(prev => prev.slice(1));
 
-            let i = 0;
             const typedMessage: ITerminalMessages = {
                 isUserCommand: message.isUserCommand,
-                content: '',
+                content: message.content,
                 copyableContent: message.copyableContent,
             };
-            const currentTerminalMessages = terminalMessages;
-            const numberOfCharacters = Math.max(message.content.length, 1);
-            let typingDuration = Math.ceil(delay / numberOfCharacters);
-            const typingDurationThreshold = 8;
-            let charMultiplier = 1;
-            if (typingDuration < typingDurationThreshold) {
-                charMultiplier = typingDurationThreshold / typingDuration;
-                typingDuration = typingDurationThreshold;
-            }
-            let intPart = Math.floor(charMultiplier);
-            let decimalPart = charMultiplier - intPart;
-            const typingInterval = setInterval(() => {
-                let addedString = '';
-                for (let j = 0; j < intPart; j++) {
-                    if (i < message.content.length) {
-                        addedString += message.content[i];
-                        i++;
-                    }
-                }
-                //PURE MAGIC
-                if (Math.random() < decimalPart && i < message.content.length) {
-                    addedString += message.content[i];
-                    i++;
-                }
-                typedMessage.content += addedString;
-                setTerminalMessages([...currentTerminalMessages, typedMessage]);
-                if (i > message.content.length - 1) {
-                    clearInterval(typingInterval);
-                    setTerminalIsTyping(false);
-                }
-            }, typingDuration);
+            setTerminalMessages(messages => [...messages, typedMessage]);
+            setTerminalIsTyping(false);
         }
     };
 
@@ -147,20 +113,29 @@ const ChatBox: React.FC = () => {
         }]);
         try {
             const refreshToken = getCookie('refreshToken');
+            let sidRawResponse = await axios.post('api/query', {
+                messageHistory: oldMessagesRight,
+                query: query,
+                limit: limit,
+                refreshToken: refreshToken,
+                accessToken: accessToken,
+                mode: "sid-raw",
+            });
+            setRawDataSID(JSON.stringify(sidRawResponse.data.answer, null, 2))
             const promises = [
                 axios.post('api/query', {
                     messageHistory: oldMessagesRight,
                     query: query,
                     limit: limit,
                     refreshToken: refreshToken,
-                    sidEnabled: true,
+                    accessToken: accessToken,
+                    mode: "sid-openai",
                 }),
                 axios.post('api/query', {
                     messageHistory: oldMessagesLeft,
                     query: query,
                     limit: limit,
-                    refreshToken: refreshToken,
-                    sidEnabled: false,
+                    mode: "openai",
                 })
             ];
             const [responseSID, responseNoSID] = await Promise.all(promises);
@@ -171,7 +146,6 @@ const ChatBox: React.FC = () => {
                     isAIMessage: true,
                     content: responseSID.data.answer,
                 }]);
-                setRawDataSID(JSON.stringify(responseSID.data.rawData, null, 2));
             }
 
             if (responseNoSID.status === 200) {
@@ -233,7 +207,7 @@ const ChatBox: React.FC = () => {
 
         //start typingEngine if it is not already running
         if (!terminalIsTyping) {
-            typeInTerminal(2000);   //2000=delay per message
+            typeInTerminal(100);   //2000=delay per message
         }
     }, [terminalUserInput, rawDataSID, terminalIsTyping]);
 

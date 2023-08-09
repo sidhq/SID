@@ -16,7 +16,7 @@ export async function getChatCompletionRefreshTokenMissing(messageHistory: Messa
 
 export async function getChatCompletion(messageHistory: Message[]) {
     const model = new ChatOpenAI({
-        modelName: "gpt-4",
+        modelName: "gpt-3.5-turbo",
         temperature: 0,
     });
 
