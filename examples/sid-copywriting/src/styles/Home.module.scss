@@ -5,5 +5,46 @@
   min-height: calc(100vh - ($horizontal-padding * 2));
   max-width: 1200px;
   margin: 0 auto;
-  padding:$horizontal-padding 20px;
+  padding: $horizontal-padding 20px;
+  font-family: 'Montserrat', sans-serif;
+  color: v.$primary-color;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  .taskContainer {
+    gap: 10px;
+    margin: 0 auto;
+
+    .taskTemplate {
+      text-align: center;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      border: 0.5px solid rgba(v.$primary-color, 0.25);
+      border-radius: 4px;
+      padding: 4px 8px;
+      transition: background-color 150ms ease-in-out;
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+
+      span {
+        &:first-child {
+          width: 15px;
+          height: 15px;
+          margin-right: 5px;
+          background-repeat: no-repeat;
+          background-size: contain;
+          display: inline-block;
+        }
+
+        &:last-child {
+        }
+      }
+
+      &:hover {
+        background-color: rgba(v.$primary-color, 0.15);
+      }
+    }
+  }
 }

@@ -24,7 +24,7 @@ export type TypingState = Map<string, {
 }> | null;
 
 export type CopyWritingProps = {
-    template: Template
+    template: Template | null,
 }
 
 export type SetTypingState = React.Dispatch<React.SetStateAction<TypingState>>;
