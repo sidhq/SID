@@ -1,0 +1,37 @@
+@use 'variables' as v;
+
+.mainWrapperChat {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: v.$black;
+  $border: 1px;
+  box-sizing: border-box;
+  background-clip: padding-box;
+  border: solid $border transparent;
+  border-radius: 15px;
+  position: relative;
+  gap: 30px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    margin: -$border;
+    border-radius: inherit;
+    background: linear-gradient(170deg, #27F06B, #C72CA5);
+  }
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    border: 0.5px solid rgba(v.$primary-color, 0.2);
+    border-radius: 8px;
+    padding: 17.5px;
+    gap: 20px;
+  }
+}

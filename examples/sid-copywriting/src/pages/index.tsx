@@ -1,8 +1,9 @@
 import styles from '@/styles/Home.module.scss'
 import CopyWriting from "@/components/copyWriting";
+import EmailWriting from "@/components/emailWriting";
+import Chat from "@/components/chat";
 import {Template, TemplateType} from "@/types";
 import React, {useState} from "react";
-import EmailWriting from "@/components/emailWriting";
 
 
 export default function Home() {
@@ -72,10 +73,10 @@ export default function Home() {
             </div>
             {activeTemplate?.type === TemplateType.text && (
                 <CopyWriting template={activeTemplate}/>)}
-
             {activeTemplate?.type === TemplateType.mail && (
                 <EmailWriting template={activeTemplate}/>)}
-            {/*<Chat template={activeTemplate}/>*/}
+            {activeTemplate?.type === TemplateType.chat && (
+                <Chat template={activeTemplate}/>)}
 
         </div>
     )
