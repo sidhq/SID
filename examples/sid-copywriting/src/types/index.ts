@@ -23,7 +23,7 @@ export type TypingState = Map<string, {
     typingInterval: NodeJS.Timer | null,
 }> | null;
 
-export type CopyWritingProps = {
+export type DemoProps = {
     template: Template | null,
 }
 

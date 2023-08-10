@@ -47,7 +47,6 @@ export const typeInTerminal = async (delay: number, perMessage: boolean, target:
                             const newTypingState = new Map(prev);
                             const targetTypingState = newTypingState.get(target);
                             if (targetTypingState) {
-                                console.log(typingInterval);
                                 targetTypingState.typingInterval = typingInterval;
                             }
                             return newTypingState;

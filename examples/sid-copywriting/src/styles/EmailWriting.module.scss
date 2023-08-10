@@ -1,6 +1,6 @@
 @use 'variables' as v;
 
-.mainWrapperCopyWriting {
+.mainWrapperEmailWriting {
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -58,10 +58,62 @@
 
   .textEditorContainer {
     .textEditorHeader {
-      width: auto;
-      min-height: 15px;
+      width: 100%;
+      padding-bottom: 7%;
       background-repeat: no-repeat;
       background-size: contain;
+      position: relative;
+    }
+
+    .emailHeader {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 0 5px;
+
+      .emailHeaderLeft {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        align-items: center;
+        gap: 10px;
+
+
+        .emailHeaderLeftIcon {
+          background-repeat: no-repeat;
+          background-size: contain;
+          width: 50px;
+          height: 100%;
+          grid-column: 1;
+          grid-row: 1 / 3;
+        }
+
+        .emailSender {
+          grid-column: 2;
+          grid-row: 1;
+        }
+
+        .emailSubject {
+          grid-column: 2;
+          grid-row: 2;
+
+        }
+
+        .emailRecipient {
+          grid-column: 2;
+          grid-row: 3;
+          > span {
+            margin-left: 10px;
+            opacity: 0.5;
+            font-size: v.$p*0.90;
+          }
+        }
+      }
+
+      .emailHeaderRight {
+        opacity: 0.4;
+        font-size: v.$p*0.8;
+      }
     }
 
     .textEditorBody {
