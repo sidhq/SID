@@ -73,8 +73,8 @@ export default function Home() {
             {activeTemplate?.type === TemplateType.text && (
                 <CopyWriting template={activeTemplate}/>)}
 
-            {activeTemplate?.type === TemplateType.text && (
-                <CopyWriting template={activeTemplate}/>)}
+            {activeTemplate?.type === TemplateType.mail && (
+                <EmailWriting template={activeTemplate}/>)}
             {/*<Chat template={activeTemplate}/>*/}
 
         </div>

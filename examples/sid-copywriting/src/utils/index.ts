@@ -1,6 +1,6 @@
 import {TypingState, SetTypingState} from "@/types";
 export const typeInTerminal = async (delay: number, perMessage: boolean, target: string, typingState: TypingState, setTypingState:SetTypingState): Promise<void> => {
-    return new Promise(async (resolve) => {
+    return new Promise(async (resolve, reject) => {
         if (typingState) {
             const targetTypingState = typingState.get(target);
             if (targetTypingState && targetTypingState.typingQueue.length > 0) {
@@ -91,10 +91,10 @@ export const typeInTerminal = async (delay: number, perMessage: boolean, target:
                         }
                     }, perMessage ? typingDuration : delay);
                 } else {
-                    resolve();
+                    reject(new Error('No message found in typingQueue'));
                 }
             } else {
-                resolve();
+                reject(new Error('No typingQueue found for target'));
             }
         }
     });

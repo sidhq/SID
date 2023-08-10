@@ -32,10 +32,19 @@ export default function CopyWriting({template}: DemoProps) {
 
     useEffect(() => {
         if (typingState && !typingState.get('inputRef')?.isTyping && !typingState.get('withSIDRef')?.isTyping && !typingState.get('withoutSIDRef')?.isTyping) {
-            typeInTerminal(1000, true, 'inputRef', typingState, setTypingState).then(() => {
-                typeInTerminal(2000, true, 'withSIDRef', typingState, setTypingState);
-                typeInTerminal(2000, true, 'withoutSIDRef', typingState, setTypingState);
-            });
+            console.log('typingState', typingState.get('inputRef')?.typingQueue);
+            typeInTerminal(1000, true, 'inputRef', typingState, setTypingState)
+                .then(() => {
+                    typeInTerminal(2000, true, 'withSIDRef', typingState, setTypingState).catch((err) => {
+                        console.log(err);
+                    });
+                    typeInTerminal(2000, true, 'withoutSIDRef', typingState, setTypingState).catch((err) => {
+                        console.log(err);
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
         return () => {
         };
@@ -109,7 +118,8 @@ export default function CopyWriting({template}: DemoProps) {
                     <div className={styles.textEditorWithoutSID}>
                         <h4>Text Generation <span> without SID</span></h4>
                         <p ref={typingState ? typingState.get('withoutSIDRef')?.typingRef as unknown as React.RefObject<HTMLInputElement> : null}>{typingState ? typingState.get('withoutSIDRef')?.typingOutput.map((message, index) => {
-                            return (<span key={`copy_without_sid_${index}`} dangerouslySetInnerHTML={{__html: message}}/>);
+                            return (
+                                <span key={`copy_without_sid_${index}`} dangerouslySetInnerHTML={{__html: message}}/>);
                         }) : ''}
                             <span className={styles.cursor}/>
                         </p>

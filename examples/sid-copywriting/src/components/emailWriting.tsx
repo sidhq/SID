@@ -42,10 +42,18 @@ export default function EmailWriting({template}: DemoProps) {
 
     useEffect(() => {
         if (typingState && !typingState.get('inputRef')?.isTyping && !typingState.get('withSIDRef')?.isTyping && !typingState.get('withoutSIDRef')?.isTyping) {
-            typeInTerminal(1000, true, 'inputRef', typingState, setTypingState).then(() => {
-                typeInTerminal(2000, true, 'withSIDRef', typingState, setTypingState);
-                typeInTerminal(2000, true, 'withoutSIDRef', typingState, setTypingState);
-            });
+            typeInTerminal(1000, true, 'inputRef', typingState, setTypingState)
+                .then(() => {
+                    typeInTerminal(2000, true, 'withSIDRef', typingState, setTypingState).catch((err) => {
+                        console.log(err);
+                    });
+                    typeInTerminal(2000, true, 'withoutSIDRef', typingState, setTypingState).catch((err) => {
+                        console.log(err);
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
         return () => {
         };
