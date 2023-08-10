@@ -35,7 +35,6 @@ export default function CopyWriting({template}: DemoProps) {
             console.log('typingState', typingState.get('inputRef')?.typingQueue);
             typeInTerminal(1000, true, 'inputRef', typingState, setTypingState)
                 .then(() => {
-                    //set typing queue of inputRef to empty
                     setTypingState(prev => {
                         const newTypingState = new Map(prev);
                         const inputRefObj = newTypingState.get('inputRef');

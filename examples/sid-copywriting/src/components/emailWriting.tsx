@@ -44,6 +44,15 @@ export default function EmailWriting({template}: DemoProps) {
         if (typingState && !typingState.get('inputRef')?.isTyping && !typingState.get('withSIDRef')?.isTyping && !typingState.get('withoutSIDRef')?.isTyping) {
             typeInTerminal(1000, true, 'inputRef', typingState, setTypingState)
                 .then(() => {
+                    setTypingState(prev => {
+                        const newTypingState = new Map(prev);
+                        const inputRefObj = newTypingState.get('inputRef');
+                        if (inputRefObj) {
+                            inputRefObj.typingQueue.length = 0;
+                            newTypingState.set('inputRef', inputRefObj);
+                        }
+                        return newTypingState;
+                    });
                     typeInTerminal(2000, true, 'withSIDRef', typingState, setTypingState).catch((err) => {
                         console.log(err);
                     });
