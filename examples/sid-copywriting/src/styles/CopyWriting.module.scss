@@ -71,7 +71,7 @@
       background-color: white;
       $height: 300px;
       height: $height;
-      resize: vertical;
+      resize: none;
       overflow: auto;
       display: flex;
       flex-direction: column;
@@ -170,7 +170,6 @@
     padding: 0;
 
     button {
-
       opacity: 0.5;
       cursor: pointer;
       transition: opacity 150ms ease-in-out;
@@ -181,10 +180,6 @@
     }
   }
 }
-
-
-
-
 
 
 
