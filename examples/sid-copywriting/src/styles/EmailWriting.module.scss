@@ -34,7 +34,7 @@
     border: 0.5px solid rgba(v.$primary-color, 0.2);
     border-radius: 8px;
     padding: 17.5px;
-    gap: 20px;
+    gap: 15px;
 
   }
 
@@ -57,27 +57,35 @@
   }
 
   .textEditorContainer {
-    .textEditorHeader {
-      width: 100%;
-      padding-bottom: 7%;
-      background-repeat: no-repeat;
-      background-size: contain;
-      position: relative;
+    .textEditorHeaderColumns {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      height: 27px
+    }
+
+      .textEditorHeader {
+        flex: 1;
+        //height: 100%;
+        //width: auto;
+        //padding-bottom: 7%;
+        background-repeat: no-repeat;
+        background-size: contain;
+        //position: relative;
     }
 
     .emailHeader {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      padding: 0 5px;
+      padding: 0 10px;
 
       .emailHeaderLeft {
         display: grid;
         grid-template-columns: auto 1fr;
         grid-template-rows: 1fr 1fr 1fr;
         align-items: center;
-        gap: 10px;
-
+        gap: 2px;
 
         .emailHeaderLeftIcon {
           background-repeat: no-repeat;
@@ -91,28 +99,29 @@
         .emailSender {
           grid-column: 2;
           grid-row: 1;
+          font-weight: v.$medium;
         }
 
         .emailSubject {
           grid-column: 2;
           grid-row: 2;
-
+          font-size: v.$p*0.85;
         }
 
         .emailRecipient {
           grid-column: 2;
           grid-row: 3;
+          font-size: v.$p*0.85;
           > span {
-            margin-left: 10px;
+            margin-left: 5px;
             opacity: 0.5;
-            font-size: v.$p*0.90;
           }
         }
       }
 
       .emailHeaderRight {
         opacity: 0.4;
-        font-size: v.$p*0.8;
+        font-size: v.$p*0.7;
       }
     }
 
@@ -121,7 +130,7 @@
       background-color: white;
       $height: 300px;
       height: $height;
-      resize: vertical;
+      resize: none;
       overflow: auto;
       display: flex;
       flex-direction: column;

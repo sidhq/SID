@@ -22,17 +22,18 @@
       margin-bottom: 8px;
       border: 0.5px solid rgba(v.$primary-color, 0.25);
       border-radius: 4px;
-      padding: 4px 8px;
+      padding: 5px 10px;
       transition: background-color 150ms ease-in-out;
       display: inline-flex;
       flex-direction: row;
       align-items: center;
+      font-size: v.$h4;
 
       span {
         &:first-child {
-          width: 15px;
-          height: 15px;
-          margin-right: 5px;
+          width: 22px;
+          height: 22px;
+          margin-right: 8px;
           background-repeat: no-repeat;
           background-size: contain;
           display: inline-block;
@@ -45,6 +46,10 @@
       &:hover {
         background-color: rgba(v.$primary-color, 0.15);
       }
+
     }
   }
 }
+
+
+

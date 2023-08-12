@@ -5,14 +5,17 @@ import React, {useState} from "react";
 import EmailWriting from "@/components/emailWriting";
 
 
+
 export default function Home() {
+
+
     const templates: Template[] = [{
         buttonText: 'Twitter Post',
         type: TemplateType.text,
         backgroundImage: 'url(/static/images/twitter.svg)',
         input: 'Write a Twitter post explaining what SID does',
-        outputWithSID: 'Struggling with making your AI more context-aware? SID simplifies the integration of customer data. Our API seamlessly handles all data integrations, storage, and retrieval. We save you months of engineering effort in a single afternoon.',
-        outputWithoutSID: 'SID (System Identification) is a powerful technique used in engineering to model and analyze dynamic systems. It helps us understand and predict the behavior of complex systems, enabling us to design efficient control strategies.',
+        outputWithSID: 'Struggling with making your AI app more context-aware? SID <mark>simplifies the integration of customer data</mark>. Our API seamlessly handles all - data integrations, storage, and retrieval. We save you months of engineering effort <mark>in a single afternoon</mark>.',
+        outputWithoutSID: 'SID (System Identification) is a powerful technique used in engineering to <mark>model and analyze dynamic systems</mark>. It helps us understand and predict the behavior of complex systems, enabling us to <mark>design efficient control strategies</mark>.',
     }, {
         buttonText: 'Sales Outreach',
         type: TemplateType.mail,
@@ -32,7 +35,7 @@ export default function Home() {
         type: TemplateType.mail,
         backgroundImage: 'url(/static/images/handshake.svg)',
         input: 'Write a casual first sentence for an email to {name} that highlights our uncommon commonalities',
-        outputWithSID: 'I hope this email finds you well amidst the {city} startup hustle! As fellow {university} alumni, it\'s amusing to discover that we\'ve both mastered the art of balancing business acumen with coding finesse – who would\'ve thought? 😄',
+        outputWithSID: 'I hope this email finds you well amidst the {city} startup hustle! As fellow {university} alumni, it\'s amusing to discover that we\'ve both mastered the art of balancing business acumen with coding finesse – who would\'ve thought?',
         outputWithoutSID: 'Isn\'t it wild how we both seem to march to the beat of the same offbeat drum, sharing some pretty uncommon commonalities?',
     }, {
         buttonText: 'Feature Presentation',
