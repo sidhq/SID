@@ -21,9 +21,11 @@ button {
   font-family: inherit;
 }
 
-input {
+input, textarea {
   border: none;
   background-color: transparent;
   color: inherit;
   font-family: inherit;
+  overflow-y:hidden;
+  resize: none;
 }

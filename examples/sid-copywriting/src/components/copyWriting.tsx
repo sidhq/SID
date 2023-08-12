@@ -7,7 +7,7 @@ export default function CopyWriting({template}: DemoProps) {
     const [typingState, setTypingState] = useState<TypingState>(
         new Map([
             ['inputRef', {
-                typingRef: React.createRef<HTMLInputElement>(),
+                typingRef: React.createRef<HTMLDivElement>(),
                 typingQueue: [],
                 typingOutput: [],
                 isTyping: false,
@@ -44,10 +44,10 @@ export default function CopyWriting({template}: DemoProps) {
                         }
                         return newTypingState;
                     });
-                    typeInTerminal(2000, true, 'withSIDRef', typingState, setTypingState).catch((err) => {
+                    typeInTerminal(15, false, 'withSIDRef', typingState, setTypingState).catch((err) => {
                         console.log(err);
                     });
-                    typeInTerminal(2000, true, 'withoutSIDRef', typingState, setTypingState).catch((err) => {
+                    typeInTerminal(20, false, 'withoutSIDRef', typingState, setTypingState).catch((err) => {
                         console.log(err);
                     });
                 })
@@ -102,14 +102,13 @@ export default function CopyWriting({template}: DemoProps) {
         <div className={styles.mainWrapperCopyWriting}>
             <div className={styles.taskContainer}>
                 <label className={styles.taskText}>Task:</label>
-                <input className={styles.taskTextBox}
-                       placeholder={'Select an example to see SID in action!'}
-                       ref={typingState ? typingState.get('inputRef')?.typingRef as unknown as React.RefObject<HTMLInputElement> : null}
-                       disabled={true}
-                       value={typingState ? typingState.get('inputRef')?.typingOutput.map((message) => {
-                           return message;
-                       }).join('') : ''}
-                />
+                <div className={styles.taskTextBox}
+                     placeholder={'Select an example to see SID in action!'}
+                     ref={typingState ? typingState.get('inputRef')?.typingRef as unknown as React.RefObject<HTMLDivElement> : null}
+                >{typingState ? typingState.get('inputRef')?.typingOutput.map((message, index) => {
+                    return (<p key={`copy_input${index}`} dangerouslySetInnerHTML={{__html: message}}/>);
+                }) : ''}
+                </div>
             </div>
             <div className={styles.textEditorContainer}>
                 <div className={styles.textEditorHeader}
@@ -135,9 +134,9 @@ export default function CopyWriting({template}: DemoProps) {
                     </div>
                 </div>
             </div>
-            <div className={styles.sneakBehindTheCurtainContainer}>
+            {/*<div className={styles.sneakBehindTheCurtainContainer}>
                 <button>Sneak behind the curtain</button>
-            </div>
+            </div>*/}
         </div>
     );
 }

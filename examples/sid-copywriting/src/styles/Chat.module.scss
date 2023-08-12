@@ -34,4 +34,65 @@
     padding: 17.5px;
     gap: 20px;
   }
+
+  .chatWrapper {
+    .chatBody {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      padding: 20px 0;
+
+      .chatMessage {
+        display: flex;
+        flex-direction: row;
+        align-items: start;
+        gap: 10px;
+        padding: 10px;
+
+        img {
+          margin: 2px;
+          padding: 3px;
+          border-radius: 5px;
+          border: 0.5px solid rgba(v.$primary-color, 0.2);
+        }
+
+        p {
+          margin: 0;
+        }
+      }
+      .humanMessage {
+        background-color: #fff;
+        color: v.$secondary-color;
+        margin-left: 150px;
+        border-radius: 10px 10px 0 10px;
+      }
+      .sidgptMessage, .chatgptMessage {
+        margin-right: 50px;
+      }
+    }
+  }
+
+  .chatInput {
+    width: 100%;
+
+    .chatInputField {
+      border: 0.5px solid rgba(v.$primary-color, 0.2);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      input {
+        font-size: v.$p;
+        flex: 1;
+        outline: none;
+      }
+
+      button {
+        flex: 0;
+
+      }
+    }
+  }
 }

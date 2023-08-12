@@ -39,7 +39,7 @@
 
   .taskContainer {
     display: flex;
-    align-items: center;
+    align-items: start;
     font-weight: v.$bold;
     flex-direction: row;
     gap: 5px;
@@ -48,7 +48,10 @@
     .taskTextBox {
       font-size: inherit;
       flex-grow: 1;
-
+      p {
+        font-weight: v.$thin;
+        margin: 0;
+      }
       &:focus {
         outline: none;
       }
@@ -81,7 +84,7 @@
       & > div {
         h4 {
           font-weight: inherit;
-          font-size: inherit;
+          font-size: 18px;
           margin: 10px 0;
 
           span {
@@ -117,7 +120,6 @@
               color: white;
               $font-size: 10px;
               font-size: $font-size;
-              text-wrap: nowrap;
               position: absolute;
               padding: 1px 3px;
               border-radius: 0 10px 10px 10px;
@@ -136,7 +138,7 @@
           }
 
           &::after {
-            content: 'with SID';
+            content: 'with\00a0SID';
             background-color: green;
           }
         }
@@ -152,7 +154,7 @@
           }
 
           &::after {
-            content: 'without SID';
+            content: 'without\00a0SID';
             background-color: red;
           }
         }

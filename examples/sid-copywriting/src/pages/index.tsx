@@ -51,7 +51,7 @@ export default function Home() {
         outputWithoutSID: 'I\'m sorry, but I don\'t have access to previous conversations or decisions made regarding Iceland. As an AI language model, I don\'t have the capability to retain information from previous interactions. If you have any specific questions, feel free to ask, and I\'ll do my best to help you.'
     }];
 
-    const [activeTemplate, setActiveTemplate] = useState<Template | null>(null);  // queue for messages in terminal
+    const [activeTemplate, setActiveTemplate] = useState<Template | null>(templates[0]);  // queue for messages in terminal
 
     return (
         <div className={styles.mainWrapper}>
