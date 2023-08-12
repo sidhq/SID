@@ -12,7 +12,7 @@ export default function Home() {
         type: TemplateType.text,
         backgroundImage: 'url(/static/images/twitter.svg)',
         input: 'Write a Twitter post explaining what SID does',
-        outputWithSID: 'Struggling with making your AI more context-aware? SID simplifies the integration of customer data. Our API seamlessly handles all data integrations, storage, and retrieval. We save you months of engineering effort in a single afternoon.',
+        outputWithSID: 'Struggling <mark class="t">with</mark> making your AI more context-aware? SID simplifies the integration of customer data. Our API seamlessly handles all data integrations, storage, and retrieval. We save you months of engineering effort in a single afternoon.',
         outputWithoutSID: 'SID (System Identification) is a powerful technique used in engineering to model and analyze dynamic systems. It helps us understand and predict the behavior of complex systems, enabling us to design efficient control strategies.',
     }, {
         buttonText: 'Sales Outreach',

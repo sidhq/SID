@@ -651,7 +651,7 @@ export default function EmailWriting({template}: DemoProps) {
 
     useEffect(() => {
         if (typingState && !typingState.get('inputRef')?.isTyping && !typingState.get('withSIDRef')?.isTyping && !typingState.get('withoutSIDRef')?.isTyping) {
-            typeInTerminal(1000, true, 'inputRef', typingState, setTypingState)
+            typeInTerminal(500, true, 'inputRef', typingState, setTypingState)
                 .then(() => {
                     setTypingState(prev => {
                         const newTypingState = new Map(prev);
