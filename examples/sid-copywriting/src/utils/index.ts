@@ -54,7 +54,7 @@ export const typeInTerminal = async (delay: number, perMessage: boolean, target:
                         let addedString = '';
                         if (perMessage) {
                             for (let j = 0; j < intPart; j++) {
-                                if (i < message.length) {
+                                if (i < message.length  ) {
                                     addedString += message[i];
                                     i++;
                                 }
@@ -65,7 +65,13 @@ export const typeInTerminal = async (delay: number, perMessage: boolean, target:
                                 i++;
                             }
                         } else {
-                            addedString = message[i];
+                            if (message[i] === '<') {
+                                while (message[i] !== '>' && i < message.length) {
+                                    addedString += message[i];
+                                    i++;
+                                }
+                            }
+                            addedString += message[i];
                             i++;
                         }
                         typedMessage += addedString;

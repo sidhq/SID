@@ -729,15 +729,12 @@ export default function EmailWriting({template}: DemoProps) {
             </div>
             <div className={styles.textEditorContainer}>
                 <div className={styles.textEditorHeaderColumns}>
-                    <div className={styles.textEditorHeader}
-                     style={{backgroundImage: 'url(/static/images/email-client-fake-menu-left.svg)'}}>
-                    </div>
-                    <div className={styles.textEditorHeader}
-                     style={{backgroundImage: 'url(/static/images/email-client-fake-menu-middle.svg)', backgroundPosition: 'center center'}}>
-                    </div>
-                    <div className={styles.textEditorHeader}
-                     style={{backgroundImage: 'url(/static/images/email-client-fake-menu-right.svg)', backgroundPosition: 'right center'}}>
-                    </div>
+                    <img src={'/static/images/email-client-fake-menu-left.svg'}
+                         alt={'email client menu'}/>
+                    <img src={'/static/images/email-client-fake-menu-middle.svg'}
+                         alt={'email client menu'}/>
+                    <img src={'/static/images/email-client-fake-menu-right.svg'}
+                         alt={'email client menu'}/>
                 </div>
                 <div className={styles.emailHeader}>
                     <div className={styles.emailHeaderLeft}>

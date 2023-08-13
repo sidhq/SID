@@ -25,10 +25,71 @@ input, textarea {
   background-color: transparent;
   color: inherit;
   font-family: inherit;
-  overflow-y:hidden;
+  overflow-y: hidden;
   resize: none;
 }
 
-.t {
-  background:red !important;
+mark {
+  position:relative;
+  border-radius: 4px;
+
+  &.mark-blue {
+    $color: blue;
+    --hover-color: $color;
+    background: rgba($color, 0.5);
+
+    &:hover {
+      background: $color;
+    }
+  }
+
+  &.mark-green {
+    $color: green;
+    --hover-color: $color;
+    background: rgba($color, 0.5);
+
+    &:hover {
+      background: $color;
+    }
+  }
+
+  &.mark-red {
+    $color: red;
+    --hover-color: $color;
+    background: rgba($color, 0.5);
+
+    &:hover {
+      background: $color;
+    }
+  }
+
+  &.mark-purple {
+    $color: purple;
+    --hover-color: $color;
+    background: rgba($color, 0.5);
+
+    &:hover {
+      background: $color;
+    }
+  }
+
+  &::after {
+    content: attr(data-tooltip); // Get the tooltip text from a data-tooltip attribute on the mark element
+    display: none; // Initially hidden
+    position: absolute;
+    transform: translateX(-50%) translateY(-110%); // This will ensure the tooltip is centered
+    top: 0;
+    left: 0;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.7); // Semi-transparent black
+    color: white;
+    white-space: nowrap; // Prevents the tooltip text from wrapping
+    font-size: 12px;
+    z-index: 1000;
+  }
+
+  &:hover::after {
+    display: block; // Show the tooltip on hover
+  }
 }
