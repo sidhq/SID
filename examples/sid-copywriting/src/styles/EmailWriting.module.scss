@@ -170,13 +170,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         height: 15px;
       }
       @media (max-width: 415px) {
-        height: 10px;
+        img:last-child {
+          display: none;
+        }
       }
     }
 
     .emailHeader {
       display: flex;
       flex-direction: row;
+      @media (max-width: 550px) {
+        flex-direction: column-reverse;
+        .emailHeaderRight {
+          margin-bottom: 5px;
+        }
+      }
       justify-content: space-between;
       padding: 0 10px;
 
@@ -199,18 +207,27 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         .emailSender {
           grid-column: 2;
           grid-row: 1;
+          @media (max-width: 330px) {
+            font-size: v.$p*0.85;
+          }
           font-weight: v.$medium;
         }
 
         .emailSubject {
           grid-column: 2;
           grid-row: 2;
+          @media (max-width: 330px) {
+            font-size: v.$p*0.7;
+          }
           font-size: v.$p*0.85;
         }
 
         .emailRecipient {
           grid-column: 2;
           grid-row: 3;
+          @media (max-width: 330px) {
+            font-size: v.$p*0.7;
+          }
           font-size: v.$p*0.85;
 
           > span {
@@ -222,6 +239,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
       .emailHeaderRight {
         opacity: 0.4;
+
+
+        @media (max-width: 330px) {
+          font-size: v.$p*0.6;
+        }
         font-size: v.$p*0.7;
       }
     }
