@@ -5,7 +5,9 @@ import Chat from "@/components/chat";
 import {Template, TemplateType} from "@/types";
 import React, {useEffect, useState} from "react";
 
-
+interface MyWindow extends Window {
+    resizeIframeToContentSize?: (element: HTMLElement) => void;
+}
 
 export default function Home() {
     useEffect(() => {
@@ -17,8 +19,9 @@ export default function Home() {
             cancelAnimationFrame(watcher);
 
             if (lastScrollHeight !== container.scrollHeight) {
-                if(window.parent?.resizeIframeToContentSize){
-                    window.parent?.resizeIframeToContentSize(document.documentElement);
+                const myWindowParent = window.parent as MyWindow;
+                if(myWindowParent?.resizeIframeToContentSize){
+                    myWindowParent?.resizeIframeToContentSize(document.documentElement);
                 }
             }
             lastScrollHeight = container.scrollHeight;
