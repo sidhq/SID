@@ -11,7 +11,6 @@ enum SpinnerState {
 
 export default function CopyWriting({template}: DemoProps) {
     const [spinnerState, setSpinnerState] = useState(SpinnerState.NONE);
-    const [inTransition, setInTransition] = useState(false);
     const [typingState, setTypingState] = useState<TypingState>(
         new Map([
             ['inputRef', {
@@ -40,7 +39,6 @@ export default function CopyWriting({template}: DemoProps) {
 
     useEffect(() => {
         if (typingState && !typingState.get('inputRef')?.isTyping && !typingState.get('withSIDRef')?.isTyping && !typingState.get('withoutSIDRef')?.isTyping) {
-            setInTransition(true);
             console.log('typingState', typingState.get('inputRef')?.typingQueue);
             typeInTerminal(500, true, 'inputRef', typingState, setTypingState)
                 .then(() => {
@@ -74,7 +72,6 @@ export default function CopyWriting({template}: DemoProps) {
                 });
         }
         return () => {
-            setInTransition(false);
         };
     }, [typingState]);
 
@@ -139,14 +136,14 @@ export default function CopyWriting({template}: DemoProps) {
                             return (<div key={`spinner_${index}`}/>);
                         })}
                     </div>
-                    <p>Requesting context using SID's API...</p>
+                    <p>Requesting context using SID&apos;s API...</p>
                 </div>
                 <div className={`${styles.checkmark} ${styles.spinnerInner}`}
                      style={{display: spinnerState == SpinnerState.CHECKMARK ? 'flex' : 'none'}}>
                     <svg viewBox="0 0 100 100">
                         <path d="M 20.973 50.487 L 43.27 75.048 L 94.305 23.366" className={styles.checkmarkSVG}/>
                     </svg>
-                    <p>Context received from SID's API.</p>
+                    <p>Context received from SID&apos;s API.</p>
                 </div>
             </div>
             <div className={styles.textEditorContainer}>
