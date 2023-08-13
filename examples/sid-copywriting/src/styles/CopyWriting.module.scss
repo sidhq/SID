@@ -209,7 +209,7 @@
               content: '';
               display: inline-block;
               width: 0.1em;
-              height: v.$p;
+              height: v.$p*0.9;
               animation: blink 1s steps(1, start) infinite;
             }
 

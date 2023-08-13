@@ -790,7 +790,7 @@ export default function EmailWriting({template}: DemoProps) {
                             return (
                                 <span key={`email_with_sid_${index}`} dangerouslySetInnerHTML={{__html: message}}/>);
                         }) : ''}
-                            <span className={styles.cursor}/>
+                            <span className={styles.cursor} style={{display: spinnerState == SpinnerState.CHECKMARK ? '' : 'none'}}/>
                         </p>
                     </div>
                     <div className={styles.textEditorWithoutSID}>
@@ -799,7 +799,7 @@ export default function EmailWriting({template}: DemoProps) {
                             return (
                                 <span key={`email_without_sid_${index}`} dangerouslySetInnerHTML={{__html: message}}/>);
                         }) : ''}
-                            <span className={styles.cursor}/>
+                            <span className={styles.cursor} style={{display: spinnerState == SpinnerState.CHECKMARK ? '' : 'none'}}/>
                         </p>
                     </div>
                 </div>

@@ -156,7 +156,7 @@ export default function CopyWriting({template}: DemoProps) {
                         <p ref={typingState ? typingState.get('withSIDRef')?.typingRef as unknown as React.RefObject<HTMLInputElement> : null}>{typingState ? typingState.get('withSIDRef')?.typingOutput.map((message, index) => {
                             return (<span key={`copy_with_sid_${index}`} dangerouslySetInnerHTML={{__html: message}}/>);
                         }) : ''}
-                            <span className={styles.cursor}/>
+                            <span className={styles.cursor} style={{display: spinnerState == SpinnerState.CHECKMARK ? '' : 'none'}}/>
                         </p>
                     </div>
                     <div className={styles.textEditorWithoutSID}>
@@ -165,7 +165,7 @@ export default function CopyWriting({template}: DemoProps) {
                             return (
                                 <span key={`copy_without_sid_${index}`} dangerouslySetInnerHTML={{__html: message}}/>);
                         }) : ''}
-                            <span className={styles.cursor}/>
+                            <span className={styles.cursor} style={{display: spinnerState == SpinnerState.CHECKMARK ? '' : 'none'}}/>
                         </p>
                     </div>
                 </div>
