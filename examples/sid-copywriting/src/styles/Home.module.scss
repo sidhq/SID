@@ -1,11 +1,11 @@
 @use 'variables' as v;
 
 .mainWrapper {
-  $horizontal-padding: 30px;
+  $horizontal-padding: 1px;
   min-height: calc(100vh - ($horizontal-padding * 2));
   max-width: 900px;
   margin: 0 auto;
-  padding: $horizontal-padding 20px;
+  padding: $horizontal-padding 0px;
   font-family: 'Montserrat', sans-serif;
   color: v.$primary-color;
   display: flex;
