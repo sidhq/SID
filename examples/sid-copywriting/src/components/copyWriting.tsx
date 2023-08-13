@@ -146,11 +146,11 @@ export default function CopyWriting({template}: DemoProps) {
                     <p>Context received from SID&apos;s API.</p>
                 </div>
             </div>
-            <div className={styles.textEditorContainer}>
+            <div className={styles.textEditorContainer} style={{display: spinnerState == SpinnerState.CHECKMARK ? '' : 'none'}}>
                 <div className={styles.textEditorHeader}
                      style={{backgroundImage: 'url(/static/images/text-editor-fake-menu.svg)'}}>
                 </div>
-                <div className={styles.textEditorBody}>
+                <div className={styles.textEditorBody} >
                     <div className={styles.textEditorWithSID}>
                         <h4>Text Generation <span> with SID</span></h4>
                         <p ref={typingState ? typingState.get('withSIDRef')?.typingRef as unknown as React.RefObject<HTMLInputElement> : null}>{typingState ? typingState.get('withSIDRef')?.typingOutput.map((message, index) => {

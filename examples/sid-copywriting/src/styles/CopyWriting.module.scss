@@ -169,6 +169,7 @@
       height: $height;
       resize: none;
       overflow: auto;
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
       gap: 5px;

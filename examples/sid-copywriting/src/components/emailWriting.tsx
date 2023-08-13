@@ -763,7 +763,7 @@ export default function EmailWriting({template}: DemoProps) {
                     <p>Context received from SID&apos;s API.</p>
                 </div>
             </div>
-            <div className={styles.textEditorContainer}>
+            <div className={styles.textEditorContainer} style={{display: spinnerState == SpinnerState.CHECKMARK ? '' : 'none'}}>
                 <div className={styles.textEditorHeaderColumns}>
                     <img src={'/static/images/email-client-fake-menu-left.svg'}
                          alt={'email client menu'}/>

@@ -255,6 +255,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       height: $height;
       resize: none;
       overflow: auto;
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
       gap: 5px;
