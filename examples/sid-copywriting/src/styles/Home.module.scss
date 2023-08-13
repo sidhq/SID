@@ -10,12 +10,12 @@
   color: v.$primary-color;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 20px;
 
   .taskContainer {
     gap: 10px;
     margin: 0 auto;
-    text-align:center;
+    text-align: center;
 
     .taskTemplate {
       text-align: center;

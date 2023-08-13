@@ -3,12 +3,35 @@ import CopyWriting from "@/components/copyWriting";
 import EmailWriting from "@/components/emailWriting";
 import Chat from "@/components/chat";
 import {Template, TemplateType} from "@/types";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 
 
 export default function Home() {
+    useEffect(() => {
+        let container = document.body; // Access the iframe's body directly
+        let watcher: any;
+        let lastScrollHeight: number = container.scrollHeight;
 
+        const watch = () => {
+            cancelAnimationFrame(watcher);
+
+            if (lastScrollHeight !== container.scrollHeight) {
+                if(window.parent?.resizeIframeToContentSize){
+                    window.parent?.resizeIframeToContentSize(document.documentElement);
+                }
+            }
+            lastScrollHeight = container.scrollHeight;
+            watcher = requestAnimationFrame(watch);
+        };
+
+        watcher = window.requestAnimationFrame(watch);
+
+        return () => {
+            // Cleanup: Cancel the animation frame request when the component is unmounted
+            cancelAnimationFrame(watcher);
+        };
+    }, []);
 
     const templates: Template[] = [{
         buttonText: 'Twitter Post',

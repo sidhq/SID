@@ -6,6 +6,10 @@
   padding: 20px;
   background-color: v.$black;
 
+  @media (max-width: 550px) {
+    padding: 10px;
+    gap: 20px;
+  }
 
   $border: 1px;
   box-sizing: border-box;
