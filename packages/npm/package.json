@@ -1,12 +1,20 @@
 {
   "name": "@sid-hq/sid",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "Easily connect your LLM apps to your customers' data.",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.esm.js"
+    },
+    "./package.json": "./package.json",
+    "./": "./"
+  },
   "scripts": {
-    "prepublish": "npm run build",
-    "build": "tsc"
+    "build": "rollup -c",
+    "start": "rollup -c -w"
   },
   "repository": {
     "type": "git",
@@ -30,11 +38,21 @@
     "access": "public"
   },
   "peerDependencies": {
-    "react": ">=18.2.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.17",
-    "typescript": "^5.1.6",
-    "react": "^18.2.0"
-  }
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0",
+    "react": "^18.2.0",
+    "rollup": "^3.28.0",
+    "rollup-plugin-sass": "^1.12.20",
+    "rollup-plugin-typescript2": "^0.35.0",
+    "typescript": "^5.1.6"
+  },
+  "type": "module",
+  "files": [
+    "dist"
+  ]
 }
