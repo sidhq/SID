@@ -1,0 +1,36 @@
+{
+  "name": "@sid-hq/sid",
+  "version": "1.0.0-alpha.5",
+  "description": "Easily connect your LLM apps to your customers' data.",
+  "scripts": {
+    "build": "rollup -c --bundleConfigAsCjs"
+  },
+  "keywords": [
+    "llm",
+    "ai",
+    "ml",
+    "gen-ai",
+    "machine-learning",
+    "artificial-intelligence"
+  ],
+  "author": "SID Tech Inc. <support@sid.ai> (https://sid.ai)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sidhq/SID/issues"
+  },
+  "homepage": "https://sid.ai/",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.4",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-typescript": "^11.1.2",
+    "@types/react": "^18.2.20",
+    "react": "^18.2.0",
+    "rollup": "^3.28.0",
+    "rollup-plugin-dts": "^5.3.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "typescript": "^5.1.6"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts"
+}
