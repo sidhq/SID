@@ -1,20 +1,6 @@
 import React, {useState} from 'react';
+import {ConnectSidButtonProps, sidSVGProps} from "./SIDButton.types";
 
-type ConnectSidButtonProps = {
-    width?: number;
-    height?: number;
-    fontScale?: number;
-    isConnected?: boolean;
-    onDisconnect?: () => void;
-    href?: string;
-    className?: string;
-}
-
-type sidSVGProps = {
-    width: number | undefined;
-    height: number | undefined;
-    fill: string;
-}
 
 function SidSVG({width, height, fill}: sidSVGProps) {
     return <svg width={width} height={height} viewBox="0 0 220 94" fill="none" xmlns="http://www.w3.org/2000/svg">
