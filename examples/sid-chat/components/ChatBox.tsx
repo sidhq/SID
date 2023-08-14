@@ -6,8 +6,13 @@ import axios from "axios";
 import {getCookie} from "@/utils";
 import TerminalMessage from "@/components/TerminalMessage";
 
+export interface IUser {
+    name: string;
+    avatar: string;
+}
 interface IMessage {
     isAIMessage: boolean;
+    user: IUser;
     content: string;
     isTypingIndicator?: boolean;
 }
@@ -35,6 +40,7 @@ const ChatBox: React.FC = () => {
     const [inputValue, setInputValue] = useState<string>('');  // State for input field
     const [messagesRightChat, setMessagesRightChat] = useState<IMessage[]>([]);  //State for right chat window, gpt+sid
     const [messagesLeftChat, setMessagesLeftChat] = useState<IMessage[]>([]);  //State for left chat window, gpt only
+    const [messagesChat, setMessagesChat] = useState<IMessage[]>([]);  //State for chat window, gpt only
     const [terminalMessages, setTerminalMessages] = useState<ITerminalMessages[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);  // State for loading indicator
     const [isSIDConnected, setIsSIDConnected] = useState<boolean>(false);  // State for SID connection
@@ -85,6 +91,20 @@ const ChatBox: React.FC = () => {
 
         return {userInput: curlCommand, userInputCopy: curlCommandCopy};
     }
+    const chatGPTSID : IUser = {
+        name: 'ChatGPT + SID',
+        avatar: 'https://i.imgur.com/7k12EPD.png'
+    }
+
+    const chatGPT : IUser = {
+        name: 'ChatGPT',
+        avatar: 'https://i.imgur.com/7k12EPD.png'
+    }
+
+    const humanUser : IUser = {
+        name: 'You',
+        avatar: 'https://i.imgur.com/7k12EPD.png'
+    }
 
     const handleSend = async () => {
         if (isLoading || inputValue == '') return;
@@ -95,19 +115,34 @@ const ChatBox: React.FC = () => {
         setTerminalUserInput(getCURLString(accessToken, query, limit));
         const oldMessagesRight: IMessage[] = [...messagesRightChat, {
             isAIMessage: false,
+            user: humanUser,
             content: query,
         }];
         const oldMessagesLeft: IMessage[] = [...messagesLeftChat, {
             isAIMessage: false,
+            user: humanUser,
             content: query,
         }];
         setMessagesRightChat([...oldMessagesRight, {
             isAIMessage: true,
+            user: chatGPTSID,
             content: '',
             isTypingIndicator: true,
         }]);
         setMessagesLeftChat([...oldMessagesLeft, {
             isAIMessage: true,
+            user: chatGPT,
+            content: '',
+            isTypingIndicator: true,
+        }]);
+        setMessagesChat([...oldMessagesLeft, {
+            isAIMessage: true,
+            user: chatGPT,
+            content: '',
+            isTypingIndicator: true,
+        },{
+            isAIMessage: true,
+            user: chatGPTSID,
             content: '',
             isTypingIndicator: true,
         }]);
@@ -141,16 +176,46 @@ const ChatBox: React.FC = () => {
             const [responseSID, responseNoSID] = await Promise.all(promises);
 
             setIsLoading(false);
-            if (responseSID.status === 200) {
+            if (responseNoSID.status === 200 && responseSID.status === 200) {
                 setMessagesRightChat([...oldMessagesRight, {
                     isAIMessage: true,
+                    user: chatGPTSID,
                     content: responseSID.data.answer,
                 }]);
-            }
-
-            if (responseNoSID.status === 200) {
                 setMessagesLeftChat([...oldMessagesLeft, {
                     isAIMessage: true,
+                    user: chatGPT,
+                    content: responseNoSID.data.answer,
+                }]);
+                setMessagesChat([...oldMessagesRight, {
+                    isAIMessage: true,
+                    user: chatGPT,
+                    content: responseNoSID.data.answer,
+                }, {
+                    isAIMessage: true,
+                    user: chatGPTSID,
+                    content: responseSID.data.answer,
+                }]);
+            } else if (responseSID.status === 200) {
+                setMessagesRightChat([...oldMessagesRight, {
+                    isAIMessage: true,
+                    user: chatGPTSID,
+                    content: responseSID.data.answer,
+                }]);
+                setMessagesChat([...oldMessagesRight, {
+                    isAIMessage: true,
+                    user: chatGPTSID,
+                    content: responseSID.data.answer,
+                }]);
+            } else if (responseNoSID.status === 200) {
+                setMessagesLeftChat([...oldMessagesLeft, {
+                    isAIMessage: true,
+                    user: chatGPT,
+                    content: responseNoSID.data.answer,
+                }]);
+                setMessagesChat([...oldMessagesRight, {
+                    isAIMessage: true,
+                    user: chatGPT,
                     content: responseNoSID.data.answer,
                 }]);
             }
@@ -160,12 +225,19 @@ const ChatBox: React.FC = () => {
             const userErrorMessage: string = 'Something went wrong. Sorry for that! Please refresh the page and try again.';
             setMessagesRightChat([...messagesRightChat, {
                 isAIMessage: true,
+                user: chatGPTSID,
+                content: userErrorMessage,
+            }]);
+            setMessagesChat([...messagesRightChat, {
+                isAIMessage: true,
+                user: chatGPTSID,
                 content: userErrorMessage,
             }]);
             setRawDataSID(JSON.stringify(
                 {error: userErrorMessage}, null, 2));
             setMessagesLeftChat([...oldMessagesLeft, {
                 isAIMessage: true,
+                user: chatGPT,
                 content: userErrorMessage,
             }]);
 
@@ -212,37 +284,16 @@ const ChatBox: React.FC = () => {
     }, [terminalUserInput, rawDataSID, terminalIsTyping]);
 
     useEffect(() => {
-        if (rightChatRef.current) {
-            rightChatRef.current.scrollTop = rightChatRef.current.scrollHeight;
-        }
-    }, [messagesRightChat]);
-
-    useEffect(() => {
         if (leftChatRef.current) {
             leftChatRef.current.scrollTop = leftChatRef.current.scrollHeight;
         }
-    }, [messagesLeftChat]);
+    }, [messagesChat]);
 
     useEffect(() => {
         if (terminalRef.current) {
             terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
         }
     }, [terminalMessages]);
-
-
-    useEffect(() => {
-        setMessagesRightChat([{
-            isAIMessage: true,
-            content: 'Hi, I am ChatGPT! How can I help you today?',
-        }]);
-    }, []);
-
-    useEffect(() => {
-        setMessagesLeftChat([{
-            isAIMessage: true,
-            content: 'Hi, I am ChatGPT! How can I help you today?',
-        }]);
-    }, []);
 
     useEffect(() => {
         const refreshToken = getCookie('refreshToken');
@@ -265,13 +316,9 @@ const ChatBox: React.FC = () => {
             </div>
             <div className={styles.chatBoxWrapper}>
                 <div className={styles.chatBoxLeft} ref={leftChatRef}>
-                    {messagesLeftChat.map((message, i) =>
-                        <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content} isTypingIndicator={message.isTypingIndicator}/>
-                    )}
-                </div>
-                <div className={styles.chatBoxRight} ref={rightChatRef}>
-                    {messagesRightChat.map((message, i) =>
-                        <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content} isTypingIndicator={message.isTypingIndicator}/>
+                    {messagesChat.map((message, i) =>
+                        <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content} user={message.user}
+                                     isTypingIndicator={message.isTypingIndicator}/>
                     )}
                 </div>
             </div>
