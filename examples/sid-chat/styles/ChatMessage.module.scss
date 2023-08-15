@@ -61,25 +61,13 @@
 
 
   .aiMessage {
-    background: linear-gradient(
-                    0deg,
-                    rgba(variables.$secondary-color, 0.80) 0%,
-                    rgba(variables.$secondary-color, 1) 50%,
-                    rgba(variables.$secondary-color, 0.80) 100%
-    );
-    border-top-left-radius: 0;
     color: variables.$primary-color;
     text-align: left;
   }
 
   .userMessage {
-    background: linear-gradient(
-                    0deg,
-                    rgba(variables.$primary-color, 0.90) 0%,
-                    rgba(variables.$primary-color, 1) 50%,
-                    rgba(variables.$primary-color, 0.90) 100%
-    );
-    border-top-right-radius: 0;
+    background: white;
+    border-bottom-right-radius: 0;
     color: variables.$secondary-color;
     text-align: left !important
   }

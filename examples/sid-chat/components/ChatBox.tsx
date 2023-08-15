@@ -1,15 +1,16 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import styles from '@/styles/ChatBox.module.scss';
-import SidSVG from "@/components/SidSVG";
 import ChatMessage from "@/components/ChatMessage";
 import axios from "axios";
 import {getCookie} from "@/utils";
 import TerminalMessage from "@/components/TerminalMessage";
+import Chat from "@/components/Chat";
 
 export interface IUser {
     name: string;
     avatar: string;
 }
+
 interface IMessage {
     isAIMessage: boolean;
     user: IUser;
@@ -31,9 +32,6 @@ interface userInputTuple {
 
 const ChatBox: React.FC = () => {
 
-
-    const inputRef = React.createRef<HTMLInputElement>();
-    const rightChatRef = React.createRef<HTMLDivElement>();
     const leftChatRef = React.createRef<HTMLDivElement>();
     const terminalRef = React.createRef<HTMLDivElement>();
 
@@ -43,7 +41,6 @@ const ChatBox: React.FC = () => {
     const [messagesChat, setMessagesChat] = useState<IMessage[]>([]);  //State for chat window, gpt only
     const [terminalMessages, setTerminalMessages] = useState<ITerminalMessages[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);  // State for loading indicator
-    const [isSIDConnected, setIsSIDConnected] = useState<boolean>(false);  // State for SID connection
     const [rawDataSID, setRawDataSID] = useState<string>('');  // State for raw data from SID
     const [terminalUserInput, setTerminalUserInput] = useState<userInputTuple | null>(null);  // State for user input in terminal
     const [terminalIsTyping, setTerminalIsTyping] = useState<boolean>(false);  // State for typing indicator in terminal
@@ -91,19 +88,20 @@ const ChatBox: React.FC = () => {
 
         return {userInput: curlCommand, userInputCopy: curlCommandCopy};
     }
-    const chatGPTSID : IUser = {
+
+    const chatGPTSID: IUser = {
         name: 'ChatGPT + SID',
-        avatar: 'https://i.imgur.com/7k12EPD.png'
+        avatar: 'static/images/sid-emoji.svg'
     }
 
-    const chatGPT : IUser = {
+    const chatGPT: IUser = {
         name: 'ChatGPT',
-        avatar: 'https://i.imgur.com/7k12EPD.png'
+        avatar: 'static/images/chatgpt-emoji.svg'
     }
 
-    const humanUser : IUser = {
+    const humanUser: IUser = {
         name: 'You',
-        avatar: 'https://i.imgur.com/7k12EPD.png'
+        avatar: ''
     }
 
     const handleSend = async () => {
@@ -140,7 +138,7 @@ const ChatBox: React.FC = () => {
             user: chatGPT,
             content: '',
             isTypingIndicator: true,
-        },{
+        }, {
             isAIMessage: true,
             user: chatGPTSID,
             content: '',
@@ -244,13 +242,6 @@ const ChatBox: React.FC = () => {
         }
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            handleSend();
-        }
-    }
-
     useEffect(() => {
         //if new user input
         if (terminalUserInput) {
@@ -309,44 +300,31 @@ const ChatBox: React.FC = () => {
     }, []);
 
     return (
-        <div className={styles.mainWrapper}>
-            <div className={styles.headingWrapper}>
-                <h3>ChatGPT</h3>
-                <h3>ChatGPT + <SidSVG width={35} height={35} fill={'#F4E7D4'}/></h3>
-            </div>
-            <div className={styles.chatBoxWrapper}>
-                <div className={styles.chatBoxLeft} ref={leftChatRef}>
-                    {messagesChat.map((message, i) =>
-                        <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content} user={message.user}
-                                     isTypingIndicator={message.isTypingIndicator}/>
-                    )}
+        <>
+            <Chat
+                value={inputValue}
+                disabled={isLoading}
+                handleInputChange={handleInputChange}
+                handleSend={handleSend}
+            >
+                {messagesChat.map((message, i) =>
+                    <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content}
+                                 user={message.user}
+                                 isTypingIndicator={message.isTypingIndicator}/>
+                )}
+            </Chat>
+            <div className={styles.mainWrapper}>
+                <div className={styles.rawDataWrapper}>
+                    <h4>SID Terminal</h4>
+                    <div className={styles.terminal} ref={terminalRef}>
+                        {terminalMessages.map((message, i) =>
+                            <TerminalMessage key={i} isUserCommand={message.isUserCommand} content={message.content}
+                                             clipboardContent={message.copyableContent}/>
+                        )}
+                    </div>
                 </div>
             </div>
-            <div className={styles.rawDataWrapper}>
-                <h4>SID Terminal</h4>
-                <div className={styles.terminal} ref={terminalRef}>
-                    {terminalMessages.map((message, i) =>
-                        <TerminalMessage key={i} isUserCommand={message.isUserCommand} content={message.content}
-                                         clipboardContent={message.copyableContent}/>
-                    )}
-                </div>
-            </div>
-            <div className={styles.chatBoxInputWrapper}>
-                <input
-                    className={styles.chatBoxInput}
-                    placeholder="Write a reply..."
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    onKeyDown={handleKeyDown}
-                />
-                <button
-                    className={styles.chatBoxSendButton}
-                    onClick={handleSend}
-                    disabled={isLoading}
-                >Send
-                </button>
-            </div>
-        </div>
+        </>
     );
 }
 
