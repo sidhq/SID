@@ -1,0 +1,7 @@
+@mixin font-size($fontSize, $mobileFontSize) {
+  font-size: $fontSize;
+
+  @media (max-width: 420px) {
+    font-size: $mobileFontSize;
+  }
+}

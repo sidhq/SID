@@ -1,4 +1,4 @@
-@use "variables";
+@use 'variables' as v;
 
 @media (max-width: 1100px) {
 
@@ -23,25 +23,28 @@
 
 }
 
-.mainWrapper {
-  min-height: 100vh;
-  max-width: 1200px;
-  margin: 0 auto;
-  background-color: rgba(variables.$secondary-color, 0.9);
-  box-shadow: 0 4px 4px 0 variables.$black;
+.header {
+  display: flex;
+  justify-content: space-between;
   font-family: 'Montserrat', sans-serif;
-  color: variables.$primary-color;
+  align-items: center;
+}
 
-  .innerWrapper {
-    padding: 40px 0;
-    margin: 0 auto;
-    max-width:1000px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+.mainWrapper {
+
+  $horizontal-padding: 30px;
+  min-height: calc(100vh - ($horizontal-padding * 2));
+  max-width: 900px;
+  margin: 0 auto;
+  padding: $horizontal-padding 0;
+  font-family: 'Montserrat', sans-serif;
+  color: v.$primary-color;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 
     h1 {
-      font-size: variables.$h1;
+      font-size: v.$h1;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
@@ -49,7 +52,7 @@
     }
 
     p {
-      font-size: variables.$p;
+      font-size: v.$p;
       font-style: normal;
       font-weight: 400;
       line-height: 2.5;
@@ -58,21 +61,12 @@
 
     .infoTop {
       display: flex;
-      justify-content: space-between;
-      align-items: stretch;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
       gap: 20px;
-
-      .buttonWrapper{
-        display:flex;
-        flex-direction:column;
-        gap: 10px;
+      .sidButton {
+        border: 0.5px solid rgba(v.$primary-color, 0.2);
       }
     }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-      font-weight: 700;
-    }
   }
-}

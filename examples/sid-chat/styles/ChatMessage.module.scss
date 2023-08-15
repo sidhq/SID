@@ -3,11 +3,25 @@
 .aiMessageWrapper {
   text-align: left;
 }
-.userMessageWrapper{
+
+.userMessageWrapper {
   text-align: right;
+  justify-content: flex-end;
 }
 
 .messageWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .avatarWrapper{
+    border: 0.5px solid rgba(variables.$primary-color, 0.2);
+    border-radius: 8px;
+    padding: 5px;
+    img{
+      /*center content*/
+        display: block;
+    }
+  }
 
   .message {
     max-width: 80%;
@@ -32,6 +46,7 @@
         color: rgba(variables.$primary-color, 1);
       }
     }
+
     .isTyping {
 
       span {
@@ -61,25 +76,13 @@
 
 
   .aiMessage {
-    background: linear-gradient(
-                    0deg,
-                    rgba(variables.$secondary-color, 0.80) 0%,
-                    rgba(variables.$secondary-color, 1) 50%,
-                    rgba(variables.$secondary-color, 0.80) 100%
-    );
-    border-top-left-radius: 0;
     color: variables.$primary-color;
     text-align: left;
   }
 
   .userMessage {
-    background: linear-gradient(
-                    0deg,
-                    rgba(variables.$primary-color, 0.90) 0%,
-                    rgba(variables.$primary-color, 1) 50%,
-                    rgba(variables.$primary-color, 0.90) 100%
-    );
-    border-top-right-radius: 0;
+    background: white;
+    border-bottom-right-radius: 0;
     color: variables.$secondary-color;
     text-align: left !important
   }

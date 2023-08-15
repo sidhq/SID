@@ -1,0 +1,24 @@
+@use 'variables' as v;
+
+
+.requestAccessLink {
+  background-color: v.$primary-color;
+  color: v.$secondary-color !important;
+  display: inline-flex;
+  align-items: center;
+  flex-direction: row;
+  font-weight: 600 !important;
+  $font-size: v.$h3;
+  padding: 10px;
+  font-size: $font-size;
+  border-radius: 10px;
+
+  &::after {
+    transform: scale(1, 1.5);
+    display: inline-block;
+    font-size: $font-size*0.8;
+    margin-left: 7.5px;
+    content: '>';
+  }
+}
+

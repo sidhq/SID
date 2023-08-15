@@ -1,5 +1,4 @@
 @use 'variables' as v;
-@import 'mixins';
 
 .mainWrapperChat {
   display: flex;
@@ -41,7 +40,22 @@
       display: flex;
       flex-direction: column;
       gap: 30px;
-      padding: 20px 0;
+      padding: 20px 10px;
+      height: 400px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: rgba( #fff, 0.1);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #fff;
+        border-radius: 10px;
+      }
 
       .chatMessage {
         display: flex;
@@ -61,6 +75,7 @@
           margin: 0;
         }
       }
+
       .humanMessage {
         background-color: #fff;
         color: v.$secondary-color;
@@ -68,6 +83,7 @@
         border-radius: 10px 10px 0 10px;
         align-self: flex-end;
       }
+
       .sidgptMessage, .chatgptMessage {
         margin-right: 50px;
       }
@@ -86,7 +102,7 @@
       align-items: center;
 
       input {
-        @include font-size(v.$p, v.$mobile-p);
+        font-size: v.$p;
         flex: 1;
         outline: none;
       }

@@ -1,13 +1,19 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import styles from '@/styles/ChatBox.module.scss';
-import SidSVG from "@/components/SidSVG";
 import ChatMessage from "@/components/ChatMessage";
 import axios from "axios";
 import {getCookie} from "@/utils";
 import TerminalMessage from "@/components/TerminalMessage";
+import Chat from "@/components/Chat";
+
+export interface IUser {
+    name: string;
+    avatar: string;
+}
 
 interface IMessage {
     isAIMessage: boolean;
+    user: IUser;
     content: string;
     isTypingIndicator?: boolean;
 }
@@ -26,18 +32,15 @@ interface userInputTuple {
 
 const ChatBox: React.FC = () => {
 
-
-    const inputRef = React.createRef<HTMLInputElement>();
-    const rightChatRef = React.createRef<HTMLDivElement>();
     const leftChatRef = React.createRef<HTMLDivElement>();
     const terminalRef = React.createRef<HTMLDivElement>();
 
     const [inputValue, setInputValue] = useState<string>('');  // State for input field
     const [messagesRightChat, setMessagesRightChat] = useState<IMessage[]>([]);  //State for right chat window, gpt+sid
     const [messagesLeftChat, setMessagesLeftChat] = useState<IMessage[]>([]);  //State for left chat window, gpt only
+    const [messagesChat, setMessagesChat] = useState<IMessage[]>([]);  //State for chat window, gpt only
     const [terminalMessages, setTerminalMessages] = useState<ITerminalMessages[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);  // State for loading indicator
-    const [isSIDConnected, setIsSIDConnected] = useState<boolean>(false);  // State for SID connection
     const [rawDataSID, setRawDataSID] = useState<string>('');  // State for raw data from SID
     const [terminalUserInput, setTerminalUserInput] = useState<userInputTuple | null>(null);  // State for user input in terminal
     const [terminalIsTyping, setTerminalIsTyping] = useState<boolean>(false);  // State for typing indicator in terminal
@@ -86,6 +89,21 @@ const ChatBox: React.FC = () => {
         return {userInput: curlCommand, userInputCopy: curlCommandCopy};
     }
 
+    const chatGPTSID: IUser = {
+        name: 'ChatGPT + SID',
+        avatar: 'static/images/sid-emoji.svg'
+    }
+
+    const chatGPT: IUser = {
+        name: 'ChatGPT',
+        avatar: 'static/images/chatgpt-emoji.svg'
+    }
+
+    const humanUser: IUser = {
+        name: 'You',
+        avatar: ''
+    }
+
     const handleSend = async () => {
         if (isLoading || inputValue == '') return;
         setIsLoading(true);
@@ -95,19 +113,40 @@ const ChatBox: React.FC = () => {
         setTerminalUserInput(getCURLString(accessToken, query, limit));
         const oldMessagesRight: IMessage[] = [...messagesRightChat, {
             isAIMessage: false,
+            user: humanUser,
             content: query,
         }];
         const oldMessagesLeft: IMessage[] = [...messagesLeftChat, {
             isAIMessage: false,
+            user: humanUser,
+            content: query,
+        }];
+
+        const oldMessages: IMessage[] = [...messagesChat, {
+            isAIMessage: false,
+            user: humanUser,
             content: query,
         }];
         setMessagesRightChat([...oldMessagesRight, {
             isAIMessage: true,
+            user: chatGPTSID,
             content: '',
             isTypingIndicator: true,
         }]);
         setMessagesLeftChat([...oldMessagesLeft, {
             isAIMessage: true,
+            user: chatGPT,
+            content: '',
+            isTypingIndicator: true,
+        }]);
+        setMessagesChat([...oldMessages, {
+            isAIMessage: true,
+            user: chatGPT,
+            content: '',
+            isTypingIndicator: true,
+        }, {
+            isAIMessage: true,
+            user: chatGPTSID,
             content: '',
             isTypingIndicator: true,
         }]);
@@ -141,16 +180,46 @@ const ChatBox: React.FC = () => {
             const [responseSID, responseNoSID] = await Promise.all(promises);
 
             setIsLoading(false);
-            if (responseSID.status === 200) {
+            if (responseNoSID.status === 200 && responseSID.status === 200) {
                 setMessagesRightChat([...oldMessagesRight, {
                     isAIMessage: true,
+                    user: chatGPTSID,
                     content: responseSID.data.answer,
                 }]);
-            }
-
-            if (responseNoSID.status === 200) {
                 setMessagesLeftChat([...oldMessagesLeft, {
                     isAIMessage: true,
+                    user: chatGPT,
+                    content: responseNoSID.data.answer,
+                }]);
+                setMessagesChat([...oldMessages, {
+                    isAIMessage: true,
+                    user: chatGPT,
+                    content: responseNoSID.data.answer,
+                }, {
+                    isAIMessage: true,
+                    user: chatGPTSID,
+                    content: responseSID.data.answer,
+                }]);
+            } else if (responseSID.status === 200) {
+                setMessagesRightChat([...oldMessagesRight, {
+                    isAIMessage: true,
+                    user: chatGPTSID,
+                    content: responseSID.data.answer,
+                }]);
+                setMessagesChat([...oldMessages, {
+                    isAIMessage: true,
+                    user: chatGPTSID,
+                    content: responseSID.data.answer,
+                }]);
+            } else if (responseNoSID.status === 200) {
+                setMessagesLeftChat([...oldMessagesLeft, {
+                    isAIMessage: true,
+                    user: chatGPT,
+                    content: responseNoSID.data.answer,
+                }]);
+                setMessagesChat([...oldMessages, {
+                    isAIMessage: true,
+                    user: chatGPT,
                     content: responseNoSID.data.answer,
                 }]);
             }
@@ -160,24 +229,24 @@ const ChatBox: React.FC = () => {
             const userErrorMessage: string = 'Something went wrong. Sorry for that! Please refresh the page and try again.';
             setMessagesRightChat([...messagesRightChat, {
                 isAIMessage: true,
+                user: chatGPTSID,
+                content: userErrorMessage,
+            }]);
+            setMessagesChat([...messagesChat, {
+                isAIMessage: true,
+                user: chatGPTSID,
                 content: userErrorMessage,
             }]);
             setRawDataSID(JSON.stringify(
                 {error: userErrorMessage}, null, 2));
             setMessagesLeftChat([...oldMessagesLeft, {
                 isAIMessage: true,
+                user: chatGPT,
                 content: userErrorMessage,
             }]);
 
         }
     };
-
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            handleSend();
-        }
-    }
 
     useEffect(() => {
         //if new user input
@@ -212,37 +281,16 @@ const ChatBox: React.FC = () => {
     }, [terminalUserInput, rawDataSID, terminalIsTyping]);
 
     useEffect(() => {
-        if (rightChatRef.current) {
-            rightChatRef.current.scrollTop = rightChatRef.current.scrollHeight;
-        }
-    }, [messagesRightChat]);
-
-    useEffect(() => {
         if (leftChatRef.current) {
             leftChatRef.current.scrollTop = leftChatRef.current.scrollHeight;
         }
-    }, [messagesLeftChat]);
+    }, [messagesChat]);
 
     useEffect(() => {
         if (terminalRef.current) {
             terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
         }
     }, [terminalMessages]);
-
-
-    useEffect(() => {
-        setMessagesRightChat([{
-            isAIMessage: true,
-            content: 'Hi, I am ChatGPT! How can I help you today?',
-        }]);
-    }, []);
-
-    useEffect(() => {
-        setMessagesLeftChat([{
-            isAIMessage: true,
-            content: 'Hi, I am ChatGPT! How can I help you today?',
-        }]);
-    }, []);
 
     useEffect(() => {
         const refreshToken = getCookie('refreshToken');
@@ -258,23 +306,19 @@ const ChatBox: React.FC = () => {
     }, []);
 
     return (
-        <div className={styles.mainWrapper}>
-            <div className={styles.headingWrapper}>
-                <h3>ChatGPT</h3>
-                <h3>ChatGPT + <SidSVG width={35} height={35} fill={'#F4E7D4'}/></h3>
-            </div>
-            <div className={styles.chatBoxWrapper}>
-                <div className={styles.chatBoxLeft} ref={leftChatRef}>
-                    {messagesLeftChat.map((message, i) =>
-                        <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content} isTypingIndicator={message.isTypingIndicator}/>
-                    )}
-                </div>
-                <div className={styles.chatBoxRight} ref={rightChatRef}>
-                    {messagesRightChat.map((message, i) =>
-                        <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content} isTypingIndicator={message.isTypingIndicator}/>
-                    )}
-                </div>
-            </div>
+        <>
+            <Chat
+                value={inputValue}
+                disabled={isLoading}
+                handleInputChange={handleInputChange}
+                handleSend={handleSend}
+            >
+                {messagesChat.map((message, i) =>
+                    <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content}
+                                 user={message.user}
+                                 isTypingIndicator={message.isTypingIndicator}/>
+                )}
+            </Chat>
             <div className={styles.rawDataWrapper}>
                 <h4>SID Terminal</h4>
                 <div className={styles.terminal} ref={terminalRef}>
@@ -284,22 +328,7 @@ const ChatBox: React.FC = () => {
                     )}
                 </div>
             </div>
-            <div className={styles.chatBoxInputWrapper}>
-                <input
-                    className={styles.chatBoxInput}
-                    placeholder="Write a reply..."
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    onKeyDown={handleKeyDown}
-                />
-                <button
-                    className={styles.chatBoxSendButton}
-                    onClick={handleSend}
-                    disabled={isLoading}
-                >Send
-                </button>
-            </div>
-        </div>
+        </>
     );
 }
 

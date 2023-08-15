@@ -1,5 +1,5 @@
 @use 'variables' as v;
-
+@import 'mixins';
 .mainWrapper {
   $horizontal-padding: 1px;
   min-height: calc(100vh - ($horizontal-padding * 2));
@@ -10,20 +10,38 @@
   color: v.$primary-color;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 40px;
+
+  @media (max-width: 420px) {
+    gap: 10px;
+  }
 
   .taskContainer {
     gap: 10px;
     margin: 0 auto;
     text-align: center;
+    @media (max-width: 420px) {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      width: 100%;
+
+      &::-webkit-scrollbar {
+        display:none;
+      }
+    }
 
     .taskTemplate {
 
 
       @media (max-width: 420px) {
-        width:100%;
-        border-radius: 8px;
-        padding: 10px;
+        padding: 10px 20px;
+        white-space: nowrap;
+        border-radius: 50px;
+        &:last-child {
+        }
+        &:first-child {
+        }
       }
 
       text-align: center;
@@ -36,16 +54,18 @@
       display: inline-flex;
       flex-direction: row;
       align-items: center;
-      font-size: v.$h4;
+      @include font-size(v.$h4, v.$mobile-h4);
 
       span {
-        @media (max-width: 420px) {
-          margin-left:25px;
-        }
         &:first-child {
           width: 22px;
           height: 22px;
-          margin-right: 8px;
+          margin-right: 10px;
+          @media (max-width: 420px) {
+            width: 25px;
+            height: 25px;
+            margin-right: 20px;
+          }
           background-repeat: no-repeat;
           background-size: contain;
           display: inline-block;
