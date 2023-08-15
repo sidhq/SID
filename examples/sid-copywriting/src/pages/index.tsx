@@ -23,6 +23,7 @@ export default function Home() {
                 console.log('Resizing iframe to fit content.. New height:', container.scrollHeight);
                 window.parent.postMessage({
                     type: 'resize',
+                    id: 'demo-iframe',
                     height: container.scrollHeight,
                 }, '*');
             }
