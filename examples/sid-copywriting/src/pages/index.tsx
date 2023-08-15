@@ -41,8 +41,8 @@ export default function Home() {
         type: TemplateType.text,
         backgroundImage: 'url(/static/images/twitter.svg)',
         input: 'Write a Twitter post explaining what SID does',
-        outputWithSID: 'Struggling with making your AI app more context-aware? SID <mark class="mark-blue" data-tooltip="Another cool tooltip">simplifies the integration of customer data</mark>. Our API seamlessly handles all - data integrations, storage, and retrieval. We save you months of engineering effort <mark class="mark-red" data-tooltip="hi there">in a single afternoon</mark>.',
-        outputWithoutSID: 'SID (System Identification) is a powerful technique used in engineering to <mark  class="mark-blue" data-tooltip="Wow, tooltips are great!!!">model and analyze dynamic systems</mark>. It helps us understand and predict the behavior of complex systems, enabling us to <mark class="mark-purple" data-tooltip="Wow, tooltips are great!!!">design efficient control strategies</mark>.',
+        outputWithSID: 'Struggling with making your AI app more context-aware? SID simplifies the integration of customer data. Our API seamlessly handles all - data integrations, storage, and retrieval. We save you months of engineering effort in a single afternoon.',
+        outputWithoutSID: 'SID (System Identification) is a powerful technique used in engineering to model and analyze dynamic systems. It helps us understand and predict the behavior of complex systems, enabling us to design efficient control strategies.',
     }, {
         buttonText: 'Sales Outreach',
         type: TemplateType.mail,
