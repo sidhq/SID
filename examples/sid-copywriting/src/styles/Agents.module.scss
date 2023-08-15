@@ -1,0 +1,39 @@
+@use 'variables' as v;
+
+.mainWrapperAgents{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 20px;
+  background-color: v.$black;
+  $border: 1px;
+  align-items: center;
+  box-sizing: border-box;
+  background-clip: padding-box;
+  border: solid $border transparent;
+  border-radius: 15px;
+  position: relative;
+  gap: 10px;
+  $size : 30px;
+  img {
+      display: inline-block;
+      height:$size;
+  }
+  div {
+    font-size:$size;
+    white-space: nowrap;
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    margin: -$border;
+    border-radius: inherit;
+    background: linear-gradient(170deg, v.$highlight-color-1, v.$highlight-color-2);
+  }
+}

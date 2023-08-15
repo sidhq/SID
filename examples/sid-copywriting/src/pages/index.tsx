@@ -2,7 +2,7 @@ import styles from '@/styles/Home.module.scss'
 import CopyWriting from "@/components/copyWriting";
 import EmailWriting from "@/components/emailWriting";
 import Chat from "@/components/chat";
-import Agent from "@/components/agents";
+import Agents from "@/components/agents";
 import {Template, TemplateType} from "@/types";
 import React, {useEffect, useState} from "react";
 
@@ -110,7 +110,7 @@ export default function Home() {
             {activeTemplate?.type === TemplateType.chat && (
                 <Chat template={activeTemplate}/>)}
             {activeTemplate?.type === TemplateType.agent && (
-                <Agent template={activeTemplate}/>)}
+                <Agents template={activeTemplate}/>)}
         </div>
     )
 }
