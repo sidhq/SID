@@ -121,6 +121,12 @@ const ChatBox: React.FC = () => {
             user: humanUser,
             content: query,
         }];
+
+        const oldMessages: IMessage[] = [...messagesChat, {
+            isAIMessage: false,
+            user: humanUser,
+            content: query,
+        }];
         setMessagesRightChat([...oldMessagesRight, {
             isAIMessage: true,
             user: chatGPTSID,
@@ -133,7 +139,7 @@ const ChatBox: React.FC = () => {
             content: '',
             isTypingIndicator: true,
         }]);
-        setMessagesChat([...oldMessagesLeft, {
+        setMessagesChat([...oldMessages, {
             isAIMessage: true,
             user: chatGPT,
             content: '',
@@ -185,7 +191,7 @@ const ChatBox: React.FC = () => {
                     user: chatGPT,
                     content: responseNoSID.data.answer,
                 }]);
-                setMessagesChat([...oldMessagesRight, {
+                setMessagesChat([...oldMessages, {
                     isAIMessage: true,
                     user: chatGPT,
                     content: responseNoSID.data.answer,
@@ -200,7 +206,7 @@ const ChatBox: React.FC = () => {
                     user: chatGPTSID,
                     content: responseSID.data.answer,
                 }]);
-                setMessagesChat([...oldMessagesRight, {
+                setMessagesChat([...oldMessages, {
                     isAIMessage: true,
                     user: chatGPTSID,
                     content: responseSID.data.answer,
@@ -211,7 +217,7 @@ const ChatBox: React.FC = () => {
                     user: chatGPT,
                     content: responseNoSID.data.answer,
                 }]);
-                setMessagesChat([...oldMessagesRight, {
+                setMessagesChat([...oldMessages, {
                     isAIMessage: true,
                     user: chatGPT,
                     content: responseNoSID.data.answer,
@@ -226,7 +232,7 @@ const ChatBox: React.FC = () => {
                 user: chatGPTSID,
                 content: userErrorMessage,
             }]);
-            setMessagesChat([...messagesRightChat, {
+            setMessagesChat([...messagesChat, {
                 isAIMessage: true,
                 user: chatGPTSID,
                 content: userErrorMessage,
@@ -313,15 +319,13 @@ const ChatBox: React.FC = () => {
                                  isTypingIndicator={message.isTypingIndicator}/>
                 )}
             </Chat>
-            <div className={styles.mainWrapper}>
-                <div className={styles.rawDataWrapper}>
-                    <h4>SID Terminal</h4>
-                    <div className={styles.terminal} ref={terminalRef}>
-                        {terminalMessages.map((message, i) =>
-                            <TerminalMessage key={i} isUserCommand={message.isUserCommand} content={message.content}
-                                             clipboardContent={message.copyableContent}/>
-                        )}
-                    </div>
+            <div className={styles.rawDataWrapper}>
+                <h4>SID Terminal</h4>
+                <div className={styles.terminal} ref={terminalRef}>
+                    {terminalMessages.map((message, i) =>
+                        <TerminalMessage key={i} isUserCommand={message.isUserCommand} content={message.content}
+                                         clipboardContent={message.copyableContent}/>
+                    )}
                 </div>
             </div>
         </>

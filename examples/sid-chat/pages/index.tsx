@@ -76,6 +76,7 @@ const Home: React.FC<HomeProps> = ({initialIsConnected, sidURL}) => {
                                isConnected={isConnected}
                                onDisconnect={handleDisconnect}
                                href={sidURL}
+                               className={styles.sidButton}
 
                     />
                     {isConnected ? <AccessTokenContainer/> : null}

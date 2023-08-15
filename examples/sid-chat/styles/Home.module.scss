@@ -65,5 +65,8 @@
       justify-content: center;
       flex-direction: row;
       gap: 20px;
+      .sidButton {
+        border: 0.5px solid rgba(v.$primary-color, 0.2);
+      }
     }
   }

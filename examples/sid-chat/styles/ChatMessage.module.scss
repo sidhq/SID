@@ -3,11 +3,25 @@
 .aiMessageWrapper {
   text-align: left;
 }
-.userMessageWrapper{
+
+.userMessageWrapper {
   text-align: right;
+  justify-content: flex-end;
 }
 
 .messageWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .avatarWrapper{
+    border: 0.5px solid rgba(variables.$primary-color, 0.2);
+    border-radius: 8px;
+    padding: 5px;
+    img{
+      /*center content*/
+        display: block;
+    }
+  }
 
   .message {
     max-width: 80%;
@@ -32,6 +46,7 @@
         color: rgba(variables.$primary-color, 1);
       }
     }
+
     .isTyping {
 
       span {
