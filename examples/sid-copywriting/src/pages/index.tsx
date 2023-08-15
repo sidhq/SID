@@ -24,7 +24,7 @@ export default function Home() {
                 window.parent.postMessage({
                     type: 'resize',
                     height: container.scrollHeight,
-                });
+                }, '*');
             }
             lastScrollHeight = container.scrollHeight;
             watcher = requestAnimationFrame(watch);
