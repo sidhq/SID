@@ -6,6 +6,9 @@ import Link from "next/link";
 import ChatBox from "@/components/ChatBox";
 import AccessTokenContainer from "@/components/AccessTokenContainer";
 import {SIDButton} from "@sid-hq/sid";
+import SignUpToday from "@/components/SignUpToday";
+import RequestAccessButton from "@/components/RequestAccessButton";
+import SidSVG from "@/components/SidSVG";
 
 type HomeProps = {
     initialIsConnected: boolean;
@@ -56,14 +59,17 @@ const Home: React.FC<HomeProps> = ({initialIsConnected, sidURL}) => {
         }
     }
     return (
-        <div className={styles.mainWrapper}>
-            <h1>SID Chat</h1>
-            <div className={styles.infoTop}>
-                <p>
-                    Want to see yourself what SID can do for you?<br/>
-                    Try this side-by-side of a SID-enabled chat assistant and regular ChatGPT!
+        <>
+            <header className={styles.header}>
+                <SidSVG width={75} height={75} fill={'#F4E7D4'}/>
+                <RequestAccessButton/>
+            </header>
+            <div className={styles.mainWrapper}>
+                <h1>See how SID personalizes LLMs for you</h1>
+                <p>Connect your data with the button below and see how SID provides real-time data as context to the
+                    chat.
                 </p>
-                <div className={styles.buttonWrapper}>
+                <div className={styles.infoTop}>
                     <SIDButton width={330}
                                height={50}
                                fontScale={1}
@@ -74,18 +80,15 @@ const Home: React.FC<HomeProps> = ({initialIsConnected, sidURL}) => {
                     />
                     {isConnected ? <AccessTokenContainer/> : null}
                 </div>
+                <ChatBox/>
+                <SignUpToday/>
+                <p>
+                    By using this demo, you agree to our <Link href={'https://static.sid.ai/privacy.html'}>Privacy
+                    Policy</Link> and <Link href={'https://static.sid.ai/tos.html'}>Terms of Service</Link>.
+                    Please also see <Link href={'https://sid.ai/disclosures'}>disclosures</Link>.
+                </p>
             </div>
-            <ChatBox/>
-            <p>
-                Are you a builder and would like to integrate SID into your own app?
-                Click <Link href={'https://join.sid.ai/'}>here</Link> to join our waitlist!
-            </p>
-            <p>
-                By using this demo, you agree to our <Link href={'https://static.sid.ai/privacy.html'}>Privacy
-                Policy</Link> and <Link href={'https://static.sid.ai/tos.html'}>Terms of Service</Link>.
-                <br/>Please also see <Link href={'https://sid.ai/disclosures'}>disclosures</Link>.
-            </p>
-        </div>
+        </>
     )
 };
 

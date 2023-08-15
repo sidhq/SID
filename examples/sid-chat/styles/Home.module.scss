@@ -23,7 +23,15 @@
 
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Montserrat', sans-serif;
+  align-items: center;
+}
+
 .mainWrapper {
+
   $horizontal-padding: 30px;
   min-height: calc(100vh - ($horizontal-padding * 2));
   max-width: 900px;
@@ -53,20 +61,9 @@
 
     .infoTop {
       display: flex;
-      justify-content: space-between;
-      align-items: stretch;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
       gap: 20px;
-
-      .buttonWrapper{
-        display:flex;
-        flex-direction:column;
-        gap: 10px;
-      }
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-      font-weight: 700;
     }
   }

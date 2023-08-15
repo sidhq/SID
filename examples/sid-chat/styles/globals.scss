@@ -3,7 +3,6 @@
 
 body {
   background-color: variables.$secondary-color;
-  margin: 0;
 }
 
 button {
@@ -21,4 +20,10 @@ input, textarea {
   font-family: inherit;
   overflow-y: hidden;
   resize: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 700;
 }
