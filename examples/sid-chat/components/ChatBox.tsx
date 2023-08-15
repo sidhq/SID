@@ -90,7 +90,7 @@ const ChatBox: React.FC = () => {
     }
 
     const chatGPTSID: IUser = {
-        name: 'ChatGPT + SID',
+        name: 'ChatGPT with SID Context',
         avatar: 'static/images/sid-emoji.svg'
     }
 

@@ -8,7 +8,7 @@
   align-items: center;
   flex-direction: row;
   font-weight: 600 !important;
-  $font-size: v.$h3;
+  $font-size: v.$h3*0.8;
   padding: 10px;
   font-size: $font-size;
   border-radius: 10px;
@@ -16,7 +16,7 @@
   &::after {
     transform: scale(1, 1.5);
     display: inline-block;
-    font-size: $font-size*0.8;
+    font-size: $font-size*0.6;
     margin-left: 7.5px;
     content: '>';
   }

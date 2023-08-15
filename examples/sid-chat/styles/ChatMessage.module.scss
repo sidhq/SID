@@ -13,13 +13,15 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  .avatarWrapper{
+
+  .avatarWrapper {
     border: 0.5px solid rgba(variables.$primary-color, 0.2);
     border-radius: 8px;
     padding: 5px;
-    img{
+
+    img {
       /*center content*/
-        display: block;
+      display: block;
     }
   }
 
@@ -29,6 +31,14 @@
     padding: 10px 15px 10px 15px;
     border-radius: variables.$border-radius;
     box-shadow: variables.$default-shadow-25;
+
+    .messageHeader {
+      font-weight: 700;
+      font-size: variables.$p*1.2;
+      color: rgba(variables.$primary-color, 1);
+      line-height: normal;
+      padding-bottom: 5px;
+    }
 
     > p {
       display: inline;
@@ -81,9 +91,13 @@
   }
 
   .userMessage {
-    background: white;
+    background: variables.$primary-color;
     border-bottom-right-radius: 0;
     color: variables.$secondary-color;
-    text-align: left !important
+    text-align: left !important;
+
+    .messageHeader {
+      color: variables.$secondary-color;
+    }
   }
 }

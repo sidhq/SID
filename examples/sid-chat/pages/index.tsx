@@ -9,6 +9,7 @@ import {SIDButton} from "@sid-hq/sid";
 import SignUpToday from "@/components/SignUpToday";
 import RequestAccessButton from "@/components/RequestAccessButton";
 import SidSVG from "@/components/SidSVG";
+import Head from 'next/head'
 
 type HomeProps = {
     initialIsConnected: boolean;
@@ -60,6 +61,9 @@ const Home: React.FC<HomeProps> = ({initialIsConnected, sidURL}) => {
     }
     return (
         <>
+            <Head>
+                <title>SID Technical Demo</title>
+            </Head>
             <header className={styles.header}>
                 <SidSVG width={75} height={75} fill={'#F4E7D4'}/>
                 <RequestAccessButton/>
@@ -82,12 +86,12 @@ const Home: React.FC<HomeProps> = ({initialIsConnected, sidURL}) => {
                     {isConnected ? <AccessTokenContainer/> : null}
                 </div>
                 <ChatBox/>
-                <SignUpToday/>
                 <p>
                     By using this demo, you agree to our <Link href={'https://static.sid.ai/privacy.html'}>Privacy
                     Policy</Link> and <Link href={'https://static.sid.ai/tos.html'}>Terms of Service</Link>.
                     Please also see <Link href={'https://sid.ai/disclosures'}>disclosures</Link>.
                 </p>
+                <SignUpToday/>
             </div>
         </>
     )

@@ -66,7 +66,10 @@
       flex-direction: row;
       gap: 20px;
       .sidButton {
-        border: 0.5px solid rgba(v.$primary-color, 0.2);
+        border: 2px solid rgba(v.$primary-color, 0.33);
+        /* TODO - make this easily styleable by updating the npm package. also there should be a default night mode available for the button */
+        background-color: v.$primary-color ;
+        color: v.$secondary-color ;
       }
     }
   }
