@@ -20,10 +20,11 @@ export default function Home() {
             cancelAnimationFrame(watcher);
 
             if (lastScrollHeight !== container.scrollHeight) {
-                const myWindowParent = window.parent as MyWindow;
-                if(myWindowParent?.resizeIframeToContentSize){
-                    myWindowParent?.resizeIframeToContentSize(document.documentElement);
-                }
+                console.log('Resizing iframe to fit content.. New height:', container.scrollHeight);
+                window.parent.postMessage({
+                    type: 'resize',
+                    height: container.scrollHeight,
+                });
             }
             lastScrollHeight = container.scrollHeight;
             watcher = requestAnimationFrame(watch);
