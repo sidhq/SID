@@ -31,66 +31,47 @@ input, textarea {
 }
 
 mark {
-  position:relative;
+  position: relative;
   border-radius: 4px;
+  padding-left: 3px;
+  padding-right: 3px;
 
-  &.mark-blue {
-    $color: blue;
-    --hover-color: $color;
-    background: rgba($color, 0.5);
-
-    &:hover {
-      background: $color;
-    }
+  &.mark-1 {
+    background: v.$highlight-color-1;
   }
 
-  &.mark-green {
-    $color: green;
-    --hover-color: $color;
-    background: rgba($color, 0.5);
-
-    &:hover {
-      background: $color;
-    }
-  }
-
-  &.mark-red {
-    $color: red;
-    --hover-color: $color;
-    background: rgba($color, 0.5);
-
-    &:hover {
-      background: $color;
-    }
-  }
-
-  &.mark-purple {
-    $color: purple;
-    --hover-color: $color;
-    background: rgba($color, 0.5);
-
-    &:hover {
-      background: $color;
-    }
-  }
-
-  &::after {
-    content: attr(data-tooltip); // Get the tooltip text from a data-tooltip attribute on the mark element
-    display: none; // Initially hidden
-    position: absolute;
-    transform: translateX(-50%) translateY(-110%); // This will ensure the tooltip is centered
-    top: 0;
-    left: 0;
-    padding: 5px 10px;
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.7); // Semi-transparent black
-    color: white;
-    white-space: nowrap; // Prevents the tooltip text from wrapping
-    @include font-size(v.$tooltip-font-size, v.$mobile-tooltip-font-size);
-    z-index: 1000;
-  }
-
-  &:hover::after {
-    display: block; // Show the tooltip on hover
+  &.mark-2 {
+    background: v.$highlight-color-2;
   }
 }
+
+
+  //&.mark-purple {
+  //  $color: purple;
+  //  --hover-color: $color;
+  //  background: rgba($color, 0.5);
+  //
+  //  &:hover {
+  //    background: $color;
+  //  }
+  //}
+  //
+  //&::after {
+  //  content: attr(data-tooltip); // Get the tooltip text from a data-tooltip attribute on the mark element
+  //  display: none; // Initially hidden
+  //  position: absolute;
+  //  transform: translateX(-50%) translateY(-110%); // This will ensure the tooltip is centered
+  //  top: 0;
+  //  left: 0;
+  //  padding: 5px 10px;
+  //  border-radius: 4px;
+  //  background-color: rgba(0, 0, 0, 0.7); // Semi-transparent black
+  //  color: white;
+  //  white-space: nowrap; // Prevents the tooltip text from wrapping
+  //  @include font-size(v.$tooltip-font-size, v.$mobile-tooltip-font-size);
+  //  z-index: 1000;
+  //}
+  //
+  //&:hover::after {
+  //  display: block; // Show the tooltip on hover
+  //}

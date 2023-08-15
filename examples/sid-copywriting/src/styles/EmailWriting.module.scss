@@ -308,12 +308,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
         .cursor {
           &::before {
-            background: green;
+            background: v.$cursor-color-sid;
           }
 
           &::after {
             content: 'with\00a0SID';
-            background-color: green;
+            background-color: v.$cursor-color-sid;
           }
         }
       }
@@ -324,12 +324,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         .cursor {
 
           &::before {
-            background: red;
+            background: v.$cursor-color-notsid;
           }
 
           &::after {
             content: 'without\00a0SID';
-            background-color: red;
+            background-color: v.$cursor-color-notsid;
           }
         }
       }

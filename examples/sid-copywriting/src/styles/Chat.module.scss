@@ -24,7 +24,7 @@
     z-index: -1;
     margin: -$border;
     border-radius: inherit;
-    background: linear-gradient(170deg, #27F06B, #C72CA5);
+    background: linear-gradient(170deg, v.$highlight-color-1, v.$highlight-color-2);
   }
 
   & > div {

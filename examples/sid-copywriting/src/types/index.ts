@@ -3,7 +3,8 @@ import React from "react";
 export enum TemplateType {
     text,
     mail,
-    chat
+    chat,
+    agent
 }
 
 export type Template = {

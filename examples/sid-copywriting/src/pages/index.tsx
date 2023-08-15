@@ -2,6 +2,7 @@ import styles from '@/styles/Home.module.scss'
 import CopyWriting from "@/components/copyWriting";
 import EmailWriting from "@/components/emailWriting";
 import Chat from "@/components/chat";
+import Agent from "@/components/agents";
 import {Template, TemplateType} from "@/types";
 import React, {useEffect, useState} from "react";
 
@@ -36,49 +37,51 @@ export default function Home() {
         };
     }, []);
 
-    const templates: Template[] = [{
-        buttonText: 'Twitter Post',
-        type: TemplateType.text,
-        backgroundImage: 'url(/static/images/twitter.svg)',
-        input: 'Write a Twitter post explaining what SID does',
-        outputWithSID: 'Struggling with making your AI app more context-aware? SID simplifies the integration of customer data. Our API seamlessly handles all - data integrations, storage, and retrieval. We save you months of engineering effort in a single afternoon.',
-        outputWithoutSID: 'SID (System Identification) is a powerful technique used in engineering to model and analyze dynamic systems. It helps us understand and predict the behavior of complex systems, enabling us to design efficient control strategies.',
-    }, {
-        buttonText: 'Sales Outreach',
-        type: TemplateType.mail,
-        backgroundImage: 'url(/static/images/mail.svg)',
-        input: 'Write 3 sentences explaining why the copywriting AI company {companyName} could use SID. Use an example of how linking mail and knowledge bases can help their product.',
-        outputWithSID: 'SID\'s API simplifies the integration of user data into AI applications. For example, {companyName} could get detailed context on each user\'s prompt by enabling them to link their knowledge base and email history. This allows {companyName} generate more tailored, precise and effective copy.',
-        outputWithoutSID: 'Using Sentence Intent Detection (SID), {companyName}, can generate more relevant and targeted content by understanding the intent behind each sentence. For example, when creating emails, SID can discern whether the user wants to inform, persuade, or inquire. Whether creating knowledge bases or generating emails, SID ensures that {companyName} content is accurate and aligned with the user\s intent.',
-    }, {
-        buttonText: 'Random Quote',
-        type: TemplateType.chat,
-        backgroundImage: 'url(/static/images/brain.svg)',
-        input: 'What did {name} say about benchmarking?',
-        outputWithSID: '{name} said that benchmarks are sometimes overrated and that testing on real user feedback can be more reliable. {name} mentioned that relying too much on benchmarks can lead to tuning solely for those benchmarks rather than focusing on the actual performance and quality of the product.',
-        outputWithoutSID: 'I\'m sorry, but as an AI, I don\'t have access to specific databases or personal data unless it has been shared with me in the course of our conversation. Therefore, I don\'t have any specific information about what {name} said about benchmarking. However, I can provide general information about benchmarking.',
-    }, {
-        buttonText: 'Personal Mail',
-        type: TemplateType.mail,
-        backgroundImage: 'url(/static/images/handshake.svg)',
-        input: 'Write a casual first sentence for an email to {name} that highlights our uncommon commonalities',
-        outputWithSID: 'I hope this email finds you well amidst the {city} startup hustle! As fellow {university} alumni, it\'s amusing to discover that we\'ve both mastered the art of balancing business acumen with coding finesse – who would\'ve thought?',
-        outputWithoutSID: 'Isn\'t it wild how we both seem to march to the beat of the same offbeat drum, sharing some pretty uncommon commonalities?',
-    }, {
-        buttonText: 'Feature Presentation',
-        type: TemplateType.text,
-        backgroundImage: 'url(/static/images/stocks.svg)',
-        input: 'What features would make SID\'s product better?',
-        outputWithSID: 'Feature 1: Expanded Data Source Integration: Adding support for more data sources like Dropbox, Slack, or CRM platforms would allow SID to access a wider range of user data, enabling more comprehensive and personalized AI services. Feature 2. Advanced NLP Capabilities: Enhancing SID\'s NLP capabilities could involve improving sentiment analysis and entity recognition. This would enable a more accurate and nuanced understanding of user data and generate more context-aware responses.',
-        outputWithoutSID: 'I\'m sorry, but I don\'t have information about a specific project or product called "SID" in my training data up until September 2021. Could you please provide more context or details about what "SID" refers to? That way, I can try to offer suggestions on how to improve it.',
-    }, {
-        buttonText: 'Travel Plans',
-        type: TemplateType.chat,
-        backgroundImage: 'url(/static/images/mountain.svg)',
-        input: 'Give me an overview of what we\'ve decided on for Iceland',
-        outputWithSID: 'The trip will take place from {date} to {date}. {name} will arrive at {time} and will have some time to entertain themselves in {city} until you and {name} arrive around {time}. The first two days will be spent driving along the south coast, while the remaining three days will be spent in {city}. {name} will contact a guide to inquire about the possibility of hiking to an active volcano on {date}.',
-        outputWithoutSID: 'I\'m sorry, but I don\'t have access to previous conversations or decisions made regarding Iceland. As an AI language model, I don\'t have the capability to retain information from previous interactions. If you have any specific questions, feel free to ask, and I\'ll do my best to help you.'
-    }];
+    const templates: Template[] = [
+        {
+            buttonText: 'Copywriting',
+            type: TemplateType.text,
+            backgroundImage: 'url(/static/images/copywriting.svg)',
+            input: 'Write a Twitter post explaining what SID does',
+            outputWithSID: 'Struggling to add live data to make your AI apps more personal? SID makes <mark class="mark-2">adding customer data to AI apps easy</mark>. Their API seamlessly handles data integrations, storage, and retrieval. Do in an afternoon what would usually take months.',
+            outputWithoutSID: 'SID (System Identification) is a technique used in engineering to <mark class="mark-2">model and analyze dynamic systems</mark>. It helps us understand and predict the behavior of complex systems, enabling us to design efficient control strategies.',
+        },{
+            buttonText: 'Sales Automation',
+            type: TemplateType.mail,
+            backgroundImage: 'url(/static/images/mail.svg)',
+            input: 'Explain why the AI copywriting company Jasper could need SID. Use an example.',
+            outputWithSID: 'SID\'s API simplifies the <mark class="mark-2">integration of user data into AI applications</mark>. For example, Jasper could <mark class="mark-1">get detailed context on each user</mark>\'s prompt by enabling them to link their knowledge base and email history. This allows Jasper generate <mark class="mark-1" >more tailored, precise and effective copy</mark>.',
+            outputWithoutSID: 'Using  <mark class="mark-2" >Sentence Intent Detection (SID) </mark>, Jasper, can generate more relevant and targeted content by understanding the intent behind each sentence. For example, when creating emails, SID can discern whether the user wants to inform, persuade, or inquire.'
+        },{
+            buttonText:'Long-term LLM Memory',
+            type: TemplateType.chat,
+            backgroundImage: 'url(/static/images/brain.svg)',
+            input: 'Give me an overview of what we\'ve decided on for Iceland',
+            outputWithSID: 'The trip will take place from 09/22 to 09/28. Scott will arrive at 7am and will have some time to entertain themselves in Reykjavik until you arrive around 3pm. The first two days will be spent driving along the south coast, while the remaining three will be spent in Arnarstapi.',
+            outputWithoutSID: 'I\'m sorry, but I don\'t have access to previous conversations regarding Iceland. As an AI language model, I don\'t have the capability to retain information from previous interactions. If you have any specific questions, feel free to ask, and I\'ll do my best to help you.'
+        },{
+            buttonText: 'Question Answering',
+            type: TemplateType.chat,
+            backgroundImage: 'url(/static/images/question.svg)',
+            input: 'What did Jeff say about benchmarking',
+            outputWithSID: 'Jeff said that benchmarks are sometimes overrated and that testing on real user feedback can be more reliable. He mentioned that relying too much on benchmarks can lead to tuning solely for those benchmarks rather than focusing on the actual performance and quality of the product.',
+            outputWithoutSID: 'I\'m sorry, but as an AI, I don\'t have access to specific databases or personal data. Therefore, I don\'t have any specific information about what Jeff said about benchmarking.',
+        },{
+            buttonText: 'Presentation',
+            type: TemplateType.text,
+            backgroundImage: 'url(/static/images/presentation.svg)',
+            input: 'What features would make SID\'s product better?',
+            outputWithSID: '<mark class="mark-2">More Data Sources</mark>: Adding support for more data sources like Dropbox or CRM platforms would allow SID to access a wider range of user data.<br> <mark class="mark-2" >Additional NLP Capabilities</mark>: Enhancing SID\'s NLP capabilities could involve improving entity recognition.',
+            outputWithoutSID: 'I\'m sorry, but I <mark class="mark-2" >don\'t have information</mark> about a specific project or product called "SID" in my <mark class="mark-2">training data up until September 2021</mark>. Could you please provide more context or details about what "SID" refers to? That way, I can try to offer suggestions on how to improve it.'
+        },{
+            buttonText:'Agents',
+            type: TemplateType.agent,
+            backgroundImage: 'url(/static/images/robot.svg)',
+            input: 'Give me an overview of what we\'ve decided on for Iceland',
+            outputWithSID: 'The trip will take place from 09/22 to 09/28. Scott will arrive at 7am and will have some time to entertain themselves in Reykjavik until you arrive around 3pm. The first two days will be spent driving along the south coast, while the remaining three will be spent in Arnarstapi.',
+            outputWithoutSID: 'I\'m sorry, but I don\'t have access to previous conversations regarding Iceland. As an AI language model, I don\'t have the capability to retain information from previous interactions. If you have any specific questions, feel free to ask, and I\'ll do my best to help you.'
+        }
+        ];
 
     const [activeTemplate, setActiveTemplate] = useState<Template | null>(templates[0]);  // queue for messages in terminal
 
@@ -106,7 +109,8 @@ export default function Home() {
                 <EmailWriting template={activeTemplate}/>)}
             {activeTemplate?.type === TemplateType.chat && (
                 <Chat template={activeTemplate}/>)}
-
+            {activeTemplate?.type === TemplateType.agent && (
+                <Agent template={activeTemplate}/>)}
         </div>
     )
 }
