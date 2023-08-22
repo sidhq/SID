@@ -1,6 +1,6 @@
 import {ChatOpenAI} from "langchain/chat_models/openai";
 import {AIChatMessage, BaseChatMessage, HumanChatMessage, SystemChatMessage} from "langchain/schema";
-import { encodingForModel } from "js-tiktoken";
+import {encodingForModel} from "js-tiktoken";
 
 export interface APIResponse {
     results: string[];
@@ -42,19 +42,23 @@ export async function getContext(retrieved: APIResponse, messageHistory: Message
 
     let stringifiedContext = '';
     const encoding = encodingForModel("gpt-4");
-    let total_tokens = 0;
-    let token_threshold = 3000;
+    let totalTokens = 0;
+    let tokenThreshold = 2500;
     for (let i = 0; i < retrieved.results.length; i++) {
         const addition = `${i + 1}. ${retrieved.results[i]} \n`;
-        total_tokens += encoding.encode(addition).length;
-        console.log('total_tokens: ' + total_tokens);
-        console.log('stringifiedContext: ' + stringifiedContext);
-        if (total_tokens < token_threshold) {
+        const tokensInAddition = encoding.encode(addition).length;
+        console.log(`Tokens in addition: ${tokensInAddition}\n`);
+        console.log(`Adding to context: ${addition}\n`);
+        if (totalTokens + tokensInAddition < tokenThreshold) {
+            totalTokens += tokensInAddition;
             stringifiedContext += addition;
+            console.log('Added this chunk, to context..\n\n');
         } else {
-            break;
+            console.log('Skipping this chunk, too large..\n\n');
         }
     }
+    console.log('Total tokens final: ' + totalTokens);
+    console.log('stringifiedContext: ' + stringifiedContext);
     let openAIMessageHistory = [];
     openAIMessageHistory.push(new SystemChatMessage('You are a helpful AI assistant that has access to a highly ' +
         'advanced search engine that helps you find files that contain information about the user. ' +
