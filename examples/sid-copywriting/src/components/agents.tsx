@@ -5,8 +5,12 @@ import {DemoProps} from "@/types";
 export default function Agents({template}: DemoProps) {
     return (
         <div className={styles.mainWrapperAgents}>
-            <img src="/static/images/rocket.svg" alt="Agents" className={styles.agentsImage}/>
-            <div>Launching Soon</div>
+            <div>
+                <p>Check out
+                    <a className={styles.agentGPTLogo} href={'https://agentgpt.reworkd.ai/'}>
+                        <img src="/static/images/reworkd-logo.svg" alt="Agents" className={styles.agentsImage}/>
+                        <span className={styles.agentSpan}>Agent</span><span className={styles.gptSpan}>GPT</span>
+                    </a>to see SID in action!</p></div>
         </div>
     );
 }

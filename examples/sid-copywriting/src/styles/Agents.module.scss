@@ -1,6 +1,6 @@
 @use 'variables' as v;
 
-.mainWrapperAgents{
+.mainWrapperAgents {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -14,14 +14,67 @@
   border-radius: 15px;
   position: relative;
   gap: 10px;
-  $size : 30px;
-  img {
-      display: inline-block;
-      height:$size;
+  $size: 30px;
+
+  --font-size: #{$size};
+  --font-size-l: #{$size * 1.2};
+  @media (max-width: 720px) {
+    padding: 15px;
+    --font-size: #{$size * 0.8};
+    --font-size-l: #{$size * 1};
   }
+  @media (max-width: 600px) {
+    padding: 12px;
+    --font-size: #{$size * 0.64};
+    --font-size-l: #{$size * 0.8};
+  }
+  @media (max-width: 480px) {
+    padding: 8px;
+    --font-size: #{$size * 0.56};
+    --font-size-l: #{$size * 0.7};
+  }
+  @media (max-width: 410px) {
+    padding: 4px;
+    --font-size: #{$size * 0.48};
+    --font-size-l: #{$size * 0.6};
+  }
+  @media (max-width: 350px) {
+    padding: 4px;
+    --font-size: #{$size * 0.4};
+    --font-size-l: #{$size * 0.5};
+  }
+  @media (max-width: 310px) {
+    padding: 4px;
+    --font-size: #{$size * 0.36};
+    --font-size-l: #{$size * 0.45};
+  }
+
   div {
-    font-size:$size;
-    white-space: nowrap;
+    font-size: var(--font-size);
+
+    .agentGPTLogo {
+      white-space: nowrap;
+      margin: 0 5px;
+      padding: 0 5px;
+
+      img {
+        display: inline-block;
+        height: var(--font-size);
+        margin-right: 5px;
+      }
+
+      .agentSpan {
+        color: #C0C0C0;
+      }
+
+      .gptSpan {
+        color: #FFFFFF;
+      }
+
+      font-weight: 700;
+      font-size: var(--font-size-l);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+    }
   }
 
   &:before {
