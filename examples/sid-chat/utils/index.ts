@@ -1,5 +1,6 @@
 import {ChatOpenAI} from "langchain/chat_models/openai";
 import {AIChatMessage, BaseChatMessage, HumanChatMessage, SystemChatMessage} from "langchain/schema";
+import { encodingForModel } from "js-tiktoken";
 
 export interface APIResponse {
     results: string[];
@@ -40,9 +41,17 @@ export async function getContext(retrieved: APIResponse, messageHistory: Message
     });
 
     let stringifiedContext = '';
-
+    const encoding = encodingForModel("gpt-4");
+    let total_tokens = 0;
+    let token_threshold = 3000;
     for (let i = 0; i < retrieved.results.length; i++) {
-        stringifiedContext += `${i + 1}. ${retrieved.results[i]} \n`
+        const addition = `${i + 1}. ${retrieved.results[i]} \n`;
+        total_tokens += encoding.encode(addition).length;
+        if (total_tokens < token_threshold) {
+            stringifiedContext += addition;
+        } else {
+            break;
+        }
     }
     let openAIMessageHistory = [];
     openAIMessageHistory.push(new SystemChatMessage('You are a helpful AI assistant that has access to a highly ' +
