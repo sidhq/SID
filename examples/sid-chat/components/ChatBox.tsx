@@ -108,7 +108,7 @@ const ChatBox: React.FC = () => {
         if (isLoading || inputValue == '') return;
         setIsLoading(true);
         const query = inputValue;
-        const limit = 5;
+        const limit = 20;
         setInputValue('');
         setTerminalUserInput(getCURLString(accessToken, query, limit));
         const oldMessagesRight: IMessage[] = [...messagesRightChat, {
