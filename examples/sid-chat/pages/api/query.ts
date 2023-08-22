@@ -115,14 +115,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (axios.isAxiosError(error)) {
             const serverError = error as AxiosError;
             if (serverError && serverError.response) {
+                console.log("Error: " + JSON.stringify(serverError.response.data));
                 res.status(500).json({error: serverError.response.data});
                 return;
             } else {
+                console.log("Error: " + JSON.stringify(error));
                 res.status(500).json({error: 'Something went wrong'});
                 return;
             }
         } else {
             // unknown error
+            console.log("Error");
             res.status(500).json({error: 'Something went wrong'});
             return;
         }
