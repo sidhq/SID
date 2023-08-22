@@ -47,6 +47,8 @@ export async function getContext(retrieved: APIResponse, messageHistory: Message
     for (let i = 0; i < retrieved.results.length; i++) {
         const addition = `${i + 1}. ${retrieved.results[i]} \n`;
         total_tokens += encoding.encode(addition).length;
+        console.log('total_tokens: ' + total_tokens);
+        console.log('stringifiedContext: ' + stringifiedContext);
         if (total_tokens < token_threshold) {
             stringifiedContext += addition;
         } else {
