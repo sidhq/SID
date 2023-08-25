@@ -3,7 +3,12 @@ import {AIChatMessage, BaseChatMessage, HumanChatMessage, SystemChatMessage} fro
 import {encodingForModel} from "js-tiktoken";
 
 export interface APIResponse {
-    results: string[];
+    results: {
+        score: number;
+        text: string;
+        name: string;
+        kind: string;
+    }[];
 }
 
 type Message = {
@@ -45,7 +50,7 @@ export async function getContext(retrieved: APIResponse, messageHistory: Message
     let totalTokens = 0;
     let tokenThreshold = 2500;
     for (let i = 0; i < retrieved.results.length; i++) {
-        const addition = `${i + 1}. ${retrieved.results[i]} \n`;
+        const addition = `${i + 1}. ${retrieved.results[i].text} \n`;
         const tokensInAddition = encoding.encode(addition).length;
         console.log(`Tokens in addition: ${tokensInAddition}\n`);
         console.log(`Adding to context: ${addition}\n`);
@@ -106,7 +111,7 @@ export const getRevokeEndpoint = (): string => {
 }
 
 export const getAPIEndpoint = (): string => {
-    return new URL('/api/v1/users/me/data/query', getEnvVar('SID_API_ENDPOINT')).toString()
+    return new URL('/v1/users/me/query', getEnvVar('SID_API_ENDPOINT')).toString()
 }
 
 export const getCookie = (cookieName: string): string | undefined => {

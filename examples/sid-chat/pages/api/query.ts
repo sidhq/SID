@@ -6,11 +6,12 @@ import {
     getChatCompletionRefreshTokenMissing,
     getContext,
     getEnvVar,
-    getTokenEndpoint
+    getTokenEndpoint,
+    APIResponse,
 } from "@/utils/"; // Import axios and AxiosError
 
 
-async function callSIDApi(accessToken: string, refreshToken: string, query: string, limit: number): Promise<any> {
+async function callSIDApi(accessToken: string, refreshToken: string, query: string, limit: number): Promise<APIResponse> {
     async function refreshAccessToken(refreshToken: string): Promise<string> {
         // console.log("Refreshing Access Token...");
         const tokenData = {
@@ -25,7 +26,7 @@ async function callSIDApi(accessToken: string, refreshToken: string, query: stri
         const { access_token } = tokenResponse.data;
         return access_token;
     }
-    async function callAPI(accessToken: string, query: string, limit: number): Promise<any> {
+    async function callAPI(accessToken: string, query: string, limit: number): Promise<APIResponse> {
         const externalEndpoint = getAPIEndpoint();
         const axiosData ={
             query: query,
