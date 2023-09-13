@@ -73,14 +73,14 @@ const ChatBox: React.FC = () => {
 
         const curlCommand =
             'curl --request POST \\\n' +
-            `  --url 'https://api.sid.ai/api/v1/users/me/data/query' \\\n` +
+            `  --url 'https://api.sid.ai/v1/users/me/query' \\\n` +
             `  --header 'Authorization: Bearer ${truncated(accessToken)}' \\\n` +
             `  --header 'Content-Type: application/json' \\\n` +
             `  --data '{"query" : "${query}", "limit" : ${limit} }'`
 
         const curlCommandCopy =
             'curl --request POST \\\n' +
-            `  --url 'https://api.sid.ai/api/v1/users/me/data/query' \\\n` +
+            `  --url 'https://api.sid.ai/v1/users/me/query' \\\n` +
             `  --header 'Authorization: Bearer ${accessToken}' \\\n` +
             `  --header 'Content-Type: application/json' \\\n` +
             `  --data '{"query" : "${query}", "limit" : ${limit} }'`
