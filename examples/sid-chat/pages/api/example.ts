@@ -44,7 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const {accessToken, type} = req.body;
     try {
 
-        const response = (await callSIDApi(accessToken, type, 9)).map((r) => r.result.text);
+        const response = (await callSIDApi(accessToken, type, 3)).map((r) => r.result.text);
         console.log(response);
         res.status(200).json({answer : response});
     } catch (error) {
