@@ -7,8 +7,8 @@ export default function RequestAccessButton() {
     return (
             <Link
                 className={styles.requestAccessLink}
-                href="https://join.sid.ai/">
-                Request Access
+                href="https://app.sid.ai/">
+                Get Started
             </Link>
     );
 
