@@ -11,6 +11,12 @@ export interface APIResponse {
     }[];
 }
 
+export interface APIResponseExampleEndpoint {
+    result: {
+        text: string;
+    };
+}
+
 type Message = {
     isAIMessage: boolean;
     content: string;
@@ -112,6 +118,10 @@ export const getRevokeEndpoint = (): string => {
 
 export const getAPIEndpoint = (): string => {
     return new URL('/v1/users/me/query', getEnvVar('SID_API_ENDPOINT')).toString()
+}
+
+export const getExampleEndpoint = (): string => {
+    return new URL('/v1/users/me/example', getEnvVar('SID_API_ENDPOINT')).toString()
 }
 
 export const getCookie = (cookieName: string): string | undefined => {

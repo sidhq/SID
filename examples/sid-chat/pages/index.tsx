@@ -85,7 +85,7 @@ const Home: React.FC<HomeProps> = ({initialIsConnected, sidURL}) => {
                     />
                     {isConnected ? <AccessTokenContainer/> : null}
                 </div>
-                <ChatBox/>
+                <ChatBox isConnected={isConnected}/>
                 <p>
                     By using this demo, you agree to our <Link href={'https://static.sid.ai/privacy.html'}>Privacy
                     Policy</Link> and <Link href={'https://static.sid.ai/tos.html'}>Terms of Service</Link>.

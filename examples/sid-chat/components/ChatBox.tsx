@@ -5,6 +5,7 @@ import axios from "axios";
 import {getCookie} from "@/utils";
 import TerminalMessage from "@/components/TerminalMessage";
 import Chat from "@/components/Chat";
+import SuggestionsPanel from "@/components/SuggestionsPanel";
 
 export interface IUser {
     name: string;
@@ -30,7 +31,7 @@ interface userInputTuple {
 }
 
 
-const ChatBox: React.FC = () => {
+export default function ChatBox({isConnected}: { isConnected: boolean }) {
 
     const leftChatRef = React.createRef<HTMLDivElement>();
     const terminalRef = React.createRef<HTMLDivElement>();
@@ -313,7 +314,10 @@ const ChatBox: React.FC = () => {
                 handleInputChange={handleInputChange}
                 handleSend={handleSend}
             >
-                {messagesChat.map((message, i) =>
+                {(isConnected && accessToken && messagesChat.length == 0) ?
+                    <SuggestionsPanel accessToken={accessToken}/>
+                    :
+                    messagesChat.map((message, i) =>
                     <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content}
                                  user={message.user}
                                  isTypingIndicator={message.isTypingIndicator}/>
@@ -331,5 +335,3 @@ const ChatBox: React.FC = () => {
         </>
     );
 }
-
-export default ChatBox;
