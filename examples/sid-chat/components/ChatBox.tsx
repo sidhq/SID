@@ -47,6 +47,8 @@ export default function ChatBox({isConnected}: { isConnected: boolean }) {
     const [terminalIsTyping, setTerminalIsTyping] = useState<boolean>(false);  // State for typing indicator in terminal
     const [terminalCursorQueue, setTerminalCursorQueue] = useState<ITerminalMessages[]>([]);  // queue for messages in terminal
     const [accessToken, setAccessToken] = useState<string>('');  // State for access tokens for the terminal
+    const [suggestions, setSuggestions] = useState<string[]>([]);
+
     const typeInTerminal = (delay: number) => {
         if (terminalCursorQueue.length > 0) {
             setTerminalIsTyping(true);
@@ -301,8 +303,18 @@ export default function ChatBox({isConnected}: { isConnected: boolean }) {
         }).then((response) => {
             //set access token
             setAccessToken(response.data.accessToken);
+            axios.post('api/example', {
+                accessToken: response.data.accessToken,
+                type: 'question',
+            }).then((responseExample) => {
+                setSuggestions(responseExample.data.answer);
+            }).catch((err) => {
+                throw err;
+            });
+
         }).catch((err) => {
             setAccessToken('<access_token>');
+            console.error(err);
         });
     }, []);
 
@@ -314,14 +326,14 @@ export default function ChatBox({isConnected}: { isConnected: boolean }) {
                 handleInputChange={handleInputChange}
                 handleSend={handleSend}
             >
-                {(isConnected && accessToken && messagesChat.length == 0) ?
-                    <SuggestionsPanel accessToken={accessToken}/>
+                {(isConnected && suggestions && messagesChat.length == 0) ?
+                    <SuggestionsPanel suggestions={suggestions}/>
                     :
                     messagesChat.map((message, i) =>
-                    <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content}
-                                 user={message.user}
-                                 isTypingIndicator={message.isTypingIndicator}/>
-                )}
+                        <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content}
+                                     user={message.user}
+                                     isTypingIndicator={message.isTypingIndicator}/>
+                    )}
             </Chat>
             <div className={styles.rawDataWrapper}>
                 <h4>SID Terminal</h4>
