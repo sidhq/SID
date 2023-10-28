@@ -5,7 +5,7 @@ import styles from '@/styles/SuggestionsPanel.module.scss';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-export default function SuggestionsPanel({suggestions}: { suggestions: string[] }) {
+export default function SuggestionsPanel({suggestions, onClick}: { suggestions: string[], onClick: (suggestion: string) => void }) {
 
     return (
         <div className={styles.panelWrapper}>
@@ -16,7 +16,7 @@ export default function SuggestionsPanel({suggestions}: { suggestions: string[] 
 
             {suggestions.length > 0 ? <div className={styles.panel}>{suggestions.map((suggestion, index) => {
                     return (
-                        <div className={styles.card} key={index}>
+                        <div className={styles.card} key={index} onClick={() => onClick(suggestion)}>
                             <span className={styles.cardSuggestion}>{suggestion}</span>
                             <img src="static/images/paperplane.svg" alt="Send"/>
                         </div>

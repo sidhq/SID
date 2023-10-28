@@ -107,10 +107,10 @@ export default function ChatBox({isConnected}: { isConnected: boolean }) {
         avatar: ''
     }
 
-    const handleSend = async () => {
-        if (isLoading || inputValue == '') return;
+    const handleSend = async (suggestion?: string) => {
+        if (isLoading || (inputValue == '' && !suggestion)) return;
         setIsLoading(true);
-        const query = inputValue;
+        const query = suggestion || inputValue;
         const limit = 20;
         setInputValue('');
         setTerminalUserInput(getCURLString(accessToken, query, limit));
@@ -327,7 +327,7 @@ export default function ChatBox({isConnected}: { isConnected: boolean }) {
                 handleSend={handleSend}
             >
                 {(isConnected && suggestions && messagesChat.length == 0) ?
-                    <SuggestionsPanel suggestions={suggestions}/>
+                    <SuggestionsPanel onClick={handleSend} suggestions={suggestions}/>
                     :
                     messagesChat.map((message, i) =>
                         <ChatMessage key={i} isAIMessage={message.isAIMessage} content={message.content}
