@@ -10,6 +10,13 @@ type Message = {
     content: string;
 };
 
+type Result = {
+    score: number;
+    title: string;
+    kind: string;
+    text: string;
+};
+
 export async function getChatCompletionRefreshTokenMissing(messageHistory: Message[]) {
     return 'Unfortunately I do not have access to SID yet. Please click on "Continue with SID" to connect your SID account first.';
 }
@@ -34,24 +41,27 @@ export async function getChatCompletion(messageHistory: Message[]) {
 }
 //make global variable called acces token:
 
+function formatResultsToMarkdown(results: Result[]): string {
+    if (results.length === 0) {
+        return "- no additional context provided\n";
+    }
+
+    return results.map(result => {
+        const scoreAsPercentage = (result.score * 100).toFixed(2);
+        return `- **${result.title} (Confidence: ${scoreAsPercentage}%):** "${result.text}"`;
+    }).join('\n');
+}
+
 export async function getContext(retrieved: APIResponse, messageHistory: Message[]) {
     const model = new ChatOpenAI({
         modelName: "gpt-3.5-turbo",
         temperature: 0,
     });
 
-    let stringifiedContext = '';
-
-    for (let i = 0; i < retrieved.results.length; i++) {
-        stringifiedContext += `${i + 1}. ${retrieved.results[i]} \n`
-    }
+    const stringifiedContext = formatResultsToMarkdown(retrieved.results as Result[]);
+    
     let openAIMessageHistory = [];
-    openAIMessageHistory.push(new SystemChatMessage('You are a helpful AI assistant that has access to a highly ' +
-        'advanced search engine that helps you find files that contain information about the user. ' +
-        'Your answers are concise, informative and use the context provided by the file search. ' +
-        'If you are unable to find the answer, answer the user that you did not find any information ' +
-        'about the query in the files that are accessible to you. ' +
-        'But do always share anything that you find and might be relevant to the user query.' +
+    openAIMessageHistory.push(new SystemChatMessage('You are an expert writer and editor AI. You hold yourself to high journalistic standards and never invent or misrepresent information. You have been given the following writing task.' +
         'If the question does not concern content but instead refers to metadata, for example ' +
         '"What is the last google drive file I viewed?"' +
         'Answer to the user that you only have answer to contents, but not metadata.'));
@@ -63,7 +73,7 @@ export async function getContext(retrieved: APIResponse, messageHistory: Message
             openAIMessageHistory.push(new HumanChatMessage(messageHistory[i].content));
         }
     }
-    openAIMessageHistory.push(new SystemChatMessage(`The following results might help you answer the next user query:\n ${stringifiedContext}`));
+    openAIMessageHistory.push(new SystemChatMessage(`Instructions: You complete the writing task using the context provided below. Do not say that you do not know or need more information. Be concise and specific. Never repeat yourself. Refrain from using vacuous phrases that do not convey concrete information.\n\nContext:\n${stringifiedContext}\n\nText:\n`));
     openAIMessageHistory.push(new HumanChatMessage(messageHistory[messageHistory.length-1].content));
     const res: BaseChatMessage = await model.call(openAIMessageHistory);
     return res.text;
