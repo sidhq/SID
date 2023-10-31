@@ -65,7 +65,7 @@ const Home: React.FC<HomeProps> = ({initialIsConnected, sidURL}) => {
                 <title>SID Technical Demo</title>
             </Head>
             <header className={styles.header}>
-                <SidSVG width={75} height={75} fill={'#F4E7D4'}/>
+                <Link href={'https://www.sid.ai/'}><SidSVG width={75} height={75} fill={'#F4E7D4'}/></Link>
                 <RequestAccessButton/>
             </header>
             <div className={styles.mainWrapper}>
@@ -89,7 +89,7 @@ const Home: React.FC<HomeProps> = ({initialIsConnected, sidURL}) => {
                 <p>
                     By using this demo, you agree to our <Link href={'https://static.sid.ai/privacy.html'}>Privacy
                     Policy</Link> and <Link href={'https://static.sid.ai/tos.html'}>Terms of Service</Link>.
-                    Please also see <Link href={'https://sid.ai/disclosures'}>disclosures</Link>.
+                    Please also see <Link href={'https://sid.ai/disclosures'}>Disclosures</Link>.
                 </p>
                 <SignUpToday/>
             </div>

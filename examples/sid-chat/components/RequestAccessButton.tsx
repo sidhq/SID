@@ -8,7 +8,7 @@ export default function RequestAccessButton() {
             <Link
                 className={styles.requestAccessLink}
                 href="https://app.sid.ai/">
-                Get Started
+                Get started
             </Link>
     );
 

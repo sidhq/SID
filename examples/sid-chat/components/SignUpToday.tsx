@@ -12,7 +12,7 @@ export default function SignUpToday() {
             <Link
                 className={styles.link}
                 href="https://docs.sid.ai/">
-                Documentation
+                Docs
             </Link>
         </div>
     );
