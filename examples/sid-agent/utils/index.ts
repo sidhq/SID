@@ -2,7 +2,7 @@ import {ChatOpenAI} from "langchain/chat_models/openai";
 import {AIChatMessage, BaseChatMessage, HumanChatMessage, SystemChatMessage} from "langchain/schema";
 
 export interface APIResponse {
-    results: string[];
+    results: Result[];
 }
 
 type Message = {
@@ -12,7 +12,7 @@ type Message = {
 
 type Result = {
     score: number;
-    title: string;
+    name: string;
     kind: string;
     text: string;
 };
@@ -48,7 +48,7 @@ function formatResultsToMarkdown(results: Result[]): string {
 
     return results.map(result => {
         const scoreAsPercentage = (result.score * 100).toFixed(2);
-        return `- **${result.title} (Confidence: ${scoreAsPercentage}%):** "${result.text}"`;
+        return `- **${result.name} (Confidence: ${scoreAsPercentage}%):** "${result.text}"`;
     }).join('\n');
 }
 
