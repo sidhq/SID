@@ -3,12 +3,7 @@ import {AIChatMessage, BaseChatMessage, HumanChatMessage, SystemChatMessage} fro
 import {encodingForModel} from "js-tiktoken";
 
 export interface APIResponse {
-    results: {
-        score: number;
-        text: string;
-        name: string;
-        kind: string;
-    }[];
+    results: Result[];
 }
 
 export interface APIResponseExampleEndpoint {
@@ -20,6 +15,13 @@ export interface APIResponseExampleEndpoint {
 type Message = {
     isAIMessage: boolean;
     content: string;
+};
+
+type Result = {
+    score: number;
+    text: string;
+    name: string;
+    kind: string;
 };
 
 export async function getChatCompletionRefreshTokenMissing(messageHistory: Message[]) {
@@ -56,7 +58,9 @@ export async function getContext(retrieved: APIResponse, messageHistory: Message
     let totalTokens = 0;
     let tokenThreshold = 2500;
     for (let i = 0; i < retrieved.results.length; i++) {
-        const addition = `${i + 1}. ${retrieved.results[i].text} \n`;
+        const {score, text, name, kind} = retrieved.results[i];
+        const scoreAsPercentage = (score * 100).toFixed(2);
+        const addition = `- **${name} (Confidence: ${scoreAsPercentage}%):** "${text}"\n`
         const tokensInAddition = encoding.encode(addition).length;
         console.log(`Tokens in addition: ${tokensInAddition}\n`);
         console.log(`Adding to context: ${addition}\n`);
@@ -71,12 +75,7 @@ export async function getContext(retrieved: APIResponse, messageHistory: Message
     console.log('Total tokens final: ' + totalTokens);
     console.log('stringifiedContext: ' + stringifiedContext);
     let openAIMessageHistory = [];
-    openAIMessageHistory.push(new SystemChatMessage('You are a helpful AI assistant that has access to a highly ' +
-        'advanced search engine that helps you find files that contain information about the user. ' +
-        'Your answers are concise, informative and use the context provided by the file search. ' +
-        'If you are unable to find the answer, answer the user that you did not find any information ' +
-        'about the query in the files that are accessible to you. ' +
-        'But do always share anything that you find and might be relevant to the user query.' +
+    openAIMessageHistory.push(new SystemChatMessage('You are an expert writer and editor AI. You hold yourself to high journalistic standards and never invent or misrepresent information. You have been given the following writing task.' +
         'If the question does not concern content but instead refers to metadata, for example ' +
         '"What is the last google drive file I viewed?"' +
         'Answer to the user that you only have answer to contents, but not metadata.'));
@@ -88,7 +87,7 @@ export async function getContext(retrieved: APIResponse, messageHistory: Message
             openAIMessageHistory.push(new HumanChatMessage(messageHistory[i].content));
         }
     }
-    openAIMessageHistory.push(new SystemChatMessage(`The following results might help you answer the next user query:\n ${stringifiedContext}`));
+    openAIMessageHistory.push(new SystemChatMessage(`Instructions: You complete the writing task using the context provided below. Do not say that you do not know or need more information. Be concise and specific. Never repeat yourself. Refrain from using vacuous phrases that do not convey concrete information.\n\nContext:\n${stringifiedContext}\n\nText:\n`));
     openAIMessageHistory.push(new HumanChatMessage(messageHistory[messageHistory.length - 1].content));
     const res: BaseChatMessage = await model.call(openAIMessageHistory);
     return res.text;
