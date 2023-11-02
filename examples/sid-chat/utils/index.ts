@@ -1,6 +1,9 @@
 import {ChatOpenAI} from "langchain/chat_models/openai";
 import {AIChatMessage, BaseChatMessage, HumanChatMessage, SystemChatMessage} from "langchain/schema";
 import {encodingForModel} from "js-tiktoken";
+/*import OpenAI from 'openai';
+import ChatCompletionMessageParam = OpenAI.ChatCompletionMessageParam;
+import {AIMessagePromptTemplate, ChatPromptTemplate, PromptTemplate} from "langchain/prompts";*/
 
 export interface APIResponse {
     results: Result[];
@@ -46,6 +49,81 @@ export async function getChatCompletion(messageHistory: Message[]) {
     const res: BaseChatMessage = await model.call(openAIMessageHistory);
     return res.text;
 }
+
+
+/*export async function getLLMScoresLangchain(query: string, results: Result[]) {
+//not in use, but working well. Output parsing still missing for a production ready version
+    const model = new ChatOpenAI({
+        modelName: "gpt-3.5-turbo",
+        temperature: 0,
+    });
+    return await Promise.all(results.map(async (result) => {
+
+        const messageHistory = [
+            new SystemChatMessage('Your are an expert judge AI. You are given a query and a text snippet from a document. You have to decide whether the text snippet is relevant to the query.'),
+            new HumanChatMessage(`Please judge if the returned text snippet is relevant to the following query: \n"${query}"`),
+            new SystemChatMessage(`From the document with the title ${result.name}, the following text snippet is returned to you:\n "${result.text}`),
+            new HumanChatMessage('Now explain step by step if you believe the returned text snippet helps to answer the query in 3 sentences.')
+        ]
+        const res: BaseChatMessage = await model.call(messageHistory);
+        messageHistory.push(res)
+        messageHistory.push(new HumanChatMessage("Now please assign a relevancy score between 0 (not relevant at all) and 100 (highly relevant) to the returned text snippet. ONLY output a single integer, no additional text."))
+        const final_res: BaseChatMessage = await model.call(messageHistory);
+        return {...result, judge_explanation: res.text, judge_score: final_res.text};
+    }));
+    //To fully use this, the general idea would be the following:
+    //User sets limit of 10, API returns 50 results. All of them are prefiltered through an LLM of this kind and then sorted by relevancy score. only the top 5 are actually returned
+}*/
+
+/*export async function getLLMScores(query: string, results: Result[]) {
+//This is not working, that's why it is commented out.
+    const openai = new OpenAI();
+
+    const functionTemplate = [
+        {
+            'name': 'get_relevance_score',
+            'description': 'Rate the relevancy of the returned result on a scale from 0 to 100, where 0 means not relevant at all and 100 means very relevant. Explain your scoring.',
+            'parameters': {
+                'type': 'object',
+                'properties': {
+                    'score': {
+                        'type': 'integer',
+                        'description': 'A point score between 0 (irrelevant) and 100 (highly relevant) assigned to the result based on the query and the result\'s text.'
+                    }
+                }
+            }
+        }
+    ]
+
+    return await Promise.all(results.map(async (result) => {
+        const messages: ChatCompletionMessageParam[] = [
+            {
+                "role": 'system',
+                "content": "Your are an expert judge AI. You are given a user query and a text snippet from a document. You have to decide whether the text snippet is relevant to the query."
+            },
+            {
+                "role": 'user',
+                "content": query
+            },
+            {
+                "role": 'system',
+                "content": `From the document with the title ${result.name}, the following text snippet is returned to you:\n "${result.text}"`
+            }
+        ]
+
+        const responses = await openai.chat.completions.create({
+            model: 'gpt-3.5-turbo',
+            messages: messages,
+            functions: functionTemplate
+        });
+        let score = 0;
+        if (responses.choices[0].message.function_call?.arguments) {
+            score = JSON.parse(responses.choices[0].message.function_call.arguments).score;
+        }
+        return {...result, judge_score: score};
+    }));
+
+}*/
 
 export async function getContext(retrieved: APIResponse, messageHistory: Message[]) {
     const model = new ChatOpenAI({
