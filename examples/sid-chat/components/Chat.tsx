@@ -40,7 +40,7 @@ export default function Chat({children, value, disabled, handleSend, handleInput
                                onChange={handleInputChange}
                                onKeyDown={handleKeyDown}
                                placeholder={'Type your message here...'}/>
-                        <button disabled={disabled} onClick={handleSend}>
+                        <button disabled={disabled} onClick={() => {handleSend()}}>
                             <img src="static/images/paperplane.svg" alt="Send"/>
                         </button>
                     </div>
