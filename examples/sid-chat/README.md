@@ -20,7 +20,7 @@ The SID Starter App is a starter project that illustrates how to integrate SID i
 
 ## Environment Variables
 
-The application uses several environment variables, found in `.env.local.template`, rename this file to .env.local and fill in your values accordingly :
+The application uses several environment variables, ffound in `.env.local.template`, rename this file to .env.local and fill in your values accordingly :
 
 - `SID_CLIENT_ID` & `SID_CLIENT_SECRET`: These are your application's client credentials. Please join our waitlist at https://join.sid.ai/ to obtain them.
 - `SID_LOGIN_URL`: Your "Connect SID" button will link to this URL. This is the entrypoint for your users to go through SID's authentication flow. This URL will be provided to you by us.
